@@ -1,0 +1,124 @@
+{
+  "chance": [
+    {
+      "id": "c_advance_go",
+      "text": "Advance to Start / Go. Collect ₹200.",
+      "action": "advance_to",
+      "tileId": 0
+    },
+    {
+      "id": "c_marine_drive",
+      "text": "VIP Pass to Bollywood Premiere. Advance to Marine Drive!",
+      "action": "advance_to",
+      "tileId": 39
+    },
+    {
+      "id": "c_csmt",
+      "text": "Catch the Vande Bharat Express! Advance to CSMT Terminus. If you pass Start, collect ₹200.",
+      "action": "advance_to",
+      "tileId": 15
+    },
+    {
+      "id": "c_silk_board",
+      "text": "Stuck in Silk Board traffic, hired a luxury helicopter taxi! Pay ₹50.",
+      "action": "pay",
+      "amount": 50
+    },
+    {
+      "id": "c_diwali_bonus",
+      "text": "Bumper Diwali business bonus! Collect ₹150.",
+      "action": "collect",
+      "amount": 150
+    },
+    {
+      "id": "c_jail_free",
+      "text": "Senior bureaucrat is your college friend! Get Out of Jail Free card. Keep until needed or trade.",
+      "action": "jail_free"
+    },
+    {
+      "id": "c_go_jail",
+      "text": "Caught red-handed dodging taxes! Go directly to Central Jail. Do not pass Start, do not collect ₹200.",
+      "action": "go_to_jail"
+    },
+    {
+      "id": "c_repairs",
+      "text": "Renovation drive across your Havelis. Pay ₹25 per house and ₹100 per hotel.",
+      "action": "repairs",
+      "houseCost": 25,
+      "hotelCost": 100
+    },
+    {
+      "id": "c_speeding",
+      "text": "Speeding challan on Mumbai-Pune Expressway! Pay ₹100.",
+      "action": "pay",
+      "amount": 100
+    },
+    {
+      "id": "c_startup_dividend",
+      "text": "Your tech startup declared a bumper dividend! Collect ₹50 from every player.",
+      "action": "collect_from_all",
+      "amount": 50
+    }
+  ],
+  "community": [
+    {
+      "id": "b_sweet_shop",
+      "text": "Grand opening of your traditional sweet shop! Collect ₹200.",
+      "action": "collect",
+      "amount": 200
+    },
+    {
+      "id": "b_wedding",
+      "text": "Host a royal Big Fat Wedding reception. Pay ₹100 for catering.",
+      "action": "pay",
+      "amount": 100
+    },
+    {
+      "id": "b_tax_refund",
+      "text": "Income Tax refund processed with interest! Collect ₹100.",
+      "action": "collect",
+      "amount": 100
+    },
+    {
+      "id": "b_festival",
+      "text": "Donation for community festival and langar. Pay ₹50.",
+      "action": "pay",
+      "amount": 50
+    },
+    {
+      "id": "b_lottery",
+      "text": "Won the state bumper lottery! Collect ₹100.",
+      "action": "collect",
+      "amount": 100
+    },
+    {
+      "id": "b_hospital",
+      "text": "Hospital & wellness checkup bills. Pay ₹50.",
+      "action": "pay",
+      "amount": 50
+    },
+    {
+      "id": "b_birthday",
+      "text": "It is your birthday! Collect ₹20 shagun from every player.",
+      "action": "collect_from_all",
+      "amount": 20
+    },
+    {
+      "id": "b_jail_free",
+      "text": "High Court advocate gets you emergency bail! Get Out of Jail Free card. Keep or trade.",
+      "action": "jail_free"
+    },
+    {
+      "id": "b_maintenance",
+      "text": "Monsoon civic repairs. Pay ₹40 per house and ₹115 per hotel.",
+      "action": "repairs",
+      "houseCost": 40,
+      "hotelCost": 115
+    },
+    {
+      "id": "b_go_jail",
+      "text": "Contempt of municipal summons! Go directly to Central Jail. Do not pass Start, do not collect ₹200.",
+      "action": "go_to_jail"
+    }
+  ]
+}
