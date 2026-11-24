@@ -13,6 +13,45 @@ Zero internet connection needed. No accounts, no ads, no trackers — pure table
 
 ---
 
+## 📸 Visual Showcase
+
+<div align="center">
+
+### Desktop Board Experience (1080p & 4K)
+*Authentic quad-fold cardboard tabletop board with rotating perimeter tiles, 3D dice, and full territory overview.*
+
+![Bazaar Baron Desktop Tabletop Board](docs/images/desktop-gameplay.png)
+
+<br/>
+
+### Mobile Portrait & Laptop Views
+*Playable on any phone in portrait mode with touch-friendly 44px+ tap targets, collapsible bottom sheets, and responsive side panel.*
+
+| 📱 Mobile Phone (390×844) | 💻 Laptop Screen (1366×768) |
+| :---: | :---: |
+| ![Mobile View](docs/images/mobile-gameplay.png) | ![Laptop View](docs/images/laptop-gameplay.png) |
+
+</div>
+
+---
+
+## ⚡ 1-Click Launch (Windows)
+
+Simply double-click the included **`start.bat`** file in the root directory:
+
+```bat
+start.bat
+```
+
+`start.bat` will automatically:
+1. Verify Node.js v20+ is installed.
+2. Automatically install server & client dependencies if missing (`npm install`).
+3. Build the production client bundle (`npm run build`).
+4. Start the server on `http://localhost:3000` and open your default browser.
+5. Display your local Wi-Fi IP and a scannable QR code directly in the terminal so your friends can scan and join from their phones!
+
+---
+
 ## ✨ Highlights & Key Features
 
 - **Classic Tabletop Aesthetic**:
@@ -58,14 +97,13 @@ Zero internet connection needed. No accounts, no ads, no trackers — pure table
 
 ---
 
-## 🚀 Quick Start Guide
+## 🚀 Manual Terminal Start
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) v20.0.0 or higher.
 - A local Wi-Fi router (no internet connection required).
 
 ### 1. Installation
-Clone or download the repository, then install root and client dependencies:
 ```powershell
 npm install
 cd client
@@ -82,29 +120,27 @@ npm test
 *(All 41 tests across 17 suites will execute and pass in ~300ms)*
 
 ### 3. Start the Server
-Launch the unified server (Express + Socket.IO + Vite static build on port 3000):
 ```powershell
 npm start
 ```
 
-Upon launch, the server automatically inspects your network interfaces, binds to `0.0.0.0:3000`, and prints:
+Upon launch, the server binds to `0.0.0.0:3000` and displays:
 - **Local Address**: `http://localhost:3000`
 - **Wi-Fi LAN Address**: `http://<YOUR_LAN_IP>:3000`
-- **Scannable Terminal QR Code**: Scan directly with mobile phone cameras to open the game instantly!
+- **Terminal QR Code**: Scan directly with mobile phone cameras to open the game instantly!
 
 ---
 
 ## 📱 How to Play with Friends on Wi-Fi
 
 1. **Host Setup**:
-   - Run `npm start` on the host PC or laptop.
-   - Open `http://localhost:3000` in your browser.
+   - Double-click `start.bat` (or run `npm start`) on the host PC.
    - Choose your name, select an avatar & pawn color, then click **Create Room**. A 4-letter room code (e.g. `KISM`) is displayed.
 2. **Friends Join**:
    - Connect all phones, tablets, or laptops to the **same Wi-Fi network**.
-   - Point camera at the terminal QR code or type `http://<HOST_LAN_IP>:3000` into mobile browsers.
+   - Point phone camera at the terminal QR code or navigate to `http://<HOST_LAN_IP>:3000`.
    - Click **Join Room**, enter your name, the 4-letter room code, and pick an available pawn color.
-   - *(Optional)*: If you want extra competitors, the host can click **+ Add AI Friend (Bot)** to invite *Priya (AI)*, *Rani (AI)*, or *Kabir (AI)*.
+   - *(Optional)*: If you want extra players, the host can click **+ Add AI Friend (Bot)** to invite *Priya (AI)*, *Rani (AI)*, or *Kabir (AI)*.
 3. **Commence Trade**:
    - Host clicks **Start Game**. All connected screens transition immediately into the live game.
 
@@ -168,6 +204,12 @@ If mobile devices cannot connect to `http://<YOUR_LAN_IP>:3000`:
 
 ```
 Monopoly/
+├── start.bat                       # 1-Click launcher for Windows
+├── docs/
+│   └── images/
+│       ├── desktop-gameplay.png    # 1080p full tabletop board screenshot
+│       ├── laptop-gameplay.png     # 1366x768 laptop view screenshot
+│       └── mobile-gameplay.png     # 390x844 mobile phone screenshot
 ├── server/
 │   ├── data/
 │   │   ├── board.json              # 40 tiles, prices, rent tiers, house costs
