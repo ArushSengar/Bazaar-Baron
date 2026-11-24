@@ -90,7 +90,7 @@ test('AI Bot Turn Execution: Pure reducer handles bot actions identically to hum
   state.turnIndex = state.playerOrder.indexOf(bot.id);
   state.step = TURN_STEPS.INITIAL;
 
-  state = gameReducer(state, { type: 'ROLL_DICE', playerId: bot.id });
+  state = gameReducer(state, { type: 'ROLL_DICE', playerId: bot.id, dice: [1, 2] });
   assert.ok(state.dice);
   assert.ok(state.dice.length === 2);
   assert.ok(state.step !== TURN_STEPS.INITIAL);
