@@ -113,6 +113,7 @@ function getNextTurnIndex(currentIndex, playerCount, direction, steps = 1) {
  * Pure state reducer for UNO.
  */
 export function unoReducer(currentState, intent) {
+  if (!currentState || !intent) return currentState;
   const state = structuredClone(currentState);
 
   switch (intent.type) {

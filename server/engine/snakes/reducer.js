@@ -28,6 +28,8 @@ export function snakesReducer(currentState, intent) {
   switch (intent.type) {
     case 'START_GAME': {
       if (state.phase !== SNAKES_PHASES.LOBBY) return state;
+      const host = state.players?.find(p => p.isHost);
+      if (intent.playerId && host && intent.playerId !== host.id) return state;
       if (!state.players || (state.players.length < 2 && !intent.allowSinglePlayer)) return state;
 
       state.playerOrder = state.players.map(p => p.id);

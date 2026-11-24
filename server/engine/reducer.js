@@ -286,6 +286,7 @@ function executeDrawCard(state, player, deckType, diceTotal, board = boardData) 
  * Pure Game Reducer function: (state, intent) -> nextState
  */
 export function gameReducer(rawState, intent, board = boardData) {
+  if (!rawState || !intent) return rawState;
   const state = clone(rawState);
 
   switch (intent.type) {
@@ -753,10 +754,10 @@ export function gameReducer(rawState, intent, board = boardData) {
         id: `trade-${Date.now()}`,
         senderId: sender.id,
         targetPlayerId: target.id,
-        offerCash: intent.offerCash || 0,
+        offerCash: Math.max(0, parseInt(intent.offerCash, 10) || 0),
         offerPropertyIds: intent.offerPropertyIds || [],
         offerJailCards: intent.offerJailCards || 0,
-        requestCash: intent.requestCash || 0,
+        requestCash: Math.max(0, parseInt(intent.requestCash, 10) || 0),
         requestPropertyIds: intent.requestPropertyIds || [],
         requestJailCards: intent.requestJailCards || 0
       };
