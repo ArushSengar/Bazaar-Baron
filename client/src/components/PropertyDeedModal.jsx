@@ -44,7 +44,7 @@ export function PropertyDeedModal({
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose && onClose();
       }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-fade-in overflow-y-auto"
       style={{ perspective: '1200px' }}
     >
       <div className="relative w-full max-w-sm max-h-[94vh] flex flex-col items-center animate-scale-up space-y-3">
@@ -58,7 +58,7 @@ export function PropertyDeedModal({
         </button>
 
         {/* 3D Physical Deed Card */}
-        <div className="w-full overflow-y-auto max-h-[72vh] pr-0.5 custom-scrollbar">
+        <div className="w-full flex-1 min-h-0 overflow-y-auto max-h-[50vh] sm:max-h-[58vh] pr-0.5 custom-scrollbar">
           <DeedCard
             tile={tile}
             propState={propState}
@@ -68,7 +68,7 @@ export function PropertyDeedModal({
         </div>
 
         {/* Interactive Action Control Panel */}
-        <div className="w-full bg-neutral-900/95 border-2 border-neutral-800 rounded-2xl p-3 sm:p-4 shadow-2xl backdrop-blur-sm space-y-2.5">
+        <div className="w-full shrink-0 bg-neutral-900/95 border-2 border-neutral-800 rounded-2xl p-3 sm:p-4 shadow-2xl backdrop-blur-sm space-y-2.5">
           {/* Quick Buy Button (if landed on and unowned) */}
           {canBuy && onBuy && (
             <button

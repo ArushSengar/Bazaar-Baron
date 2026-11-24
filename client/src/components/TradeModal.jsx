@@ -95,7 +95,7 @@ export function TradeModal({
     const senderShape = PLAYER_PAWNS[sender?.color] || 'hat';
 
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in font-body">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in font-body overflow-y-auto">
         <div className="relative w-full max-w-lg bg-[#FCF9F2] border-2 border-[#8B5A2B]/40 rounded-2xl shadow-2xl p-5 sm:p-6 text-[#1B1B1B] animate-scale-up space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-[#E0D4C0]">
             <div className="flex items-center gap-2">
@@ -202,7 +202,7 @@ export function TradeModal({
     const target = gameState.players.find(p => p.id === activeTrade.targetPlayerId);
 
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in font-body">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in font-body overflow-y-auto">
         <div className="relative w-full max-w-md bg-[#FCF9F2] border-2 border-[#8B5A2B]/40 rounded-2xl shadow-2xl p-5 sm:p-6 text-[#1B1B1B] text-center space-y-3.5">
           <div className="w-12 h-12 rounded-2xl bg-amber-100 border border-[#8B5A2B] text-[#8B5A2B] mx-auto flex items-center justify-center">
             <ArrowRightLeft className="w-6 h-6 animate-pulse" />
@@ -229,7 +229,7 @@ export function TradeModal({
       onClick={(e) => {
         if (e.target === e.currentTarget && onClose) onClose();
       }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in font-body"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in font-body overflow-y-auto"
     >
       <div className="relative w-full max-w-xl bg-[#FCF9F2] border-2 border-[#8B5A2B]/40 rounded-2xl shadow-2xl p-4 sm:p-6 text-[#1B1B1B] max-h-[90vh] flex flex-col">
         {/* Header */}

@@ -142,7 +142,7 @@ export function SnakesScreen({
   });
 
   return (
-    <div className="min-h-screen bg-[#0d0d12] text-neutral-100 font-body flex flex-col relative overflow-x-hidden">
+    <div className="h-full w-full bg-[#0d0d12] text-neutral-100 font-body flex flex-col relative overflow-x-hidden overflow-y-auto">
       {/* Victory Celebration Confetti */}
       <ConfettiCanvas trigger={isGameOver} />
 
@@ -201,14 +201,14 @@ export function SnakesScreen({
       )}
 
       {/* Main Arena */}
-      <main className="flex-1 flex flex-col lg:flex-row items-center justify-center p-2 sm:p-4 gap-4 max-w-7xl mx-auto w-full">
+      <main className="flex-1 flex flex-col lg:flex-row items-center justify-center p-2 sm:p-4 gap-4 max-w-[1440px] mx-auto w-full">
 
         {/* Board Container */}
-        <div className={`flex flex-col items-center justify-center w-full lg:w-auto transition-all duration-500 rounded-3xl p-2 ${
+        <div className={`flex flex-col items-center justify-center w-full lg:flex-1 min-w-0 transition-all duration-500 rounded-3xl p-2 ${
           isMyTurn ? 'board-turn-glow' : ''
         }`}>
 
-          <div className="relative w-full max-w-[560px] aspect-square select-none p-1 sm:p-2">
+          <div className="relative w-full max-w-[min(94vw,90vh)] lg:max-w-[min(88vh,calc(100vw-360px))] xl:max-w-[min(90vh,calc(100vw-380px))] aspect-square select-none p-1 sm:p-2">
             <div className="w-full h-full bg-[#18161f] border-4 border-purple-500/80 rounded-2xl shadow-2xl relative overflow-hidden">
 
               {/* 10x10 Grid Cells */}
@@ -278,13 +278,13 @@ export function SnakesScreen({
               >
                 <defs>
                   {/* Ladder Gradient */}
-                  <linearGradient id="ladderGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <linearGradient id="ladderGlow" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1000" y2="1000">
                     <stop offset="0%" stopColor="#34D399" stopOpacity="0.9" />
                     <stop offset="100%" stopColor="#059669" stopOpacity="0.9" />
                   </linearGradient>
 
                   {/* Snake Gradient */}
-                  <linearGradient id="snakeSkin" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <linearGradient id="snakeSkin" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1000" y2="1000">
                     <stop offset="0%" stopColor="#F87171" stopOpacity="0.95" />
                     <stop offset="50%" stopColor="#DC2626" stopOpacity="0.95" />
                     <stop offset="100%" stopColor="#991B1B" stopOpacity="0.95" />
@@ -411,11 +411,11 @@ export function SnakesScreen({
 
                 return occupants.map((p, idx) => {
                   const isAtYard = pos === 0;
-                  const coords = isAtYard ? { col: idx * 1.5 + 0.5, row: 9.6 } : getTileCoordinates(pos);
+                  const coords = isAtYard ? { col: idx * 1.5 + 0.5, row: 8.9 } : getTileCoordinates(pos);
 
-                  // Percentage placement
+                  // Percentage placement (yard pawns placed safely at top: 94% to avoid overflow-hidden clipping)
                   let leftPct = ((coords.col + 0.5) / 10) * 100;
-                  let topPct = ((coords.row + 0.5) / 10) * 100;
+                  let topPct = isAtYard ? 94 : ((coords.row + 0.5) / 10) * 100;
 
                   // Radial offset when sharing cell
                   let offsetX = 0;
@@ -620,7 +620,7 @@ export function SnakesScreen({
 
       {/* Victory Celebration Modal */}
       {isGameOver && winner && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in overflow-y-auto">
           <div className="bg-[#1c1826] border-2 border-purple-400 rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl animate-scale-up">
             <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-purple-500/20 border-2 border-purple-400 flex items-center justify-center text-3xl">
               🏆

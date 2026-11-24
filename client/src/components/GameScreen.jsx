@@ -29,7 +29,10 @@ import {
   Sparkles,
   Layers,
   HelpCircle,
-  Clock
+  Clock,
+  LayoutGrid,
+  Users,
+  Box
 } from 'lucide-react';
 import { sounds } from '../utils/audio';
 import { AudioControls } from './AudioControls';
@@ -49,6 +52,7 @@ export function GameScreen({
   const [isMuted, setIsMuted] = useState(() => sounds.isMuted());
   const [showTurnBanner, setShowTurnBanner] = useState(false);
   const [mobileTab, setMobileTab] = useState('board'); // 'board' | 'panel'
+  const [is3DView, setIs3DView] = useState(true);
 
   // 30-Minute Match Timer countdown
   const [now, setNow] = useState(() => Date.now());
@@ -247,19 +251,19 @@ export function GameScreen({
       )}
 
       {/* Top Header Bar */}
-      <div className="bg-neutral-900/90 border border-neutral-800 rounded-2xl px-3 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-4 shadow-xl backdrop-blur shrink-0">
-        <div className="flex items-center gap-2.5 sm:gap-3">
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-base sm:text-lg">
+      <div className="bg-neutral-900/90 border border-neutral-800 rounded-2xl px-2 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-1.5 sm:gap-4 shadow-xl backdrop-blur shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-3 min-w-0">
+          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-sm sm:text-lg shrink-0">
             🕌
           </div>
-          <div>
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <span className="font-extrabold text-neutral-100 text-sm sm:text-base font-display">Bazaar Baron</span>
-              <span className="text-[10px] bg-amber-500/20 text-amber-300 font-bold px-2 py-0.5 rounded-full border border-amber-500/30">
-                ROOM {gameState?.roomCode}
+          <div className="min-w-0">
+            <div className="flex items-center gap-1 sm:gap-2">
+              <span className="font-extrabold text-neutral-100 text-xs sm:text-base font-display whitespace-nowrap">Bazaar Baron</span>
+              <span className="text-[9px] sm:text-[10px] bg-amber-500/20 text-amber-300 font-bold px-1.5 sm:px-2 py-0.5 rounded-full border border-amber-500/30 whitespace-nowrap">
+                {gameState?.roomCode}
               </span>
             </div>
-            <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] text-neutral-400">
+            <div className="hidden sm:flex items-center gap-1.5 sm:gap-2 text-[10px] text-neutral-400">
               <span className={`w-2 h-2 rounded-full ${connected ? 'bg-emerald-400 animate-pulse' : 'bg-red-400'}`} />
               <span>{connected ? 'LAN Active' : 'Disconnected'}</span>
               <span>•</span>
@@ -272,7 +276,7 @@ export function GameScreen({
         {remainingMs !== null && (
           <div
             title="30-Minute Match Time Limit: When timer runs out, the player with the highest Total Wealth (Cash + Properties + Buildings) wins!"
-            className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl border text-xs sm:text-sm font-number font-black shadow-inner transition-all ${
+            className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl border text-[11px] sm:text-sm font-number font-black shadow-inner transition-all shrink-0 whitespace-nowrap ${
               remainingMs <= 60000
                 ? 'bg-red-950/80 border-red-500/70 text-red-300 animate-pulse shadow-red-500/20'
                 : remainingMs <= 300000
@@ -280,8 +284,8 @@ export function GameScreen({
                 : 'bg-neutral-800/80 border-neutral-700/60 text-neutral-200'
             }`}
           >
-            <Clock className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${remainingMs <= 60000 ? 'text-red-400 animate-spin' : remainingMs <= 300000 ? 'text-amber-400' : 'text-neutral-400'}`} />
-            <span>⏱️ {formatTimer(remainingMs)}</span>
+            <Clock className={`w-3 h-3 sm:w-4 sm:h-4 ${remainingMs <= 60000 ? 'text-red-400 animate-spin' : remainingMs <= 300000 ? 'text-amber-400' : 'text-neutral-400'}`} />
+            <span>{formatTimer(remainingMs)}</span>
             {remainingMs <= 300000 && (
               <span className="hidden md:inline text-[10px] font-bold uppercase tracking-wider text-amber-400">
                 {remainingMs <= 60000 ? 'Final Minute!' : 'Wealth Decider'}
@@ -290,24 +294,40 @@ export function GameScreen({
           </div>
         )}
 
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
           {/* Universal Audio Controls */}
           <AudioControls compact={true} />
+
+          {/* 3D Isometric View Mode Toggle */}
+          <button
+            type="button"
+            onClick={() => setIs3DView(prev => !prev)}
+            className={`p-1.5 sm:px-3 sm:py-1.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shadow-sm ${
+              is3DView
+                ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 hover:bg-amber-500/30'
+                : 'bg-neutral-800 text-neutral-300 border-neutral-700/80 hover:bg-neutral-700'
+            }`}
+            title={is3DView ? "Switch to 2D Top-Down View" : "Switch to 3D Isometric View"}
+            data-testid="gamescreen-perspective-toggle"
+          >
+            <Box className="w-3.5 h-3.5 text-amber-400" />
+            <span className="hidden sm:inline">{is3DView ? '3D View' : '2D View'}</span>
+          </button>
 
           {/* Rules / How to Play */}
           <button
             onClick={() => onOpenGuide?.('monopoly')}
-            className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-amber-300 border border-neutral-700/80 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="p-1.5 sm:px-3 sm:py-1.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-amber-300 border border-neutral-700/80 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
             title="How to Play Bazaar Baron (or press ?)"
           >
             <HelpCircle className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Rules</span>
           </button>
 
-          {/* Trade Proposal Trigger */}
+          {/* Trade Proposal Trigger (Desktop Header; mobile uses Treasury & Log panel) */}
           <button
             onClick={() => setIsTradeOpen(true)}
-            className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-amber-300 border border-amber-500/40 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer active:scale-95 shadow-sm"
+            className="hidden sm:flex px-2.5 sm:px-3 py-1.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-amber-300 border border-amber-500/40 text-xs font-bold items-center gap-1.5 transition-colors cursor-pointer active:scale-95 shadow-sm"
           >
             <Handshake className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Trade</span>
@@ -315,7 +335,7 @@ export function GameScreen({
 
           <button
             onClick={leaveRoom}
-            className="px-2.5 sm:px-3 py-1.5 rounded-xl border border-neutral-700/80 hover:border-neutral-600 hover:bg-neutral-800 text-neutral-300 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="p-1.5 sm:px-3 sm:py-1.5 rounded-xl border border-neutral-700/80 hover:border-neutral-600 hover:bg-neutral-800 text-neutral-300 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Leave</span>
@@ -323,21 +343,57 @@ export function GameScreen({
         </div>
       </div>
 
+      {/* Mobile Segmented Tab Switcher (Board vs Treasury / Chronicles Panel) */}
+      <div className="lg:hidden flex items-center justify-center px-4 pt-1 pb-2 shrink-0">
+        <div className="bg-neutral-900/90 p-1 rounded-xl border border-neutral-800 flex items-center gap-1 shadow-inner max-w-xs w-full">
+          <button
+            type="button"
+            onClick={() => setMobileTab('board')}
+            className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-display font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+              mobileTab === 'board'
+                ? 'bg-amber-500 text-neutral-950 shadow-md'
+                : 'text-neutral-400 hover:text-neutral-200'
+            }`}
+          >
+            <LayoutGrid className="w-3.5 h-3.5" />
+            <span>Tabletop Board</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setMobileTab('panel')}
+            className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-display font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+              mobileTab === 'panel'
+                ? 'bg-amber-500 text-neutral-950 shadow-md'
+                : 'text-neutral-400 hover:text-neutral-200'
+            }`}
+          >
+            <Users className="w-3.5 h-3.5" />
+            <span>Treasury & Log</span>
+          </button>
+        </div>
+      </div>
+
       {/* Main Game Stage: 11x11 Board on Left, Side Panel on Right */}
-      <div className="flex-1 min-h-0 flex flex-col lg:flex-row items-center lg:items-center justify-center gap-3 lg:gap-5 xl:gap-8 pb-20 lg:pb-0 w-full">
+      <div className="flex-1 min-h-0 flex flex-col lg:flex-row items-center lg:items-center justify-center gap-3 lg:gap-5 xl:gap-8 pb-20 lg:pb-0 w-full overflow-y-auto lg:overflow-visible">
         {/* Interactive 11x11 Grid Board */}
-        <div className={`w-full flex-1 flex justify-center rounded-3xl p-2 transition-all duration-500 ${isMyTurn ? 'board-turn-glow' : ''}`}>
+        <div className={`w-full flex-1 flex justify-center rounded-3xl p-2 transition-all duration-500 ${
+          mobileTab === 'board' ? 'flex' : 'hidden lg:flex'
+        } ${isMyTurn ? 'board-turn-glow' : ''}`}>
           <Board
             gameState={gameState}
             player={player}
             isRolling={isRolling}
             onTileSelect={(tile) => setSelectedTile(tile)}
             selectedTile={selectedTile}
+            is3DView={is3DView}
+            onToggle3DView={() => setIs3DView(prev => !prev)}
           />
         </div>
 
         {/* Side Panel: Treasury, Players Overview, Docked Action Card, Chronicles */}
-        <div className="w-full lg:w-auto shrink-0 flex justify-center">
+        <div className={`w-full lg:w-auto shrink-0 flex justify-center ${
+          mobileTab === 'panel' ? 'flex' : 'hidden lg:flex'
+        }`}>
           <SidePanel
             gameState={gameState}
             player={player}

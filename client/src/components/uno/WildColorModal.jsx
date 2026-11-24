@@ -12,7 +12,7 @@ export function WildColorModal({ isOpen, onSelectColor, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in font-body">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in font-body overflow-y-auto">
       <div className="relative w-full max-w-sm bg-[#1e130c] border-2 border-amber-500 rounded-3xl shadow-2xl p-6 text-white text-center space-y-5 animate-scale-up">
         <div>
           <div className="flex items-center justify-center gap-1.5 text-xs font-black tracking-widest text-amber-400 uppercase mb-1">

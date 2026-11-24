@@ -107,7 +107,7 @@ export function LudoScreen({
   const myMovableTokenIds = isMyTurn ? (gameState?.movableTokenIds || []) : [];
 
   return (
-    <div className="min-h-screen bg-[#0e0a08] text-neutral-100 font-body flex flex-col relative overflow-x-hidden">
+    <div className="h-full w-full bg-[#0e0a08] text-neutral-100 font-body flex flex-col relative overflow-x-hidden overflow-y-auto">
       {/* Victory Confetti */}
       <ConfettiCanvas trigger={isGameOver} />
 
@@ -166,10 +166,10 @@ export function LudoScreen({
       )}
 
       {/* Main Arena Layout */}
-      <main className="flex-1 flex flex-col lg:flex-row items-center justify-center p-2 sm:p-4 gap-4 max-w-7xl mx-auto w-full">
+      <main className="flex-1 flex flex-col lg:flex-row items-center justify-center p-2 sm:p-4 gap-4 max-w-[1440px] mx-auto w-full">
 
         {/* Left / Center: Interactive Ludo Board */}
-        <div className={`flex flex-col items-center justify-center w-full lg:w-auto transition-all duration-500 rounded-3xl p-2 ${
+        <div className={`flex flex-col items-center justify-center w-full lg:flex-1 min-w-0 transition-all duration-500 rounded-3xl p-2 ${
           isMyTurn ? 'board-turn-glow' : ''
         }`}>
           <LudoBoard
@@ -345,7 +345,7 @@ export function LudoScreen({
 
       {/* Victory Modal */}
       {isGameOver && winner && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in overflow-y-auto">
           <div className="bg-[#1c140f] border-2 border-amber-400 rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl animate-scale-up">
             <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-3xl">
               🏆

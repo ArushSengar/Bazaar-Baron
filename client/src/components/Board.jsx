@@ -3,7 +3,7 @@ import { Tile } from './Tile';
 import { DiceDisplay } from './Dice';
 import { DeedCard } from './DeedCard';
 import boardData from '../data/board.json';
-import { Sparkles, HelpCircle, Gift, ScrollText, Check } from 'lucide-react';
+import { Sparkles, HelpCircle, Gift, ScrollText, Check, Box } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
 export function Board({
@@ -11,13 +11,25 @@ export function Board({
   player,
   isRolling = false,
   onTileSelect,
-  selectedTile
+  selectedTile,
+  is3DView = true,
+  onToggle3DView
 }) {
   const [hoveredTile, setHoveredTile] = useState(null);
   const [activeFlippedCard, setActiveFlippedCard] = useState(null);
   const [animatedPositions, setAnimatedPositions] = useState({});
   const [floatingSalary, setFloatingSalary] = useState(null);
+  const [localIs3D, setLocalIs3D] = useState(true);
   const prevPositionsRef = useRef({});
+
+  const active3D = is3DView !== undefined ? is3DView : localIs3D;
+  const handleTogglePerspective = () => {
+    if (onToggle3DView) {
+      onToggle3DView();
+    } else {
+      setLocalIs3D(prev => !prev);
+    }
+  };
 
   const activePlayerId = gameState?.playerOrder?.[gameState?.turnIndex];
   const activePlayer = gameState?.players?.find(p => p.id === activePlayerId);
@@ -90,7 +102,14 @@ export function Board({
     : null;
 
   return (
-    <div className="relative w-full max-w-[98vw] lg:max-w-[min(90vh,60vw)] xl:max-w-[min(92vh,62vw)] 2xl:max-w-[min(94vh,64vw)] aspect-square mx-auto p-1 sm:p-2 tabletop-board rounded-2xl border-2 border-[#1B1B1B] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] select-none">
+    <div
+      data-testid="tabletop-board"
+      className={`relative w-full max-w-[94vw] sm:max-w-[96vw] lg:max-w-[min(84vh,calc(100vw-390px))] ${
+        active3D ? 'xl:max-w-[min(82vh,calc(100vw-480px))]' : 'xl:max-w-[min(90vh,calc(100vw-480px))]'
+      } aspect-square mx-auto p-1 sm:p-2 tabletop-board tabletop-board-3d ${
+        active3D ? 'board-perspective-3d' : 'board-perspective-2d'
+      } rounded-2xl border-2 border-[#1B1B1B] select-none`}
+    >
       {/* 11x11 Grid Board with 1.6x Corners and Quad-fold Creases */}
       <div
         className="w-full h-full relative rounded-xl border border-[#1B1B1B] bg-[#1B1B1B] overflow-hidden [container-type:inline-size]"
@@ -152,6 +171,18 @@ export function Board({
           {/* Subtle Vintage Parchment & Lattice Texture */}
           <div className="absolute inset-0 opacity-[0.04] bg-[radial-gradient(#8B5A2B_1.5px,transparent_1.5px)] [background-size:20px_20px] pointer-events-none" />
           <div className="absolute inset-2 border border-[#8B5A2B]/20 rounded-xl pointer-events-none" />
+
+          {/* Tabletop Perspective View Toggle (2D Top-Down <-> 3D Isometric View) */}
+          <button
+            type="button"
+            onClick={handleTogglePerspective}
+            className="absolute top-2 right-2 z-20 px-2 py-1 rounded-lg bg-[#FAF7F0]/90 hover:bg-white border border-[#8B5A2B]/40 text-[#554637] hover:text-[#1B1B1B] text-[10px] font-bold font-display flex items-center gap-1 shadow-sm transition-all cursor-pointer active:scale-95"
+            title={active3D ? "Switch to 2D Top-Down View" : "Switch to 3D Isometric View"}
+            data-testid="board-perspective-toggle"
+          >
+            <Box className="w-3 h-3 text-amber-700" />
+            <span className="hidden sm:inline">{active3D ? '3D View' : '2D View'}</span>
+          </button>
 
           {/* Top Center: Logo, Tagline & Vintage Filigree */}
           <div className="text-center z-10 pt-0.5 sm:pt-1">

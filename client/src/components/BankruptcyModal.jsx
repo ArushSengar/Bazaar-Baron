@@ -32,7 +32,7 @@ export function BankruptcyModal({ debt, player, gameState, onResolveDebt, onBank
   // Minimized floating banner so the player can mortgage properties, sell houses, or view the board
   if (minimized) {
     return (
-      <div className="fixed bottom-20 left-4 right-4 sm:left-auto sm:right-6 sm:w-96 z-50 bg-[#FCF9F2] border-2 border-red-500 rounded-2xl shadow-2xl p-3 flex items-center justify-between gap-3 text-[#1B1B1B] font-body animate-bounce-subtle">
+      <div className="fixed bottom-24 lg:bottom-20 left-4 right-4 sm:left-auto sm:right-6 sm:w-96 z-50 bg-[#FCF9F2] border-2 border-red-500 rounded-2xl shadow-2xl p-3 flex items-center justify-between gap-3 text-[#1B1B1B] font-body animate-bounce-subtle">
         <div className="flex items-center gap-2.5 min-w-0">
           <div className="w-8 h-8 rounded-xl bg-red-100 border border-red-400 text-red-600 flex items-center justify-center shrink-0">
             <AlertOctagon className="w-4 h-4 animate-pulse" />

@@ -273,7 +273,7 @@ export function Tile({
         <>
           {isProperty ? (
             <div
-              className="w-full h-4 sm:h-5 border-b border-[#1B1B1B] flex items-center justify-center gap-1 px-1 shadow-inner shrink-0"
+              className="w-full h-4 sm:h-5 border-b border-[#1B1B1B] flex items-center justify-center gap-0.5 sm:gap-1 px-1 shadow-inner shrink-0 overflow-hidden"
               style={{ backgroundColor: groupColor }}
             >
               <HouseIcons houses={houses} />
@@ -326,7 +326,7 @@ export function Tile({
 
           {isProperty ? (
             <div
-              className="w-full h-4 sm:h-5 border-t border-[#1B1B1B] flex items-center justify-center gap-1 px-1 shadow-inner shrink-0"
+              className="w-full h-4 sm:h-5 border-t border-[#1B1B1B] flex items-center justify-center gap-0.5 sm:gap-1 px-1 shadow-inner shrink-0 overflow-hidden"
               style={{ backgroundColor: groupColor }}
             >
               <HouseIcons houses={houses} />
@@ -340,18 +340,18 @@ export function Tile({
       {/* LEFT COLUMN (Tiles 11-19): Colour band on RIGHT edge (inner edge facing center) */}
       {isLeft && (
         <>
-          {/* Rotated 90deg inner container with constrained width to prevent clipping */}
-          <div className="flex-1 flex items-center justify-center p-0.5">
-            <div className="rotate-90 w-[90%] max-w-[76px] flex flex-col items-center justify-center text-center shrink-0">
+          {/* Rotated 90deg inner container with constrained width and offset away from color band to prevent collision */}
+          <div className="flex-1 min-w-0 flex items-center justify-center p-0.5 pr-1.5 sm:pr-0.5">
+            <div className="rotate-90 -translate-x-1.5 sm:translate-x-0 w-[85%] max-w-[64px] sm:max-w-[76px] flex flex-col items-center justify-center text-center shrink-0">
               {getTileSpecialIcon(tile.id, tile.type)}
               <span
-                className="font-display font-semibold text-[#1B1B1B] leading-tight mt-0.5 max-w-[76px] break-words line-clamp-2"
-                style={{ fontSize: 'clamp(11px, 1.35cqi, 13.5px)' }}
+                className="font-display font-semibold text-[#1B1B1B] leading-tight mt-0.5 max-w-[64px] sm:max-w-[76px] break-words line-clamp-2"
+                style={{ fontSize: 'clamp(9.5px, 1.35cqi, 13.5px)' }}
               >
                 {tile.name}
               </span>
               {tile.cost && (
-                <span className="font-number font-bold text-[#1B1B1B] text-[12px] lg:text-[14px] mt-0.5 shrink-0">
+                <span className="font-number font-bold text-[#1B1B1B] text-[10px] sm:text-[12px] lg:text-[14px] mt-0.5 shrink-0">
                   ₹{tile.cost}
                 </span>
               )}
@@ -360,7 +360,7 @@ export function Tile({
 
           {isProperty ? (
             <div
-              className="w-3.5 sm:w-4 lg:w-5 h-full border-l border-[#1B1B1B] flex flex-col items-center justify-center gap-1 py-1 shadow-inner shrink-0"
+              className="w-3.5 sm:w-4 lg:w-5 h-full border-l border-[#1B1B1B] flex flex-col items-center justify-center gap-0.5 sm:gap-1 py-1 shadow-inner shrink-0 overflow-hidden"
               style={{ backgroundColor: groupColor }}
             >
               <HouseIcons houses={houses} vertical />
@@ -376,7 +376,7 @@ export function Tile({
         <>
           {isProperty ? (
             <div
-              className="w-3.5 sm:w-4 lg:w-5 h-full border-r border-[#1B1B1B] flex flex-col items-center justify-center gap-1 py-1 shadow-inner shrink-0"
+              className="w-3.5 sm:w-4 lg:w-5 h-full border-r border-[#1B1B1B] flex flex-col items-center justify-center gap-0.5 sm:gap-1 py-1 shadow-inner shrink-0 overflow-hidden"
               style={{ backgroundColor: groupColor }}
             >
               <HouseIcons houses={houses} vertical />
@@ -385,23 +385,23 @@ export function Tile({
             <div className="w-1 shrink-0" />
           )}
 
-          {/* Rotated -90deg inner container with constrained width to prevent clipping */}
-          <div className="flex-1 flex items-center justify-center p-0.5">
-            <div className="-rotate-90 w-[90%] max-w-[76px] flex flex-col items-center justify-center text-center shrink-0">
+          {/* Rotated -90deg inner container with constrained width and offset away from color band to prevent collision */}
+          <div className="flex-1 min-w-0 flex items-center justify-center p-0.5 pl-1.5 sm:pl-0.5">
+            <div className="-rotate-90 translate-x-1.5 sm:translate-x-0 w-[85%] max-w-[64px] sm:max-w-[76px] flex flex-col items-center justify-center text-center shrink-0">
               {getTileSpecialIcon(tile.id, tile.type)}
               <span
-                className="font-display font-semibold text-[#1B1B1B] leading-tight mt-0.5 max-w-[76px] break-words line-clamp-2"
-                style={{ fontSize: 'clamp(11px, 1.35cqi, 13.5px)' }}
+                className="font-display font-semibold text-[#1B1B1B] leading-tight mt-0.5 max-w-[64px] sm:max-w-[76px] break-words line-clamp-2"
+                style={{ fontSize: 'clamp(9.5px, 1.35cqi, 13.5px)' }}
               >
                 {tile.name}
               </span>
               {tile.cost && (
-                <span className="font-number font-bold text-[#1B1B1B] text-[12px] lg:text-[14px] mt-0.5 shrink-0">
+                <span className="font-number font-bold text-[#1B1B1B] text-[10px] sm:text-[12px] lg:text-[14px] mt-0.5 shrink-0">
                   ₹{tile.cost}
                 </span>
               )}
               {tile.amount && (
-                <span className="font-number font-bold text-red-700 text-[12px] lg:text-[14px] mt-0.5 shrink-0">
+                <span className="font-number font-bold text-red-700 text-[10px] sm:text-[12px] lg:text-[14px] mt-0.5 shrink-0">
                   ₹{tile.amount}
                 </span>
               )}
@@ -417,57 +417,173 @@ export function Tile({
 }
 
 /**
- * Renders small 3D green havelis (1-4) or a 3D red grand hotel (5) on the color band.
+ * Volumetric 3D Miniature Haveli (Houses 1-4).
+ * Features authentic Rajasthani isometric architectural geometry:
+ * Pitched roof with illuminated ridge slope (#4ade80), shaded side slope (#15803d),
+ * south facade (#166534), and ground contact drop shadow.
  */
-function HouseIcons({ houses = 0, vertical = false }) {
+export function Haveli3D({
+  className = "w-2 h-2 sm:w-2 sm:h-2 md:w-2.5 md:h-2.5 lg:w-2.5 lg:h-2.5 2xl:w-3.5 2xl:h-3.5 shrink-0 max-w-full max-h-full"
+}) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      className={className}
+      style={{ filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.5))' }}
+      title="Haveli (House)"
+      data-testid="haveli-3d"
+    >
+      {/* South Facade (Front wall) */}
+      <polygon points="1,7 8,10 8,15 1,12" fill="#166534" stroke="#0f4a24" strokeWidth="0.4" />
+      {/* East/Side Facade */}
+      <polygon points="8,10 15,7 15,12 8,15" fill="#15803d" stroke="#0f4a24" strokeWidth="0.4" />
+      {/* Decorative Arched Jharokha Doorway */}
+      <polygon points="3.5,9.5 5.5,10.3 5.5,13 3.5,12.2" fill="#052e16" />
+      <path d="M3.5,9.5 Q4.5,9 5.5,10.3" stroke="#4ade80" strokeWidth="0.3" fill="none" />
+      {/* Shaded Side Slope of Pitched Roof */}
+      <polygon points="8,2 15,7 8,10" fill="#15803d" stroke="#0f4a24" strokeWidth="0.4" />
+      {/* Illuminated Ridge Slope of Pitched Roof */}
+      <polygon points="8,2 1,7 8,10" fill="#4ade80" stroke="#22c55e" strokeWidth="0.4" />
+      {/* Roof Ridge Peak Highlight */}
+      <line x1="8" y1="2" x2="8" y2="10" stroke="#86efac" strokeWidth="0.5" strokeLinecap="round" opacity="0.9" />
+    </svg>
+  );
+}
+
+/**
+ * 3D Grand Haveli Palace Hotel (House 5).
+ * Replaces flat emojis with an authentic miniature 3D Rajasthani palace block:
+ * Double-tiered facade, ornamental golden dome / chhatri cupola (#f59e0b),
+ * deep royal crimson walls (#b91c1c), gold lintel trim, and ground contact drop shadow.
+ */
+export function HotelGrand3D({
+  className = "w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4.5 lg:h-4.5 shrink-0 max-w-full max-h-full"
+}) {
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      className={className}
+      style={{ filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.5))' }}
+      title="Grand Haveli Palace (Hotel)"
+      data-testid="hotel-grand-3d"
+    >
+      {/* Lower Tier - South Facade (Deep Royal Crimson) */}
+      <polygon points="2,11 10,14 10,19 2,16" fill="#b91c1c" stroke="#7f1d1d" strokeWidth="0.4" />
+      {/* Lower Tier - East Facade */}
+      <polygon points="10,14 18,11 18,16 10,19" fill="#991b1b" stroke="#7f1d1d" strokeWidth="0.4" />
+      {/* Gold Lintel Trim / Intermediate Cornice */}
+      <polygon points="2,11 10,8 18,11 10,14" fill="#f59e0b" stroke="#d97706" strokeWidth="0.4" />
+      {/* Lower Tier Arched Gateway */}
+      <polygon points="5,13.5 7.5,14.5 7.5,17.5 5,16.5" fill="#450a0a" />
+      <path d="M5,13.5 Q6.25,12.8 7.5,14.5" stroke="#fbbf24" strokeWidth="0.3" fill="none" />
+
+      {/* Upper Tier - South Facade (Double-Tiered Palace Block) */}
+      <polygon points="5,8 10,10 10,13 5,11" fill="#b91c1c" stroke="#7f1d1d" strokeWidth="0.4" />
+      {/* Upper Tier - East Facade */}
+      <polygon points="10,10 15,8 15,11 10,13" fill="#991b1b" stroke="#7f1d1d" strokeWidth="0.4" />
+      {/* Upper Tier Gold Trim */}
+      <polygon points="5,8 10,6 15,8 10,10" fill="#fbbf24" stroke="#d97706" strokeWidth="0.3" />
+
+      {/* Ornamental Golden Dome / Chhatri Cupola (#f59e0b) */}
+      <path
+        d="M6.5,6 Q10,1.5 13.5,6 Z"
+        fill="#f59e0b"
+        stroke="#d97706"
+        strokeWidth="0.4"
+      />
+      {/* Dome Specular Highlight */}
+      <path
+        d="M7.5,5.5 Q10,2.5 11,3"
+        stroke="#fef08a"
+        strokeWidth="0.4"
+        fill="none"
+      />
+      {/* Golden Kalasa / Finial Needle */}
+      <line x1="10" y1="1" x2="10" y2="2.5" stroke="#fbbf24" strokeWidth="0.6" strokeLinecap="round" />
+      <circle cx="10" cy="1" r="0.6" fill="#fef08a" />
+    </svg>
+  );
+}
+
+/**
+ * 3D Brass/Gold Token Pedestal for elevating player pawn tokens.
+ * Features cylindrical metallic base with radial gradient (#f59e0b to #78350f),
+ * specular rim highlight (inset 0 1px 1px rgba(255,255,255,0.8)), soft drop shadow,
+ * and translateZ(6px) elevation.
+ */
+export function TokenPedestal3D({ children, title }) {
+  return (
+    <div
+      className="relative flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-full token-pedestal-3d"
+      style={{
+        background: 'radial-gradient(circle at 35% 35%, #f59e0b 0%, #b45309 65%, #78350f 100%)',
+        boxShadow: '0 3px 6px rgba(0,0,0,0.55), inset 0 1px 1px rgba(255,255,255,0.8), inset 0 -1.5px 2px rgba(0,0,0,0.6)',
+        transform: 'translateZ(6px)',
+        transformStyle: 'preserve-3d'
+      }}
+      title={title}
+      data-testid="token-pedestal-3d"
+    >
+      <div className="transform-gpu -translate-y-0.5 filter drop-shadow-[0_1px_1px_rgba(0,0,0,0.6)]">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Renders small 3D green havelis (1-4) or a 3D Grand Haveli Palace Hotel (5) on the color band.
+ */
+export function HouseIcons({ houses = 0, vertical = false }) {
   if (houses <= 0) return null;
 
   if (houses === 5) {
-    return (
-      <div
-        className="w-3.5 h-3.5 rounded-[2px] bg-gradient-to-b from-red-500 to-red-800 border border-neutral-900 shadow-md flex items-center justify-center text-[8px] text-white font-black ring-1 ring-red-400/60"
-        title="Grand Hotel (Haveli)"
-        style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.4)' }}
-      >
-        🏰
-      </div>
-    );
+    return <HotelGrand3D />;
   }
 
+  // Wrap havelis into a 2x2 grid for 3-4 havelis on horizontal color bands to prevent clipping
+  const isGrid = !vertical && houses >= 3;
+
   return (
-    <div className={`flex items-center justify-center gap-0.5 ${vertical ? 'flex-col' : 'flex-row'}`}>
+    <div
+      className={
+        isGrid
+          ? 'grid grid-cols-2 gap-0.5 2xl:flex 2xl:flex-row 2xl:gap-0.5 items-center justify-center max-w-full max-h-full'
+          : `flex items-center justify-center gap-0.5 ${vertical ? 'flex-col' : 'flex-row'} max-w-full max-h-full`
+      }
+    >
       {Array.from({ length: houses }).map((_, i) => (
-        <div
-          key={i}
-          className="w-2.5 h-2.5 rounded-[1px] bg-gradient-to-b from-emerald-500 to-emerald-800 border border-neutral-900 shadow-sm ring-1 ring-emerald-400/50"
-          style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.4), inset 0 0.5px 0 rgba(255,255,255,0.4)' }}
-          title={`Haveli ${i + 1}`}
-        />
+        <Haveli3D key={i} />
       ))}
     </div>
   );
 }
 
 /**
- * Spreads multiple tokens in a clean grid so no pawn is hidden.
+ * Spreads multiple tokens on 3D brass/gold pedestals elevated above the board.
  */
-function TokenOverlay({ players = [] }) {
+export function TokenOverlay({ players = [] }) {
   if (!players || players.length === 0) return null;
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none p-0.5 z-30">
-      <div className="flex flex-wrap items-center justify-center gap-0.5 max-w-[85%] bg-white/85 rounded-lg p-0.5 shadow-md border border-black/30 backdrop-blur-[1px]">
+    <div
+      className="absolute inset-0 flex items-center justify-center pointer-events-none p-0.5 z-30"
+      style={{ perspective: '800px', transformStyle: 'preserve-3d' }}
+    >
+      <div
+        className="flex flex-wrap items-center justify-center gap-1 max-w-[90%] bg-neutral-900/65 rounded-xl p-1 shadow-lg border border-amber-600/40 backdrop-blur-[2px]"
+        style={{ transformStyle: 'preserve-3d' }}
+      >
         {players.map((p) => {
           const pColor = PLAYER_COLORS[p.color] || { hex: '#D62F2F', text: '#ffffff' };
           const pShape = PLAYER_PAWNS[p.color] || 'hat';
           return (
-            <div
+            <TokenPedestal3D
               key={p.id}
-              className="p-0.5 rounded-md flex items-center justify-center"
               title={`${p.name} (${pShape})`}
             >
-              <PawnIcon shape={pShape} color={pColor.hex} size={13} />
-            </div>
+              <PawnIcon shape={pShape} color={pColor.hex} size={14} />
+            </TokenPedestal3D>
           );
         })}
       </div>

@@ -217,7 +217,7 @@ export function LudoBoard({
   });
 
   return (
-    <div className="relative w-full max-w-[560px] aspect-square select-none p-1 sm:p-2">
+    <div className="relative w-full max-w-[min(94vw,90vh)] lg:max-w-[min(88vh,calc(100vw-360px))] xl:max-w-[min(90vh,calc(100vw-380px))] aspect-square select-none p-1 sm:p-2">
       {/* 15x15 Ludo Board Grid */}
       <div className="w-full h-full grid grid-cols-15 grid-rows-15 bg-[#171311] border-4 border-amber-600/80 rounded-2xl shadow-2xl overflow-hidden relative">
 

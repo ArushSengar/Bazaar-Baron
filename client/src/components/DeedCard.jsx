@@ -1,6 +1,7 @@
 import React from 'react';
 import { GROUP_COLORS, GROUP_NAMES, GROUP_TEXT_COLORS, PLAYER_COLORS, PLAYER_PAWNS } from '../data/constants';
 import { PawnIcon } from './PawnIcon';
+import { Haveli3D, HotelGrand3D } from './Tile';
 import { Train, Ship, Plane, TramFront, Lightbulb, Droplets, Home, Hotel, ShieldCheck, Sparkles, Building2 } from 'lucide-react';
 
 /**
@@ -28,29 +29,52 @@ export function DeedCard({ tile, propState, ownerPlayer, isCompact = false }) {
 
   return (
     <div
-      className={`relative bg-[#FFFDF9] text-[#1B1B1B] border-2 border-[#2A1E14] rounded-2xl select-none font-body transition-all duration-300 transform-gpu ${
+      className={`relative bg-[#FFFDF9] text-[#1B1B1B] border-2 border-[#2A1E14] rounded-2xl select-none font-body transition-all duration-300 transform-gpu card-3d-tactile card-3d-hover ${
         isCompact ? 'w-64 text-xs' : 'w-full max-w-sm text-sm'
       }`}
       style={{
-        boxShadow: '0 20px 45px -8px rgba(0,0,0,0.55), 0 8px 18px -4px rgba(0,0,0,0.35), inset 0 2px 0 rgba(255,255,255,0.9), inset 0 -2px 0 rgba(0,0,0,0.12)',
+        boxShadow: '0 1px 0 #d8d0bc, 0 2px 0 #c8c0ac, 0 3px 0 #b8b09c, 0 4px 0 #a8a08c, 0 20px 45px -8px rgba(0,0,0,0.55), 0 8px 18px -4px rgba(0,0,0,0.35), inset 0 2px 0 rgba(255,255,255,0.9), inset 0 -2px 0 rgba(0,0,0,0.12)',
         transform: 'perspective(1000px) rotateX(1deg)',
       }}
+      data-testid="deed-card-3d"
     >
-      {/* 3D Gold Foil Inner Rim */}
-      <div className="absolute inset-1 rounded-xl border border-amber-600/30 pointer-events-none z-10" />
+      {/* 3D Gold Foil Rim Reflection Overlay */}
+      <div
+        className="absolute inset-0 rounded-2xl pointer-events-none z-10 gold-foil-rim"
+        style={{
+          background: 'linear-gradient(135deg, rgba(212,175,55,0.4) 0%, transparent 40%, rgba(212,175,55,0.2) 100%)',
+          mixBlendMode: 'overlay'
+        }}
+      />
+      <div className="absolute inset-1 rounded-xl border border-amber-500/40 pointer-events-none z-10 shadow-[inset_0_0_8px_rgba(212,175,55,0.2)]" />
 
-      {/* Tilted 3D Rubber Wax Mortgaged Stamp */}
+      {/* Tilted Authentic 3D Wax Seal Stamp for Mortgaged Properties */}
       {isMortgaged && (
         <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none overflow-hidden">
           <div
-            className="px-4 py-2 border-4 border-red-700 bg-red-900/85 text-red-100 font-display font-black text-sm sm:text-base uppercase tracking-widest rounded-xl shadow-2xl backdrop-blur-xs transform -rotate-12 border-dashed flex flex-col items-center justify-center"
+            className="w-36 h-36 sm:w-44 sm:h-44 rounded-full wax-seal-stamp flex flex-col items-center justify-center text-center p-3 transform -rotate-12 select-none"
             style={{
-              boxShadow: '0 8px 24px rgba(185, 28, 28, 0.6), inset 0 1px 2px rgba(255,255,255,0.4)',
-              textShadow: '0 2px 4px rgba(0,0,0,0.7)'
+              background: 'radial-gradient(circle at 38% 36%, #ef4444 0%, #b91c1c 45%, #7f1d1d 80%, #450a0a 100%)',
+              boxShadow: '0 12px 28px rgba(0, 0, 0, 0.65), 0 4px 8px rgba(185, 28, 28, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.5), inset 0 -3px 4px rgba(0, 0, 0, 0.7)',
+              border: '4px double #fca5a5'
             }}
+            data-testid="mortgaged-wax-seal"
           >
-            <span>⚠️ MORTGAGED ⚠️</span>
-            <span className="text-[10px] tracking-normal opacity-90 font-mono mt-0.5">गिरवी रखी संपत्ति</span>
+            {/* Inner Debossed Ring */}
+            <div className="w-full h-full rounded-full border-2 border-red-300/40 flex flex-col items-center justify-center p-2 shadow-inner">
+              <span className="text-[10px] sm:text-xs font-black tracking-widest text-red-200 uppercase font-mono">
+                ★ RAJASTHAN BANK ★
+              </span>
+              <span className="text-base sm:text-lg font-black font-display text-white tracking-wider uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] my-0.5">
+                MORTGAGED
+              </span>
+              <span className="text-[11px] sm:text-xs font-bold text-red-200 font-display">
+                गिरवी रखी संपत्ति
+              </span>
+              <span className="text-[8px] sm:text-[9px] font-mono font-semibold text-red-300/80 mt-1">
+                LOCKED SECURITY
+              </span>
+            </div>
           </div>
         </div>
       )}
@@ -154,9 +178,7 @@ export function DeedCard({ tile, propState, ownerPlayer, isCompact = false }) {
               }`}
             >
               <span className="font-sans flex items-center gap-1.5">
-                <span className="w-3.5 h-3.5 rounded bg-emerald-600 border border-emerald-800 shadow-xs flex items-center justify-center text-[9px] text-white">
-                  🏠
-                </span>
+                <Haveli3D className="w-3.5 h-3.5 shrink-0" />
                 <span>With 1 Haveli:</span>
               </span>
               <div className="flex items-center gap-1.5">
@@ -178,9 +200,7 @@ export function DeedCard({ tile, propState, ownerPlayer, isCompact = false }) {
               }`}
             >
               <span className="font-sans flex items-center gap-1.5">
-                <span className="w-3.5 h-3.5 rounded bg-emerald-600 border border-emerald-800 shadow-xs flex items-center justify-center text-[9px] text-white">
-                  🏠
-                </span>
+                <Haveli3D className="w-3.5 h-3.5 shrink-0" />
                 <span>With 2 Haveliyan:</span>
               </span>
               <div className="flex items-center gap-1.5">
@@ -202,9 +222,7 @@ export function DeedCard({ tile, propState, ownerPlayer, isCompact = false }) {
               }`}
             >
               <span className="font-sans flex items-center gap-1.5">
-                <span className="w-3.5 h-3.5 rounded bg-emerald-600 border border-emerald-800 shadow-xs flex items-center justify-center text-[9px] text-white">
-                  🏠
-                </span>
+                <Haveli3D className="w-3.5 h-3.5 shrink-0" />
                 <span>With 3 Haveliyan:</span>
               </span>
               <div className="flex items-center gap-1.5">
@@ -226,9 +244,7 @@ export function DeedCard({ tile, propState, ownerPlayer, isCompact = false }) {
               }`}
             >
               <span className="font-sans flex items-center gap-1.5">
-                <span className="w-3.5 h-3.5 rounded bg-emerald-600 border border-emerald-800 shadow-xs flex items-center justify-center text-[9px] text-white">
-                  🏠
-                </span>
+                <Haveli3D className="w-3.5 h-3.5 shrink-0" />
                 <span>With 4 Haveliyan:</span>
               </span>
               <div className="flex items-center gap-1.5">
@@ -250,9 +266,7 @@ export function DeedCard({ tile, propState, ownerPlayer, isCompact = false }) {
               }`}
             >
               <span className="font-sans font-bold flex items-center gap-1.5 text-red-900">
-                <span className="w-4 h-4 rounded bg-red-600 border border-red-800 shadow-xs flex items-center justify-center text-[10px] text-white font-black">
-                  🏰
-                </span>
+                <HotelGrand3D className="w-4 h-4 shrink-0" />
                 <span>GRAND HOTEL:</span>
               </span>
               <div className="flex items-center gap-1.5">

@@ -335,7 +335,7 @@ export function Lobby({
                         }`}
                       >
                         <span>{mins}m</span>
-                        <span className="text-[9px] font-sans font-bold opacity-80">
+                        <span className="text-[8px] sm:text-[9px] font-sans font-bold opacity-80 whitespace-nowrap truncate max-w-full px-0.5 leading-tight">
                           {mins === 10 ? 'Blitz' : mins === 15 ? 'Fast' : mins === 20 ? 'Standard' : mins === 25 ? 'Extended' : 'Classic'}
                         </span>
                       </button>
@@ -563,7 +563,7 @@ export function Lobby({
                     }`}
                   >
                     <span>{mins}m</span>
-                    <span className="text-[9px] font-sans font-bold opacity-80">
+                    <span className="text-[8px] sm:text-[9px] font-sans font-bold opacity-80 whitespace-nowrap truncate max-w-full px-0.5 leading-tight">
                       {mins === 10 ? 'Blitz' : mins === 15 ? 'Fast' : mins === 20 ? 'Standard' : mins === 25 ? 'Extended' : 'Classic'}
                     </span>
                   </button>

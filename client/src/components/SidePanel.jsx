@@ -118,7 +118,7 @@ export function SidePanel({
   };
 
   return (
-    <div className="w-full lg:w-[440px] xl:w-[490px] 2xl:w-[530px] flex flex-col gap-3 bg-neutral-900/95 border border-neutral-800 rounded-2xl p-3.5 sm:p-5 shadow-2xl backdrop-blur text-neutral-100 select-none overflow-hidden max-h-[calc(100vh-80px)] font-body">
+    <div className="w-full lg:w-[350px] xl:w-[440px] 2xl:w-[500px] flex flex-col gap-3 bg-neutral-900/95 border border-neutral-800 rounded-2xl p-3.5 sm:p-5 shadow-2xl backdrop-blur text-neutral-100 select-none overflow-hidden max-h-[calc(100vh-80px)] font-body">
       {/* 1. All Players Table Overview (Poker Style Table Seatings) */}
       <div className="bg-neutral-950/80 border border-neutral-800 rounded-xl p-3 space-y-2 shrink-0">
         <div className="flex items-center justify-between text-xs uppercase font-bold text-neutral-400 tracking-wider px-1">

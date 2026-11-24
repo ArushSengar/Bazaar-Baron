@@ -8,7 +8,7 @@ export function UnoRoundWinnerModal({ gameState, player, isHost, onNextRound }) 
   const isMe = roundWinner?.id === player?.id;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-fade-in font-body">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-fade-in font-body overflow-y-auto">
       <div className="relative w-full max-w-md bg-[#1e130c] border-2 border-amber-500 rounded-3xl shadow-2xl p-6 text-white text-center space-y-5 animate-scale-up">
         <div className="relative inline-block">
           <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center mx-auto text-3xl sm:text-4xl shadow-xl">
@@ -92,7 +92,7 @@ export function UnoWinnerModal({ gameState, player, onLeaveRoom }) {
   const isMe = winner?.id === player?.id;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in font-body">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in font-body overflow-y-auto">
       <div className="relative w-full max-w-md bg-[#1e130c] border-2 border-amber-500 rounded-3xl shadow-2xl p-6 sm:p-8 text-white text-center space-y-5 animate-scale-up">
         <div className="relative inline-block">
           <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center mx-auto text-4xl sm:text-5xl shadow-2xl shadow-amber-500/30">

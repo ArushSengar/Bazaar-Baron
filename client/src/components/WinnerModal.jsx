@@ -21,7 +21,7 @@ export function WinnerModal({ gameState, player, onLeaveRoom }) {
     : gameState.players;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-md animate-fade-in font-body">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-md animate-fade-in font-body overflow-y-auto">
       <div className="relative w-full max-w-md bg-[#FCF9F2] border-2 border-amber-500 rounded-3xl shadow-2xl p-5 sm:p-7 text-[#1B1B1B] text-center animate-scale-up space-y-4">
         {/* Crown & Trophy Icon */}
         <div className="relative inline-block">

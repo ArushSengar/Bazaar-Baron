@@ -62,7 +62,7 @@ export function AuctionModal({ auction, player, gameState, onBid, onPass }) {
       onClick={(e) => {
         if (e.target === e.currentTarget) setMinimized(true);
       }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in overflow-y-auto"
     >
       <div className="relative w-full max-w-md bg-[#FCF9F2] border-2 border-[#8B5A2B]/40 rounded-2xl shadow-2xl overflow-hidden text-[#1B1B1B] animate-scale-up font-body">
         {/* Minimize Button so player can look at the board */}

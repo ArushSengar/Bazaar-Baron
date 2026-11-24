@@ -4,7 +4,7 @@
 [![React](https://img.shields.io/badge/React-19-61dafb.svg?style=flat-square&logo=react)](https://react.dev/)
 [![Socket.IO](https://img.shields.io/badge/Socket.IO-4.8-010101.svg?style=flat-square&logo=socket.io)](https://socket.io/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4-38bdf8.svg?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
-[![Tests](https://img.shields.io/badge/Tests-261%20Passed-brightgreen.svg?style=flat-square)](https://nodejs.org/api/test.html)
+[![Tests](https://img.shields.io/badge/Tests-296%20Passed-brightgreen.svg?style=flat-square)](https://nodejs.org/api/test.html)
 [![Linux Support](https://img.shields.io/badge/Linux-Tested%20%26%20Supported-FCC624.svg?style=flat-square&logo=linux&logoColor=black)](https://www.linux.org/)
 [![Offline First](https://img.shields.io/badge/Network-100%25%20Offline%20LAN-blue.svg?style=flat-square)]()
 [![License](https://img.shields.io/badge/License-MIT-amber.svg?style=flat-square)]()
@@ -43,37 +43,63 @@ git clone https://github.com/ArushSengar/Bazaar-Baron.git; cd Bazaar-Baron; .\st
 
 ---
 
-## 📸 Visual Showcase
+## 📸 Visual Showcase & Screen Gallery
 
 <div align="center">
 
 ### 🕹️ Arcade Game Hub & Unified Lobby
-*Choose between Bazaar Baron (Monopoly) and Bazaar UNO, configure match settings, or invite AI Bot merchants.*
+*Choose between Bazaar Baron (Monopoly), Bazaar UNO, Bazaar Ludo, and Snakes & Ladders, configure anti-stalemate match timers (10m–30m), or invite AI Bot merchants.*
 
-![Bazaar Arcade Lobby & Game Selector](docs/images/arcade-lobby.png)
+| 🖥️ Desktop Lobby (1920×1080) | 📱 Mobile Phone Lobby (390×844) |
+| :---: | :---: |
+| ![Arcade Lobby Desktop](docs/screenshots/arcade-lobby-desktop.png) | ![Arcade Lobby Mobile](docs/screenshots/arcade-lobby-mobile.png) |
+
+<br/>
+
+### 🕌 Bazaar Baron (Monopoly) — 3D Isometric & Tabletop Board
+*Authentic multi-layer cardboard bevel edges, 3D volumetric havelis & grand palace hotels, brass pedestals, and dynamic 3D tabletop perspective toggle.*
+
+| 🎲 3D Isometric Tabletop View | 🗺️ Classic 2D Tabletop Board |
+| :---: | :---: |
+| ![Bazaar Baron 3D Isometric](docs/screenshots/baron-board-3d-isometric.png) | ![Bazaar Baron 2D Board](docs/screenshots/baron-board-desktop.png) |
+
+| 📱 Mobile Phone Board View | 📜 3D Title Deed & Mortgage Modal |
+| :---: | :---: |
+| ![Bazaar Baron Mobile](docs/screenshots/baron-board-mobile.png) | ![Baron 3D Deed Modal](docs/screenshots/baron-deed-modal.png) |
 
 <br/>
 
 ### 🃏 Bazaar UNO Tabletop Experience
 *Official 108-card deck, active color glow indicator, 3D draw pile stack, card counters, and pulsing "CALL UNO!" button.*
 
-![Bazaar UNO Live Gameplay](docs/images/uno-gameplay.png)
-
-<br/>
-
-### 🕌 Bazaar Baron Desktop Tabletop Board (1080p & 4K)
-*Authentic quad-fold cardboard tabletop board with rotating perimeter tiles, 3D dice, and full territory overview.*
-
-![Bazaar Baron Desktop Tabletop Board](docs/images/desktop-gameplay.png)
-
-<br/>
-
-### 📱 Responsive Mobile Phone & Laptop Views
-*Touch-friendly 44px+ tap targets, collapsible bottom sheets, and responsive side panel tailored for phones and laptops.*
-
-| 📱 Mobile Phone (390×844) | 💻 Laptop Screen (1366×768) |
+| 🖥️ Desktop Card Table | 📱 Mobile Card Table |
 | :---: | :---: |
-| ![Mobile View](docs/images/mobile-gameplay.png) | ![Laptop View](docs/images/laptop-gameplay.png) |
+| ![Bazaar UNO Desktop](docs/screenshots/uno-board-desktop.png) | ![Bazaar UNO Mobile](docs/screenshots/uno-board-mobile.png) |
+
+<br/>
+
+### 🎲 Bazaar Ludo (Full-Screen Immersion)
+*Fluid viewport-bounded responsive board scaling (88–90vh), eliminate letterboxing, safe star sanctuaries, home stretches, and dynamic token markers.*
+
+| 🖥️ Desktop Ludo Board | 📱 Mobile Ludo Board |
+| :---: | :---: |
+| ![Bazaar Ludo Desktop](docs/screenshots/ludo-board-desktop.png) | ![Bazaar Ludo Mobile](docs/screenshots/ludo-board-mobile.png) |
+
+<br/>
+
+### 🐍 Snakes & Ladders (Shamsheri Full-Screen Immersion)
+*100-tile climb-and-slide race with soaring emerald ladders, venomous snakes, yard staging bench, and exact tile-100 victory rules.*
+
+| 🖥️ Desktop Board | 📱 Mobile Board |
+| :---: | :---: |
+| ![Snakes & Ladders Desktop](docs/screenshots/snakes-board-desktop.png) | ![Snakes & Ladders Mobile](docs/screenshots/snakes-board-mobile.png) |
+
+<br/>
+
+### 📖 Interactive Rules & Beginner Guide
+*In-game rules modal with keyboard shortcut (`?`) and dedicated game tabs.*
+
+![Arcade Rules Guide](docs/screenshots/rules-modal.png)
 
 </div>
 

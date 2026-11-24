@@ -25,13 +25,28 @@ export function CardModal({ card, onDismiss }) {
       onClick={(e) => {
         if (e.target === e.currentTarget) handleDismiss();
       }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fade-in overflow-y-auto"
     >
       <div
-        className={`relative w-full max-w-sm bg-[#FAF7F0] text-[#1B1B1B] border-2 rounded-2xl shadow-2xl overflow-hidden font-body animate-scale-up select-none ${
+        className={`relative w-full max-w-sm bg-[#FAF7F0] text-[#1B1B1B] border-2 rounded-2xl overflow-hidden font-body animate-scale-up select-none card-3d-tactile card-3d-hover ${
           isChance ? 'border-amber-600' : 'border-emerald-600'
         }`}
+        style={{
+          boxShadow: '0 1px 0 #d8d0bc, 0 2px 0 #c8c0ac, 0 3px 0 #b8b09c, 0 4px 0 #a8a08c, 0 24px 48px -12px rgba(0,0,0,0.65), 0 12px 24px -4px rgba(0,0,0,0.35), inset 0 2px 0 rgba(255,255,255,0.9), inset 0 -2px 0 rgba(0,0,0,0.12)',
+          transform: 'perspective(1000px) rotateX(1deg)'
+        }}
+        data-testid="chance-fund-card-3d"
       >
+        {/* 3D Gold Foil Rim Reflection Overlay */}
+        <div
+          className="absolute inset-0 rounded-2xl pointer-events-none z-10 gold-foil-rim"
+          style={{
+            background: 'linear-gradient(135deg, rgba(212,175,55,0.35) 0%, transparent 40%, rgba(212,175,55,0.15) 100%)',
+            mixBlendMode: 'overlay'
+          }}
+        />
+        <div className="absolute inset-1 rounded-xl border border-amber-500/30 pointer-events-none z-10" />
+
         {/* Close Button */}
         <button
           onClick={handleDismiss}

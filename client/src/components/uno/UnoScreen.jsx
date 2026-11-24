@@ -186,7 +186,7 @@ export function UnoScreen({
       </header>
 
       {/* 2. Opponents Ring (Top & Sides) */}
-      <div className="py-2 px-1 flex items-center justify-center gap-2 sm:gap-4 overflow-x-auto shrink-0 scrollbar-none">
+      <div className="py-2 px-4 flex items-center justify-start gap-2 sm:gap-4 overflow-x-auto shrink-0 scrollbar-none">
         {opponents.map((opp) => {
           const isActive = opp.id === activePlayer?.id;
           const hasOneCard = opp.cards.length === 1;
@@ -252,7 +252,7 @@ export function UnoScreen({
 
       {/* 3. Center Table: Draw Pile, Discard Pile & Active Color Ring */}
       <div className="flex-1 flex flex-col items-center justify-center my-auto py-2">
-        <div className={`relative w-full max-w-lg aspect-[16/9] sm:aspect-[2/1] rounded-3xl bg-[#13281e] border-4 border-[#244b38] shadow-2xl p-4 flex items-center justify-around overflow-hidden uno-table-glow uno-table-glow-${activeColor}`}>
+        <div className={`relative w-full max-w-xl md:max-w-2xl aspect-[16/10] sm:aspect-[2/1] rounded-3xl bg-[#13281e] border-4 border-[#244b38] shadow-2xl p-4 flex items-center justify-around overflow-hidden uno-table-glow uno-table-glow-${activeColor}`}>
           {/* Center Table Texture Watermark */}
           <div className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-10">
             <span className="font-display font-black text-6xl sm:text-8xl tracking-widest text-white">
@@ -381,7 +381,7 @@ export function UnoScreen({
         </div>
 
         {/* Hand Cards Horizontal Scroll / Fan */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 overflow-x-auto p-1.5 pt-3 pb-2 scrollbar-thin">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 overflow-x-auto p-1.5 pt-7 sm:pt-8 pb-3 scrollbar-thin overflow-y-hidden">
           {myHand.map((card) => {
             const playable = isMyTurn && canPlayUnoCard(card, topDiscard, activeColor);
 

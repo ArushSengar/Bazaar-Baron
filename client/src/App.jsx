@@ -45,7 +45,7 @@ export function App() {
 
   return (
     <div className={`tabletop-wood text-[#e6edf3] selection:bg-amber-500 selection:text-neutral-950 ${isGameActive ? 'h-screen h-[100dvh] w-screen overflow-hidden flex flex-col' : 'min-h-screen flex flex-col justify-between'}`}>
-      <main className={isGameActive ? "flex-1 w-full h-full overflow-hidden flex flex-col p-1 sm:p-2" : "flex-1 flex flex-col justify-center py-2 sm:py-4 px-2 sm:px-4"}>
+      <main className={isGameActive ? "flex-1 w-full h-full overflow-hidden flex flex-col p-1 sm:p-2" : "flex-1 flex flex-col justify-start sm:justify-center overflow-y-auto min-h-0 py-2 sm:py-4 px-2 sm:px-4"}>
         {isGameActive ? (
           <ScreenComponent
             gameState={gameState}
