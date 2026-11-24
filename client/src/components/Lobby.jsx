@@ -298,7 +298,7 @@ export function Lobby({
         </div>
 
         {/* 3D Match Duration Setting in Waiting Room (for Monopoly / Bazaar Baron) */}
-        {gameDef.id === 'monopoly' && (
+        {(gameState?.gameType === 'monopoly' || config?.id === 'monopoly') && (
           <div className="bg-neutral-900/90 border border-neutral-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
