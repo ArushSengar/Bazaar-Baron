@@ -30,30 +30,30 @@ import {
  */
 function getTileSpecialIcon(tileId, tileType) {
   // 4 distinct station icons
-  if (tileId === 5) return <Train className="w-5 h-5 text-neutral-800 shrink-0" />;
-  if (tileId === 15) return <Ship className="w-5 h-5 text-neutral-800 shrink-0" />;
-  if (tileId === 25) return <Plane className="w-5 h-5 text-neutral-800 shrink-0" />;
-  if (tileId === 35) return <TramFront className="w-5 h-5 text-neutral-800 shrink-0" />;
+  if (tileId === 5) return <Train className="w-2.5 h-2.5 sm:w-5 sm:h-5 text-neutral-800 shrink-0" />;
+  if (tileId === 15) return <Ship className="w-2.5 h-2.5 sm:w-5 sm:h-5 text-neutral-800 shrink-0" />;
+  if (tileId === 25) return <Plane className="w-2.5 h-2.5 sm:w-5 sm:h-5 text-neutral-800 shrink-0" />;
+  if (tileId === 35) return <TramFront className="w-2.5 h-2.5 sm:w-5 sm:h-5 text-neutral-800 shrink-0" />;
 
   // 2 distinct utilities
-  if (tileId === 12) return <Lightbulb className="w-5 h-5 text-amber-700 shrink-0" />;
-  if (tileId === 28) return <Droplets className="w-5 h-5 text-blue-700 shrink-0" />;
+  if (tileId === 12) return <Lightbulb className="w-2.5 h-2.5 sm:w-5 sm:h-5 text-amber-700 shrink-0" />;
+  if (tileId === 28) return <Droplets className="w-2.5 h-2.5 sm:w-5 sm:h-5 text-blue-700 shrink-0" />;
 
   // Taxes
-  if (tileId === 4) return <Receipt className="w-5 h-5 text-red-700 shrink-0" />;
-  if (tileId === 38) return <Gem className="w-5 h-5 text-purple-700 shrink-0" />;
+  if (tileId === 4) return <Receipt className="w-2.5 h-2.5 sm:w-5 sm:h-5 text-red-700 shrink-0" />;
+  if (tileId === 38) return <Gem className="w-2.5 h-2.5 sm:w-5 sm:h-5 text-purple-700 shrink-0" />;
 
   // Cards
   if (tileType === 'chance') {
     return (
-      <div className="w-5 h-5 rounded-full bg-amber-600 text-white font-black flex items-center justify-center text-xs shadow-sm shrink-0">
+      <div className="w-3 h-3 sm:w-5 sm:h-5 rounded-full bg-amber-600 text-white font-black flex items-center justify-center text-[7px] sm:text-xs leading-none shadow-sm shrink-0">
         ?
       </div>
     );
   }
   if (tileType === 'community') {
     return (
-      <div className="w-5 h-5 rounded-full bg-emerald-700 text-white font-black flex items-center justify-center text-[10px] shadow-sm shrink-0">
+      <div className="w-3 h-3 sm:w-5 sm:h-5 rounded-full bg-emerald-700 text-white font-black flex items-center justify-center text-[6px] sm:text-[10px] leading-none shadow-sm shrink-0">
         🏺
       </div>
     );
@@ -95,22 +95,31 @@ export function Tile({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         style={{ gridRow: row, gridColumn: col }}
-        className={`relative bg-[#F3EBD8] border border-[#1B1B1B] p-1 sm:p-1.5 flex flex-col justify-between items-center text-center cursor-pointer select-none overflow-hidden ${
+        className={`relative bg-[#F3EBD8] border border-[#1B1B1B] p-0.5 sm:p-1.5 flex flex-col justify-between items-center text-center cursor-pointer select-none overflow-hidden ${
           isLandedOn ? 'ring-4 ring-amber-500 z-20' : ''
         }`}
       >
-        <div className="text-[9px] sm:text-[10px] lg:text-[11px] font-bold tracking-wider text-neutral-600 uppercase leading-tight">
+        <div
+          className="font-bold tracking-tight sm:tracking-wider text-neutral-600 uppercase leading-none max-w-full text-center"
+          style={{ fontSize: 'clamp(4.2px, 1.1cqi, 11px)' }}
+        >
           Collect ₹200 Salary
         </div>
-        <div className="flex flex-col items-center my-auto">
-          <div className="text-xl sm:text-2xl lg:text-3xl font-black font-display text-emerald-700 tracking-tight leading-none">
+        <div className="flex flex-col items-center my-auto max-w-full">
+          <div
+            className="font-black font-display text-emerald-700 tracking-tight leading-none whitespace-nowrap max-w-full"
+            style={{ fontSize: 'clamp(8.5px, 2.9cqi, 30px)' }}
+          >
             START
           </div>
-          <div className="flex items-center text-emerald-800 text-xs font-bold mt-0.5">
-            <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 stroke-[3] animate-pulse" />
+          <div className="flex items-center text-emerald-800 text-xs font-bold mt-0 sm:mt-0.5">
+            <ArrowRight className="w-2.5 h-2.5 sm:w-5 sm:h-5 lg:w-6 lg:h-6 stroke-[3] animate-pulse shrink-0" />
           </div>
         </div>
-        <div className="text-[9px] sm:text-[10px] font-mono font-bold text-neutral-700">
+        <div
+          className="font-mono font-bold text-neutral-700 leading-none whitespace-nowrap max-w-full"
+          style={{ fontSize: 'clamp(4.5px, 1.05cqi, 10px)' }}
+        >
           Pass ➔
         </div>
         <TokenOverlay players={playersOnTile} />
@@ -138,15 +147,15 @@ export function Tile({
             <div className="w-3/4 h-full max-h-[90%] sm:max-h-none sm:h-14 lg:h-16 bg-[#e67e22]/20 border-b-2 border-l-2 border-[#1B1B1B] p-0.5 sm:p-1 flex flex-col items-center justify-center rounded-bl-lg bg-orange-100">
               <span
                 className="font-black font-display text-orange-950 uppercase tracking-tight sm:tracking-wider leading-none whitespace-nowrap"
-                style={{ fontSize: 'clamp(6.5px, 1.5cqi, 12px)' }}
+                style={{ fontSize: 'clamp(5.5px, 1.45cqi, 12px)' }}
               >
                 IN JAIL
               </span>
-              <div className="flex items-center gap-0.5 text-[8px] sm:text-xs text-orange-900 mt-0.5 leading-none">
+              <div className="flex items-center gap-0.5 text-[7px] sm:text-xs text-orange-900 mt-0.5 leading-none">
                 <span>⛓️</span>
                 <span
                   className="font-bold font-mono leading-none"
-                  style={{ fontSize: 'clamp(5.5px, 1.15cqi, 9px)' }}
+                  style={{ fontSize: 'clamp(4.5px, 1.15cqi, 9px)' }}
                 >
                   CELL
                 </span>
@@ -154,8 +163,8 @@ export function Tile({
             </div>
           </div>
           <div
-            className="px-0.5 pb-0.5 sm:p-1 flex items-center justify-center sm:justify-between gap-1 font-display font-extrabold text-neutral-800 uppercase tracking-tight sm:tracking-wider leading-none shrink-0 w-full whitespace-nowrap"
-            style={{ fontSize: 'clamp(5.5px, 1.15cqi, 11px)' }}
+            className="px-0.5 pb-0.5 sm:p-1 flex items-center justify-center sm:justify-between gap-0.5 sm:gap-1 font-display font-extrabold text-neutral-800 uppercase tracking-tight sm:tracking-wider leading-none shrink-0 w-full whitespace-nowrap"
+            style={{ fontSize: 'clamp(4.5px, 1.15cqi, 11px)' }}
           >
             <span>JUST</span>
             <span>VISITING</span>
@@ -176,28 +185,28 @@ export function Tile({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         style={{ gridRow: row, gridColumn: col }}
-        className={`relative bg-[#F3EBD8] border border-[#1B1B1B] p-1 sm:p-1.5 flex flex-col justify-between items-center text-center cursor-pointer select-none overflow-hidden ${
+        className={`relative bg-[#F3EBD8] border border-[#1B1B1B] p-0.5 sm:p-1.5 flex flex-col justify-between items-center text-center cursor-pointer select-none overflow-hidden ${
           isLandedOn ? 'ring-4 ring-amber-500 z-20' : ''
         }`}
       >
         <div
-          className="font-bold tracking-tight sm:tracking-wider text-neutral-600 uppercase leading-none max-w-full whitespace-nowrap"
-          style={{ fontSize: 'clamp(5px, 1.0cqi, 10px)' }}
+          className="font-bold tracking-tight sm:tracking-wider text-neutral-600 uppercase leading-none max-w-full whitespace-normal text-center sm:whitespace-nowrap"
+          style={{ fontSize: 'clamp(4.2px, 1.0cqi, 10px)' }}
         >
           Rest & Refresh
         </div>
         <div className="flex flex-col items-center my-auto max-w-full">
-          <Coffee className="w-3 h-3 sm:w-5 sm:h-5 text-amber-800 mb-0.5 shrink-0" />
+          <Coffee className="w-2.5 h-2.5 sm:w-5 sm:h-5 text-amber-800 mb-0 sm:mb-0.5 shrink-0" />
           <div
             className="font-black font-display text-amber-950 tracking-tight leading-none whitespace-nowrap max-w-full"
-            style={{ fontSize: 'clamp(7.5px, 1.9cqi, 16px)' }}
+            style={{ fontSize: 'clamp(6px, 1.85cqi, 16px)' }}
           >
             CHAI BREAK
           </div>
         </div>
         <div
           className="font-mono text-neutral-600 leading-none max-w-full whitespace-nowrap"
-          style={{ fontSize: 'clamp(5px, 0.95cqi, 9px)' }}
+          style={{ fontSize: 'clamp(4px, 0.95cqi, 9px)' }}
         >
           Free Parking
         </div>
@@ -216,27 +225,27 @@ export function Tile({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         style={{ gridRow: row, gridColumn: col }}
-        className={`relative bg-[#F3EBD8] border border-[#1B1B1B] p-1 sm:p-1.5 flex flex-col justify-between items-center text-center cursor-pointer select-none overflow-hidden ${
+        className={`relative bg-[#F3EBD8] border border-[#1B1B1B] p-0.5 sm:p-1.5 flex flex-col justify-between items-center text-center cursor-pointer select-none overflow-hidden ${
           isLandedOn ? 'ring-4 ring-amber-500 z-20' : ''
         }`}
       >
         <div
-          className="font-bold tracking-tight sm:tracking-wider text-red-700 uppercase leading-none max-w-full whitespace-nowrap"
-          style={{ fontSize: 'clamp(5px, 1.0cqi, 10px)' }}
+          className="font-bold tracking-tight sm:tracking-wider text-red-700 uppercase leading-none max-w-full whitespace-normal text-center sm:whitespace-nowrap"
+          style={{ fontSize: 'clamp(4.2px, 1.0cqi, 10px)' }}
         >
           Challan / Arrest
         </div>
         <div className="flex flex-col items-center my-auto max-w-full">
-          <ShieldAlert className="w-3 h-3 sm:w-5 sm:h-5 text-red-600 mb-0.5 animate-pulse shrink-0" />
+          <ShieldAlert className="w-2.5 h-2.5 sm:w-5 sm:h-5 text-red-600 mb-0 sm:mb-0.5 animate-pulse shrink-0" />
           <div
             className="font-black font-display text-red-900 tracking-tight leading-none whitespace-nowrap max-w-full"
-            style={{ fontSize: 'clamp(7.5px, 1.9cqi, 16px)' }}
+            style={{ fontSize: 'clamp(6px, 1.85cqi, 16px)' }}
           >
             GO TO JAIL
           </div>
         </div>
         <div className="flex items-center text-red-700 text-xs font-bold shrink-0">
-          <ArrowDownLeft className="w-3 h-3 sm:w-4 sm:h-4 stroke-[3]" />
+          <ArrowDownLeft className="w-2.5 h-2.5 sm:w-4 sm:h-4 stroke-[3]" />
         </div>
         <TokenOverlay players={playersOnTile} />
       </div>
@@ -283,7 +292,7 @@ export function Tile({
       {/* Owner Badge on Tile */}
       {ownerPlayer && (
         <div
-          className="absolute top-1 right-1 z-30 w-4 h-4 rounded-full flex items-center justify-center font-black text-[9px] shadow border border-[#1B1B1B]"
+          className="absolute top-0.5 right-0.5 sm:top-1 sm:right-1 z-30 w-2.5 h-2.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center font-black text-[6px] sm:text-[9px] shadow border border-[#1B1B1B]"
           style={{
             backgroundColor: ownerColor,
             color: PLAYER_COLORS[ownerPlayer.color]?.text || '#ffffff'
@@ -299,31 +308,31 @@ export function Tile({
         <>
           {isProperty ? (
             <div
-              className="w-full h-4 sm:h-5 border-b border-[#1B1B1B] flex items-center justify-center gap-0.5 sm:gap-1 px-1 shadow-inner shrink-0 overflow-hidden"
+              className="w-full h-3 sm:h-5 border-b border-[#1B1B1B] flex items-center justify-center gap-0.5 sm:gap-1 px-0.5 sm:px-1 shadow-inner shrink-0 overflow-hidden"
               style={{ backgroundColor: groupColor }}
             >
               <HouseIcons houses={houses} />
             </div>
           ) : (
-            <div className="h-1 shrink-0" />
+            <div className="h-0.5 sm:h-1 shrink-0" />
           )}
 
           {/* Upright Content */}
-          <div className="flex-1 flex flex-col items-center justify-center px-0.5 text-center py-0.5 overflow-hidden w-full">
+          <div className="flex-1 min-h-0 flex flex-col items-center justify-between sm:justify-center px-[1px] sm:px-0.5 text-center py-[1px] sm:py-0.5 overflow-hidden w-full">
             {getTileSpecialIcon(tile.id, tile.type)}
             <span
-              className="font-display font-semibold text-[#1B1B1B] leading-[1.1] mt-0.5 w-full max-w-[94%] break-words line-clamp-2"
-              style={{ fontSize: 'clamp(11px, 1.4cqi, 14px)' }}
+              className="font-display font-semibold text-[#1B1B1B] leading-[1.05] sm:leading-[1.1] mt-0 sm:mt-0.5 w-full max-w-[96%] sm:max-w-[94%] [overflow-wrap:anywhere] sm:break-words line-clamp-2 min-h-0"
+              style={{ fontSize: 'clamp(4.4px, 1.4cqi, 14px)' }}
             >
               {tile.name}
             </span>
             {tile.cost && (
-              <span className="font-number font-bold text-[#1B1B1B] text-[12px] sm:text-[13px] lg:text-[14px] mt-0.5 shrink-0">
+              <span className="font-number font-bold text-[#1B1B1B] text-[6px] sm:text-[13px] lg:text-[14px] leading-none sm:leading-normal mt-0 sm:mt-0.5 shrink-0">
                 ₹{tile.cost}
               </span>
             )}
             {tile.amount && (
-              <span className="font-number font-bold text-red-700 text-[12px] sm:text-[13px] lg:text-[14px] mt-0.5 shrink-0">
+              <span className="font-number font-bold text-red-700 text-[6px] sm:text-[13px] lg:text-[14px] leading-none sm:leading-normal mt-0 sm:mt-0.5 shrink-0">
                 ₹{tile.amount}
               </span>
             )}
@@ -335,16 +344,16 @@ export function Tile({
       {isTop && (
         <>
           {/* Content (Rotated 180deg facing center) */}
-          <div className="flex-1 flex flex-col items-center justify-center px-0.5 text-center py-0.5 rotate-180 overflow-hidden w-full">
+          <div className="flex-1 min-h-0 flex flex-col items-center justify-between sm:justify-center px-[1px] sm:px-0.5 text-center py-[1px] sm:py-0.5 rotate-180 overflow-hidden w-full">
             {getTileSpecialIcon(tile.id, tile.type)}
             <span
-              className="font-display font-semibold text-[#1B1B1B] leading-[1.1] mt-0.5 w-full max-w-[94%] break-words line-clamp-2"
-              style={{ fontSize: 'clamp(11px, 1.4cqi, 14px)' }}
+              className="font-display font-semibold text-[#1B1B1B] leading-[1.05] sm:leading-[1.1] mt-0 sm:mt-0.5 w-full max-w-[96%] sm:max-w-[94%] [overflow-wrap:anywhere] sm:break-words line-clamp-2 min-h-0"
+              style={{ fontSize: 'clamp(4.4px, 1.4cqi, 14px)' }}
             >
               {tile.name}
             </span>
             {tile.cost && (
-              <span className="font-number font-bold text-[#1B1B1B] text-[12px] sm:text-[13px] lg:text-[14px] mt-0.5 shrink-0">
+              <span className="font-number font-bold text-[#1B1B1B] text-[6px] sm:text-[13px] lg:text-[14px] leading-none sm:leading-normal mt-0 sm:mt-0.5 shrink-0">
                 ₹{tile.cost}
               </span>
             )}
@@ -352,13 +361,13 @@ export function Tile({
 
           {isProperty ? (
             <div
-              className="w-full h-4 sm:h-5 border-t border-[#1B1B1B] flex items-center justify-center gap-0.5 sm:gap-1 px-1 shadow-inner shrink-0 overflow-hidden"
+              className="w-full h-3 sm:h-5 border-t border-[#1B1B1B] flex items-center justify-center gap-0.5 sm:gap-1 px-0.5 sm:px-1 shadow-inner shrink-0 overflow-hidden"
               style={{ backgroundColor: groupColor }}
             >
               <HouseIcons houses={houses} />
             </div>
           ) : (
-            <div className="h-1 shrink-0" />
+            <div className="h-0.5 sm:h-1 shrink-0" />
           )}
         </>
       )}
@@ -366,18 +375,18 @@ export function Tile({
       {/* LEFT COLUMN (Tiles 11-19): Colour band on RIGHT edge (inner edge facing center) */}
       {isLeft && (
         <>
-          {/* Rotated 90deg inner container with constrained width and offset away from color band to prevent collision */}
-          <div className="flex-1 min-w-0 flex items-center justify-center p-0.5 pr-1.5 sm:pr-0.5">
-            <div className="rotate-90 -translate-x-1.5 sm:translate-x-0 w-[85%] max-w-[64px] sm:max-w-[76px] flex flex-col items-center justify-center text-center shrink-0">
+          {/* Rotated 90deg inner container constrained to cell height on mobile and 76px on desktop */}
+          <div className="flex-1 min-w-0 flex items-center justify-center p-0 sm:p-0.5 overflow-hidden">
+            <div className="rotate-90 translate-x-0 w-[6.8cqi] sm:w-[85%] sm:max-w-[76px] flex flex-col items-center justify-center text-center shrink-0">
               {getTileSpecialIcon(tile.id, tile.type)}
               <span
-                className="font-display font-semibold text-[#1B1B1B] leading-tight mt-0.5 max-w-[64px] sm:max-w-[76px] break-words line-clamp-2"
-                style={{ fontSize: 'clamp(9.5px, 1.35cqi, 13.5px)' }}
+                className="font-display font-semibold text-[#1B1B1B] leading-[1.05] sm:leading-tight mt-0 sm:mt-0.5 w-full [overflow-wrap:anywhere] sm:break-words line-clamp-2"
+                style={{ fontSize: 'clamp(4.4px, 1.35cqi, 13.5px)' }}
               >
                 {tile.name}
               </span>
               {tile.cost && (
-                <span className="font-number font-bold text-[#1B1B1B] text-[10px] sm:text-[12px] lg:text-[14px] mt-0.5 shrink-0">
+                <span className="font-number font-bold text-[#1B1B1B] text-[6px] sm:text-[12px] lg:text-[14px] leading-none sm:leading-normal mt-0 sm:mt-0.5 shrink-0">
                   ₹{tile.cost}
                 </span>
               )}
@@ -386,13 +395,13 @@ export function Tile({
 
           {isProperty ? (
             <div
-              className="w-3.5 sm:w-4 lg:w-5 h-full border-l border-[#1B1B1B] flex flex-col items-center justify-center gap-0.5 sm:gap-1 py-1 shadow-inner shrink-0 overflow-hidden"
+              className="w-3 sm:w-4 lg:w-5 h-full border-l border-[#1B1B1B] flex flex-col items-center justify-center gap-0.5 sm:gap-1 py-0.5 sm:py-1 shadow-inner shrink-0 overflow-hidden"
               style={{ backgroundColor: groupColor }}
             >
               <HouseIcons houses={houses} vertical />
             </div>
           ) : (
-            <div className="w-1 shrink-0" />
+            <div className="w-0.5 sm:w-1 shrink-0" />
           )}
         </>
       )}
@@ -402,32 +411,32 @@ export function Tile({
         <>
           {isProperty ? (
             <div
-              className="w-3.5 sm:w-4 lg:w-5 h-full border-r border-[#1B1B1B] flex flex-col items-center justify-center gap-0.5 sm:gap-1 py-1 shadow-inner shrink-0 overflow-hidden"
+              className="w-3 sm:w-4 lg:w-5 h-full border-r border-[#1B1B1B] flex flex-col items-center justify-center gap-0.5 sm:gap-1 py-0.5 sm:py-1 shadow-inner shrink-0 overflow-hidden"
               style={{ backgroundColor: groupColor }}
             >
               <HouseIcons houses={houses} vertical />
             </div>
           ) : (
-            <div className="w-1 shrink-0" />
+            <div className="w-0.5 sm:w-1 shrink-0" />
           )}
 
-          {/* Rotated -90deg inner container with constrained width and offset away from color band to prevent collision */}
-          <div className="flex-1 min-w-0 flex items-center justify-center p-0.5 pl-1.5 sm:pl-0.5">
-            <div className="-rotate-90 translate-x-1.5 sm:translate-x-0 w-[85%] max-w-[64px] sm:max-w-[76px] flex flex-col items-center justify-center text-center shrink-0">
+          {/* Rotated -90deg inner container constrained to cell height on mobile and 76px on desktop */}
+          <div className="flex-1 min-w-0 flex items-center justify-center p-0 sm:p-0.5 overflow-hidden">
+            <div className="-rotate-90 translate-x-0 w-[6.8cqi] sm:w-[85%] sm:max-w-[76px] flex flex-col items-center justify-center text-center shrink-0">
               {getTileSpecialIcon(tile.id, tile.type)}
               <span
-                className="font-display font-semibold text-[#1B1B1B] leading-tight mt-0.5 max-w-[64px] sm:max-w-[76px] break-words line-clamp-2"
-                style={{ fontSize: 'clamp(9.5px, 1.35cqi, 13.5px)' }}
+                className="font-display font-semibold text-[#1B1B1B] leading-[1.05] sm:leading-tight mt-0 sm:mt-0.5 w-full [overflow-wrap:anywhere] sm:break-words line-clamp-2"
+                style={{ fontSize: 'clamp(4.4px, 1.35cqi, 13.5px)' }}
               >
                 {tile.name}
               </span>
               {tile.cost && (
-                <span className="font-number font-bold text-[#1B1B1B] text-[10px] sm:text-[12px] lg:text-[14px] mt-0.5 shrink-0">
+                <span className="font-number font-bold text-[#1B1B1B] text-[6px] sm:text-[12px] lg:text-[14px] leading-none sm:leading-normal mt-0 sm:mt-0.5 shrink-0">
                   ₹{tile.cost}
                 </span>
               )}
               {tile.amount && (
-                <span className="font-number font-bold text-red-700 text-[10px] sm:text-[12px] lg:text-[14px] mt-0.5 shrink-0">
+                <span className="font-number font-bold text-red-700 text-[6px] sm:text-[12px] lg:text-[14px] leading-none sm:leading-normal mt-0 sm:mt-0.5 shrink-0">
                   ₹{tile.amount}
                 </span>
               )}
@@ -449,7 +458,7 @@ export function Tile({
  * south facade (#166534), and ground contact drop shadow.
  */
 export function Haveli3D({
-  className = "w-2 h-2 sm:w-2 sm:h-2 md:w-2.5 md:h-2.5 lg:w-2.5 lg:h-2.5 2xl:w-3.5 2xl:h-3.5 shrink-0 max-w-full max-h-full"
+  className = "w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-2.5 md:h-2.5 lg:w-2.5 lg:h-2.5 2xl:w-3.5 2xl:h-3.5 shrink-0 max-w-full max-h-full"
 }) {
   return (
     <svg
@@ -483,7 +492,7 @@ export function Haveli3D({
  * deep royal crimson walls (#b91c1c), gold lintel trim, and ground contact drop shadow.
  */
 export function HotelGrand3D({
-  className = "w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4.5 lg:h-4.5 shrink-0 max-w-full max-h-full"
+  className = "w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 lg:w-4.5 lg:h-4.5 shrink-0 max-w-full max-h-full"
 }) {
   return (
     <svg
