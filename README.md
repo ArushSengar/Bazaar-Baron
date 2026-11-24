@@ -37,20 +37,26 @@ Select and play two classic tabletop games from a single lobby:
 
 ---
 
-## ⚡ 1-Click Launch (Windows)
+## ⚡ 1-Command Launch (Windows, Linux & macOS)
 
-Simply double-click the included **`start.bat`** file in the root directory:
-
+### 🪟 Windows (1-Click)
+Double-click **`start.bat`** in the root directory (or run in PowerShell/CMD):
 ```bat
 start.bat
 ```
 
-`start.bat` will automatically:
+### 🐧 Linux & macOS (1-Command)
+Make the script executable and run in terminal:
+```bash
+chmod +x start.sh && ./start.sh
+```
+
+Both startup scripts will automatically:
 1. Verify Node.js v20+ is installed.
 2. Automatically install server & client dependencies if missing (`npm install`).
 3. Build the production client bundle (`npm run build`).
-4. Start the server on `http://localhost:3000` and open your default browser.
-5. Display your local Wi-Fi IP and a scannable QR code directly in the terminal so your friends can scan and join from their phones!
+4. Start the server on `http://localhost:3000` and automatically open your default browser.
+5. Display your local Wi-Fi IP and a scannable terminal QR code so your friends can scan and join from their phones!
 
 ---
 
@@ -159,17 +165,29 @@ Upon launch, the server binds to `0.0.0.0:3000` and displays:
 
 ---
 
-## 🛡️ Windows Firewall & LAN Troubleshooting
+## 🛡️ Firewall & LAN Troubleshooting (Windows & Linux)
 
 If mobile devices cannot connect to `http://<YOUR_LAN_IP>:3000`:
 
-1. **Windows Defender Firewall**:
-   - When running Node for the first time, allow access on **Private networks**.
-   - To unblock manually: Open **Windows Defender Firewall** > **Allow an app or feature through Windows Defender Firewall** > Locate `Node.js JavaScript Runtime` > Check **Private**.
-2. **Wi-Fi Network Profile (Crucial)**:
-   - In Windows: Go to **Settings** > **Network & Internet** > **Wi-Fi** > Click your Wi-Fi name > Change **Network Profile Type** to **Private Network**. Windows blocks incoming port connections on "Public" profiles.
-3. **Same Subnet**:
-   - Ensure mobile phones are not on cellular data or guest Wi-Fi networks.
+### 🐧 Linux (UFW / iptables Firewall)
+If devices on your Wi-Fi cannot connect to your Linux host, allow inbound traffic on port 3000:
+```bash
+# Ubuntu / Debian / Mint (UFW)
+sudo ufw allow 3000/tcp
+
+# Fedora / RHEL (firewalld)
+sudo firewall-cmd --add-port=3000/tcp --permanent
+sudo firewall-cmd --reload
+
+# iptables
+sudo iptables -A INPUT -p tcp --dport 3000 -j ACCEPT
+```
+
+### 🪟 Windows Defender Firewall
+1. When running Node for the first time, allow access on **Private networks**.
+2. To unblock manually: Open **Windows Defender Firewall** > **Allow an app or feature through Windows Defender Firewall** > Locate `Node.js JavaScript Runtime` > Check **Private**.
+3. **Wi-Fi Network Profile (Crucial)**: In Windows Settings > Network & Internet > Wi-Fi > Click your Wi-Fi name > Set **Network Profile Type** to **Private Network**. Windows blocks incoming port connections on "Public" profiles.
+4. **Same Subnet**: Ensure mobile phones are connected to the exact same Wi-Fi router (not cellular data or guest Wi-Fi).
 
 ---
 
