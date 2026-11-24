@@ -22,6 +22,55 @@ export const rooms = new Map();
 export const socketMap = new Map();
 // Disconnect timers: playerId -> NodeJS.Timeout
 const disconnectTimers = new Map();
+// 30-Minute Match Timers: roomCode -> NodeJS.Timeout
+export const matchTimers = new Map();
+
+/**
+ * Synchronize match countdown timer for a room on the server.
+ */
+export function syncRoomMatchTimer(room, io) {
+  if (!room || !room.gameState) return;
+  const { code, gameState } = room;
+
+  // If game is over or in lobby, cancel any running timer
+  if (gameState.phase === GAME_PHASES.GAME_OVER || gameState.phase === 'GAME_OVER' || gameState.phase === GAME_PHASES.LOBBY) {
+    if (matchTimers.has(code)) {
+      clearTimeout(matchTimers.get(code));
+      matchTimers.delete(code);
+    }
+    return;
+  }
+
+  // Schedule timer if match has an expiration timestamp
+  if (
+    (gameState.phase === GAME_PHASES.PLAYING || gameState.phase === 'PLAYING') &&
+    gameState.timerExpiresAt
+  ) {
+    if (matchTimers.has(code)) {
+      clearTimeout(matchTimers.get(code));
+      matchTimers.delete(code);
+    }
+
+    const remainingMs = Math.max(0, gameState.timerExpiresAt - Date.now());
+    const timer = setTimeout(() => {
+      matchTimers.delete(code);
+      if (
+        room.gameState &&
+        (room.gameState.phase === GAME_PHASES.PLAYING || room.gameState.phase === 'PLAYING')
+      ) {
+        const gameDef = getGame(room.gameState.gameType);
+        const nextState = gameDef.reducer(room.gameState, { type: 'TIMER_EXPIRED' });
+        room.gameState = nextState;
+        saveRoomState(room);
+        if (io) {
+          io.to(code).emit('game_state_updated', room.gameState);
+        }
+      }
+    }, remainingMs);
+
+    matchTimers.set(code, timer);
+  }
+}
 
 // Backwards-compatible bot turn re-exports
 export const runUnoBotTurnsIfNeeded = runUnoBotTurns;
@@ -277,6 +326,9 @@ export function handlePlayerIntent(socket, intent, io) {
   room.gameState = nextState;
 
   saveRoomState(room);
+
+  // Sync / Schedule Match Timer if game started or finished
+  syncRoomMatchTimer(room, io);
 
   // Broadcast new state to all clients in the room
   io.to(room.code).emit('game_state_updated', room.gameState);

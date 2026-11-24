@@ -41,6 +41,77 @@ export function getActivePlayer(state) {
 }
 
 /**
+ * Calculate total wealth (Net Worth) for a player:
+ * Cash + Properties Value (unmortgaged cost or mortgage value if mortgaged) + Buildings Value (houses & hotels)
+ */
+export function calculatePlayerWealth(state, player, board = boardData) {
+  if (!player) return { cash: 0, propertiesValue: 0, buildingsValue: 0, totalWealth: 0 };
+  const cash = Math.max(0, player.cash || 0);
+  let propertiesValue = 0;
+  let buildingsValue = 0;
+
+  if (state.properties && Array.isArray(board)) {
+    for (const [tileIdStr, prop] of Object.entries(state.properties)) {
+      if (prop && prop.ownerId === player.id) {
+        const tileId = Number(tileIdStr);
+        const tile = board[tileId] || board.find(t => t.id === tileId);
+        if (tile) {
+          if (prop.mortgaged) {
+            propertiesValue += tile.mortgageValue || Math.floor((tile.cost || 0) / 2);
+          } else {
+            propertiesValue += tile.cost || 0;
+          }
+          const houses = prop.houses || 0;
+          const houseCost = tile.houseCost || 0;
+          if (houses > 0 && houseCost > 0) {
+            buildingsValue += houses * houseCost; // For hotel (5 houses), 5 * houseCost
+          }
+        }
+      }
+    }
+  }
+
+  const totalWealth = cash + propertiesValue + buildingsValue;
+  return {
+    cash,
+    propertiesValue,
+    buildingsValue,
+    totalWealth
+  };
+}
+
+/**
+ * Determine standings and winner based on wealth (used for 30-min timer or game over).
+ */
+export function determineTimedMatchWinner(state, board = boardData) {
+  const standings = state.players.map(p => {
+    const wealth = calculatePlayerWealth(state, p, board);
+    return {
+      playerId: p.id,
+      name: p.name,
+      color: p.color,
+      avatar: p.avatar,
+      bankrupt: Boolean(p.bankrupt),
+      ...wealth
+    };
+  });
+
+  // Sort: active non-bankrupt players first, then highest totalWealth, then highest cash
+  standings.sort((a, b) => {
+    if (a.bankrupt !== b.bankrupt) {
+      return a.bankrupt ? 1 : -1;
+    }
+    if (b.totalWealth !== a.totalWealth) {
+      return b.totalWealth - a.totalWealth;
+    }
+    return b.cash - a.cash;
+  });
+
+  const winner = standings.length > 0 ? standings[0] : null;
+  return { winner, standings };
+}
+
+/**
  * Advance turn to the next non-bankrupt player.
  */
 function advanceToNextPlayer(state) {
@@ -48,6 +119,9 @@ function advanceToNextPlayer(state) {
   if (activePlayers.length <= 1) {
     state.phase = GAME_PHASES.GAME_OVER;
     state.winnerId = activePlayers[0]?.id || null;
+    state.gameEndReason = 'BANKRUPTCY';
+    const { standings } = determineTimedMatchWinner(state, boardData);
+    state.finalStandings = standings;
     addLog(state, `🎉 Game over! ${activePlayers[0]?.name || 'Winner'} is the Bazaar Baron!`, 'winner');
     return;
   }
@@ -289,7 +363,45 @@ export function gameReducer(rawState, intent, board = boardData) {
   if (!rawState || !intent) return rawState;
   const state = clone(rawState);
 
+  // Automatic 30-Minute Match Timer Expiration Check
+  if (
+    state.phase === GAME_PHASES.PLAYING &&
+    state.timerExpiresAt &&
+    ((intent.now || Date.now()) >= state.timerExpiresAt || intent.type === 'TIMER_EXPIRED')
+  ) {
+    state.phase = GAME_PHASES.GAME_OVER;
+    state.gameEndReason = 'TIME_LIMIT';
+    const { winner, standings } = determineTimedMatchWinner(state, board);
+    state.winnerId = winner?.playerId || null;
+    state.finalStandings = standings;
+    if (winner) {
+      addLog(
+        state,
+        `⏱️ 30-Minute match time limit reached! 🏆 ${winner.name} won by highest Total Wealth (₹${winner.totalWealth} Net Worth)!`,
+        'winner'
+      );
+    }
+    return state;
+  }
+
   switch (intent.type) {
+    case 'TIMER_EXPIRED': {
+      if (state.phase !== GAME_PHASES.PLAYING) return state;
+      state.phase = GAME_PHASES.GAME_OVER;
+      state.gameEndReason = 'TIME_LIMIT';
+      const { winner, standings } = determineTimedMatchWinner(state, board);
+      state.winnerId = winner?.playerId || null;
+      state.finalStandings = standings;
+      if (winner) {
+        addLog(
+          state,
+          `⏱️ 30-Minute match time limit reached! 🏆 ${winner.name} won by highest Total Wealth (₹${winner.totalWealth} Net Worth)!`,
+          'winner'
+        );
+      }
+      return state;
+    }
+
     case 'START_GAME': {
       if (state.phase !== GAME_PHASES.LOBBY) {
         return state;
@@ -302,12 +414,20 @@ export function gameReducer(rawState, intent, board = boardData) {
         return state;
       }
 
+      const matchDurationMinutes = intent.matchDurationMinutes || state.matchDurationMinutes || 30;
+      const startTime = intent.now || Date.now();
+
       state.phase = GAME_PHASES.PLAYING;
       state.step = TURN_STEPS.INITIAL;
       state.turnIndex = 0;
       state.playerOrder = state.players.map(p => p.id);
+      state.matchDurationMinutes = matchDurationMinutes;
+      state.gameStartedAt = startTime;
+      state.timerExpiresAt = startTime + (matchDurationMinutes * 60 * 1000);
+      state.gameEndReason = null;
+      state.finalStandings = null;
 
-      addLog(state, `🎲 The bazaar is open! Starting player: ${state.players[0].name}.`, 'action');
+      addLog(state, `🎲 The bazaar is open! Starting player: ${state.players[0].name}. (30-Minute Match Timer Started)`, 'action');
       return state;
     }
 
@@ -714,6 +834,9 @@ export function gameReducer(rawState, intent, board = boardData) {
       if (activePlayers.length <= 1) {
         state.phase = GAME_PHASES.GAME_OVER;
         state.winnerId = activePlayers[0]?.id || null;
+        state.gameEndReason = 'BANKRUPTCY';
+        const { standings } = determineTimedMatchWinner(state, board);
+        state.finalStandings = standings;
         addLog(state, `🏆 ${activePlayers[0]?.name || 'Winner'} is the sole survivor and won the game!`, 'winner');
         return state;
       }

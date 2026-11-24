@@ -199,6 +199,11 @@ chmod +x start.sh
 - **Authentic Indian Locality Theme**:
   - 40 perimeter tiles featuring iconic real-world localities across Delhi, Mumbai, Kolkata, Bengaluru, Pune, Hyderabad, and Chennai.
   - Original Chance & Community card decks (*Kismat* & *Bazaar Welfare Fund*) loaded with witty, culturally resonant events.
+- **30-Minute Match Timer & Wealth Victory (Anti-Stalemate)**:
+  - Live header countdown timer (`⏱️ MM:SS`) with visual amber warnings (< 5 min) and pulsing red alerts (< 1 min).
+  - Eliminates infinite property gridlocks: when the 30-minute timer expires, the match concludes automatically.
+  - Winner is crowned by **Total Wealth (Net Worth)**: Treasury Cash + Unmortgaged Property Values + Mortgaged Property Values + Haveli/Hotel Construction Costs.
+  - Transparent post-game Winner Modal with itemized wealth breakdown (Cash, Properties, Buildings) for every player.
 - **Munimji AI Financial Advisor**:
   - Real-time in-game advisor analyzing monopoly set completion, cash reserves, and recommended trades.
 - **Non-Blocking, Glitch-Free Modals**:
@@ -316,15 +321,16 @@ node --test server/test/e2e/runner.test.js
 ✔ Snakes & Ladders Pure Engine Tests (Ladders, snakes, extra roll on 6, exact 100 win condition)
 ✔ UNO Deck & Rules: Standard 108 cards, canPlay validation, Skip, Reverse, Draw 2, Wilds, Call UNO
 ✔ Headless Simulation: 200 random turns with 4 simulated players adheres to all invariant rules
+✔ 30-Minute Match Timer & Wealth Victory Suite (5 / 5 tests pass)
 ✔ E2E Tier 1 (Feature Coverage): 55 / 55 tests pass
 ✔ E2E Tier 2 (Boundary & Corner Cases): 55 / 55 tests pass
 ✔ E2E Tier 3 (Pairwise Cross-Feature Combinations): 11 / 11 tests pass
 ✔ E2E Tier 4 (Comprehensive Application Scenarios): 6 / 6 full match playflows pass
 ✔ E2E Tier 5 (Adversarial Coverage Hardening): 57 / 57 adversarial stress tests pass
 
-ℹ tests 261
-ℹ suites 52
-ℹ pass 261
+ℹ tests 266
+ℹ suites 53
+ℹ pass 266
 ℹ fail 0
 ```
 

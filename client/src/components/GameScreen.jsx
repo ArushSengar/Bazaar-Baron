@@ -28,7 +28,8 @@ import {
   VolumeX,
   Sparkles,
   Layers,
-  HelpCircle
+  HelpCircle,
+  Clock
 } from 'lucide-react';
 import { sounds } from '../utils/audio';
 import { AudioControls } from './AudioControls';
@@ -48,6 +49,27 @@ export function GameScreen({
   const [isMuted, setIsMuted] = useState(() => sounds.isMuted());
   const [showTurnBanner, setShowTurnBanner] = useState(false);
   const [mobileTab, setMobileTab] = useState('board'); // 'board' | 'panel'
+
+  // 30-Minute Match Timer countdown
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    if (gameState?.phase !== 'PLAYING') return;
+    const interval = setInterval(() => {
+      setNow(Date.now());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [gameState?.phase]);
+
+  const timerExpiresAt = gameState?.timerExpiresAt || (gameState?.gameStartedAt ? gameState.gameStartedAt + 30 * 60 * 1000 : null);
+  const remainingMs = timerExpiresAt ? Math.max(0, timerExpiresAt - now) : null;
+
+  const formatTimer = (ms) => {
+    if (ms === null || isNaN(ms)) return '30:00';
+    const totalSecs = Math.floor(ms / 1000);
+    const mins = Math.floor(totalSecs / 60);
+    const secs = totalSecs % 60;
+    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  };
 
   const activePlayerId = gameState?.playerOrder?.[gameState?.turnIndex];
   const activePlayer = gameState?.players?.find(p => p.id === activePlayerId);
@@ -245,6 +267,28 @@ export function GameScreen({
             </div>
           </div>
         </div>
+
+        {/* 30-Minute Match Countdown Timer */}
+        {remainingMs !== null && (
+          <div
+            title="30-Minute Match Time Limit: When timer runs out, the player with the highest Total Wealth (Cash + Properties + Buildings) wins!"
+            className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl border text-xs sm:text-sm font-number font-black shadow-inner transition-all ${
+              remainingMs <= 60000
+                ? 'bg-red-950/80 border-red-500/70 text-red-300 animate-pulse shadow-red-500/20'
+                : remainingMs <= 300000
+                ? 'bg-amber-950/70 border-amber-500/60 text-amber-300 shadow-amber-500/10'
+                : 'bg-neutral-800/80 border-neutral-700/60 text-neutral-200'
+            }`}
+          >
+            <Clock className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${remainingMs <= 60000 ? 'text-red-400 animate-spin' : remainingMs <= 300000 ? 'text-amber-400' : 'text-neutral-400'}`} />
+            <span>⏱️ {formatTimer(remainingMs)}</span>
+            {remainingMs <= 300000 && (
+              <span className="hidden md:inline text-[10px] font-bold uppercase tracking-wider text-amber-400">
+                {remainingMs <= 60000 ? 'Final Minute!' : 'Wealth Decider'}
+              </span>
+            )}
+          </div>
+        )}
 
         <div className="flex items-center gap-1.5 sm:gap-2">
           {/* Universal Audio Controls */}

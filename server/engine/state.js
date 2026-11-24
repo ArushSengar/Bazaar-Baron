@@ -75,6 +75,11 @@ export function createInitialGameState(roomCode, hostPlayer) {
     drawnCard: null,
     debt: null, // { creditorId: string | 'BANK', amount: number, tileId?: number }
     winnerId: null,
+    matchDurationMinutes: 30,
+    gameStartedAt: null,
+    timerExpiresAt: null,
+    gameEndReason: null,
+    finalStandings: null,
     chanceDeck,
     communityDeck,
     logs: [
