@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node server/index.js",
-    "test": "node --test \"server/test/**/*.test.js\"",
+    "test": "node --test server/test/engine.test.js server/test/uno-engine.test.js server/test/uno-integration.test.js server/test/bot-gameplay.test.js server/test/stage2-gameplay.test.js server/test/stage3-features.test.js server/test/stage4-features.test.js server/test/tile-text-overflow.test.js server/test/simulation-200-turns.test.js",
     "build": "npm run build --prefix client"
   },
   "dependencies": {

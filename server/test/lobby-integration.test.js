@@ -48,16 +48,20 @@ describe('Stage 1 Integration: Server + Lobby Real-time Flow', () => {
     });
   });
 
-  after(async () => {
-    if (client1) client1.close();
-    if (client2) client2.close();
+  after((_, done) => {
+    if (client1) client1.disconnect();
+    if (client2) client2.disconnect();
     if (io) {
       io.disconnectSockets(true);
-      await new Promise((r) => io.close(r));
+      io.close();
     }
     if (server) {
-      if (server.closeAllConnections) server.closeAllConnections();
-      await new Promise((r) => server.close(r));
+      server.close(() => {
+        done();
+      });
+      server.unref();
+    } else {
+      done();
     }
   });
 

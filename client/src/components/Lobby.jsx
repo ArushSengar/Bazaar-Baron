@@ -30,6 +30,7 @@ export function Lobby({
   connected
 }) {
   const [mode, setMode] = useState('create'); // 'create' | 'join'
+  const [selectedGameType, setSelectedGameType] = useState('monopoly'); // 'monopoly' | 'uno'
   const [name, setName] = useState('');
   const [inputCode, setInputCode] = useState('');
   const [selectedColor, setSelectedColor] = useState('red');
@@ -49,13 +50,14 @@ export function Lobby({
   const handleCreate = (e) => {
     e.preventDefault();
     if (!name.trim()) {
-      setError('Please enter your merchant name.');
+      setError('Please enter your player name.');
       return;
     }
     createRoom({
       name: name.trim(),
       color: selectedColor,
-      avatar: selectedAvatar
+      avatar: selectedAvatar,
+      gameType: selectedGameType
     });
   };
 
@@ -79,8 +81,10 @@ export function Lobby({
 
   // If already in a room, render the Room Lobby
   if (isInRoom) {
+    const isUno = gameState.gameType === 'uno';
     const players = gameState.players || [];
-    const canStart = players.length >= 2 && players.length <= 6;
+    const maxPlayers = isUno ? 10 : 6;
+    const canStart = players.length >= 2 && players.length <= maxPlayers;
     const takenColors = new Set(players.map(p => p.color));
 
     return (
@@ -92,9 +96,12 @@ export function Lobby({
               <div className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-amber-400">
                 <Wifi className={`w-3.5 h-3.5 ${connected ? 'text-emerald-400 animate-pulse' : 'text-red-400'}`} />
                 {connected ? 'LAN Room Active' : 'Connecting to Server...'}
+                <span className="text-[10px] bg-neutral-800 text-neutral-300 px-2 py-0.5 rounded-full border border-neutral-700">
+                  {isUno ? '🃏 Bazaar UNO' : '🕌 Bazaar Baron'}
+                </span>
               </div>
               <h1 className="text-2xl md:text-3xl font-extrabold text-amber-100 tracking-tight mt-0.5 font-display">
-                Bazaar Baron Lobby
+                {isUno ? 'Bazaar UNO Lobby' : 'Bazaar Baron Lobby'}
               </h1>
             </div>
 
@@ -436,6 +443,51 @@ export function Lobby({
 
       {/* Form */}
       <form onSubmit={mode === 'create' ? handleCreate : handleJoin} className="bg-neutral-900/90 border border-neutral-800 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
+        {mode === 'create' && (
+          <div>
+            <label className="block text-xs font-bold text-neutral-300 uppercase tracking-wider mb-2">
+              Choose Game:
+            </label>
+            <div className="grid grid-cols-2 gap-2.5">
+              <button
+                type="button"
+                onClick={() => setSelectedGameType('monopoly')}
+                className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col gap-1 ${
+                  selectedGameType === 'monopoly'
+                    ? 'bg-amber-500/20 border-amber-400 ring-2 ring-amber-400/50 shadow-md'
+                    : 'bg-neutral-950/60 border-neutral-800 opacity-60 hover:opacity-100'
+                }`}
+              >
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xl">🕌</span>
+                  <span className="font-display font-black text-sm text-neutral-100">Bazaar Baron</span>
+                </div>
+                <span className="text-[11px] text-neutral-400 leading-tight">
+                  Monopoly board game with Indian localities & trading
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelectedGameType('uno')}
+                className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col gap-1 ${
+                  selectedGameType === 'uno'
+                    ? 'bg-red-500/20 border-red-400 ring-2 ring-red-400/50 shadow-md'
+                    : 'bg-neutral-950/60 border-neutral-800 opacity-60 hover:opacity-100'
+                }`}
+              >
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xl">🃏</span>
+                  <span className="font-display font-black text-sm text-neutral-100">Bazaar UNO</span>
+                </div>
+                <span className="text-[11px] text-neutral-400 leading-tight">
+                  Classic 108-card UNO with Skip, Reverse, +2, +4 & UNO!
+                </span>
+              </button>
+            </div>
+          </div>
+        )}
+
         {mode === 'join' && (
           <div>
             <label className="block text-xs font-bold text-neutral-300 uppercase tracking-wider mb-1.5">

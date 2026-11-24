@@ -77,12 +77,12 @@ export function useGame() {
   }, []);
 
   // Create Room
-  const createRoom = useCallback(({ name, color }) => {
+  const createRoom = useCallback(({ name, color, avatar, gameType }) => {
     if (!socket) return;
     setLoading(true);
     setError('');
 
-    socket.emit('create_room', { name, color }, (res) => {
+    socket.emit('create_room', { name, color, avatar, gameType }, (res) => {
       setLoading(false);
       if (res?.success) {
         setRoomCode(res.roomCode);

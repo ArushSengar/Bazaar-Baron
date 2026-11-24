@@ -1,15 +1,17 @@
-# 🕌 Bazaar Baron — LAN Tabletop Board Game
+# 🎮 Bazaar Arcade — LAN Multiplayer Game Hub (Monopoly + UNO)
 
 [![Node.js](https://img.shields.io/badge/Node.js-20+-68a063.svg?style=flat-square&logo=node.js)](https://nodejs.org/)
 [![React](https://img.shields.io/badge/React-19-61dafb.svg?style=flat-square&logo=react)](https://react.dev/)
 [![Socket.IO](https://img.shields.io/badge/Socket.IO-4.8-010101.svg?style=flat-square&logo=socket.io)](https://socket.io/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4-38bdf8.svg?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
-[![Tests](https://img.shields.io/badge/Tests-41%20Passed-brightgreen.svg?style=flat-square)](https://nodejs.org/api/test.html)
+[![Tests](https://img.shields.io/badge/Tests-46%20Passed-brightgreen.svg?style=flat-square)](https://nodejs.org/api/test.html)
 [![License](https://img.shields.io/badge/License-MIT-amber.svg?style=flat-square)]()
 
-**Bazaar Baron** is a rich, Monopoly-style multiplayer property trading board game engineered for 2–6 players across a Local Area Network (LAN / Wi-Fi). One host machine runs a unified Node.js server; all other players connect seamlessly from any mobile phone, tablet, or PC browser on the same Wi-Fi. 
+**Bazaar Arcade** is an offline multiplayer LAN tabletop game platform engineered for 2–10 players across local Wi-Fi. One host machine runs a unified Node.js server (`port 3000`); all friends and family connect instantly from any mobile phone, tablet, or PC browser without needing internet or app installs.
 
-Zero internet connection needed. No accounts, no ads, no trackers — pure tabletop camaraderie.
+Select and play two classic tabletop games from a single lobby:
+1. 🕌 **Bazaar Baron**: Monopoly-style property trading game set across iconic Indian cities.
+2. 🃏 **Bazaar UNO**: Full-featured 108-card classic UNO with Skip, Reverse, +2, +4, Wild color picker, and real-time "Call UNO!" callout mechanics.
 
 ---
 
@@ -52,35 +54,45 @@ start.bat
 
 ---
 
-## ✨ Highlights & Key Features
+## 🃏 Game 1: Bazaar UNO Features
+
+- **Official 108-Card Deck**:
+  - 76 Number cards (0-9 across Red, Blue, Green, Yellow).
+  - 24 Action cards (Skip, Reverse, Draw Two +2 across 4 colors).
+  - 8 Wild cards (4 Multi-color Wild, 4 Wild Draw Four +4).
+- **Interactive Tabletop Card Table**:
+  - Draw pile with card back 3D stack and live card counts.
+  - Glowing active color ring indicator (Red, Blue, Green, Yellow).
+  - Direction indicator showing Clockwise (↻) or Counter-Clockwise (↺) rotation.
+- **"CALL UNO!" Mechanics & Penalty Catching**:
+  - Prominent pulsing **CALL UNO!** button when holding 1 or 2 cards.
+  - If a player holds 1 card without calling UNO, any opponent can hit **Catch! 🚨** to inflict a 2-card penalty!
+- **AI Bot Opponents**:
+  - Host can invite AI friends (*Priya AI*, *Rani AI*, *Kabir AI*) with realistic ~900ms human pacing, strategic color choices, and automatic UNO calls.
+- **Round Scoring**:
+  - Hand points scored by the winner at round end. First to target score (250 pts) wins the championship.
+
+---
+
+## 🕌 Game 2: Bazaar Baron (Monopoly) Features
 
 - **Classic Tabletop Aesthetic**:
   - Warm, rich wooden background texture with an authentic cream quad-fold cardboard board (`#F3EBD8`).
   - True tabletop orientation: Left and right perimeter tiles rotate text 90°, top row tiles rotate 180° — no clipped or overlapping text.
   - Inner color bands on all 22 properties with WCAG AAA compliant text contrast.
-  - Distinct SVG pawn tokens (🎩 Top Hat, 🚗 Vintage Car, 🐕 Terrier Dog, 🚢 Steamship, 👢 Leather Boot, 🧵 Brass Thimble) mapped to player colors.
+  - Distinct SVG pawn tokens (🎩 Top Hat, 🚗 Vintage Car, 🐕 Terrier Dog, 🚢 Steamship, 👢 Leather Boot, 🧵 Brass Thimble).
 - **Authentic Indian Locality Theme**:
   - 40 perimeter tiles featuring iconic real-world localities across Delhi, Mumbai, Kolkata, Bengaluru, Pune, Hyderabad, and Chennai.
   - Original Chance & Community card decks (*Kismat* & *Bazaar Welfare Fund*) loaded with witty, culturally resonant events.
-- **Intelligent AI Bots & Female/Male Merchant Avatars**:
-  - Host can invite intelligent AI Bot players (*Priya (AI)*, *Rani (AI)*, *Kabir (AI)*, etc.) to join any room so games never stall waiting for players.
-  - Complete AI autonomy: dice rolling, strategic property acquisitions, proportional auction bidding, and debt management with human-like 900ms pacing.
-  - Diverse merchant avatars (👩‍💼 Priya, 👸 Rani, 🧕 Meera, 👱‍♀️ Ananya, 👳 Aarav, 🧔 Kabir, etc.).
 - **Munimji AI Financial Advisor**:
-  - Real-time in-game financial advisor analyzing monopoly set completion progress, cash reserves, high-risk unowned tiles, and recommended actions.
+  - Real-time in-game advisor analyzing monopoly set completion, cash reserves, and recommended trades.
 - **Non-Blocking, Glitch-Free Modals**:
-  - Quick property purchase card docked directly inside the side panel — never obscures the board.
-  - Minimizable, non-blocking **Debt Insolvency** & **Auction** banners: players in debt can freely minimize notices, inspect their properties, mortgage assets, or sell houses to raise cash without screen freezes.
-  - Full keyboard shortcuts (`Esc` toggles and dismisses modals).
-- **Procedural Web Audio Engine**:
-  - Zero external MP3/WAV dependencies. Pure HTML5 Web Audio API synthesizer generates retro dice rattles, crisp buy cash registers, property bells, and error thuds with instant mute toggle.
-- **Universal Responsive Design**:
-  - **Desktop (1920×1080 / 1366×768)**: Centered board with wide 490px side panel showing **🗺️ Bazaar Map**, **📜 My Deeds**, and **📢 Live Chronicles**.
-  - **Mobile Phone (390×844)**: Perfect square board with touch-friendly sticky action bar, 44px+ tap targets, and smooth scrollable bottom sheet.
+  - Quick property purchase card docked directly inside the side panel.
+  - Minimizable, non-blocking **Debt Insolvency** & **Auction** banners: players in debt can freely minimize notices, inspect their properties, mortgage assets, or sell houses without screen freezes.
 
 ---
 
-## 🗺️ Indian Locality Board Mapping
+## 🗺️ Indian Locality Board Mapping (Bazaar Baron)
 
 | Color Group | Hex Code | Locality / Landmark | City | Base Cost |
 | :--- | :--- | :--- | :--- | :--- |
@@ -113,11 +125,11 @@ cd ..
 ```
 
 ### 2. Verify with Automated Test Suite
-Run the built-in Node.js test runner covering pure reducer rules, doubles/jail mechanics, bank limits, auctions, trading, and AI bot gameplay:
+Run the built-in Node.js test runner covering pure reducer rules, doubles/jail mechanics, bank limits, auctions, trading, AI bots, and UNO engine:
 ```powershell
 npm test
 ```
-*(All 41 tests across 17 suites will execute and pass in ~300ms)*
+*(All 46 tests across 16 suites execute and pass in ~400ms)*
 
 ### 3. Start the Server
 ```powershell
@@ -135,54 +147,15 @@ Upon launch, the server binds to `0.0.0.0:3000` and displays:
 
 1. **Host Setup**:
    - Double-click `start.bat` (or run `npm start`) on the host PC.
-   - Choose your name, select an avatar & pawn color, then click **Create Room**. A 4-letter room code (e.g. `KISM`) is displayed.
+   - Choose your name, select an avatar, and pick your game: **🕌 Bazaar Baron** or **🃏 Bazaar UNO**.
+   - Click **Create Room**. A 4-letter room code (e.g. `KISM`) is displayed.
 2. **Friends Join**:
    - Connect all phones, tablets, or laptops to the **same Wi-Fi network**.
    - Point phone camera at the terminal QR code or navigate to `http://<HOST_LAN_IP>:3000`.
-   - Click **Join Room**, enter your name, the 4-letter room code, and pick an available pawn color.
-   - *(Optional)*: If you want extra players, the host can click **+ Add AI Friend (Bot)** to invite *Priya (AI)*, *Rani (AI)*, or *Kabir (AI)*.
-3. **Commence Trade**:
+   - Click **Join Room**, enter your name, and enter the 4-letter room code.
+   - *(Optional)*: Host can click **+ Add AI Friend (Bot)** to invite *Priya (AI)*, *Rani (AI)*, or *Kabir (AI)*.
+3. **Commence Game**:
    - Host clicks **Start Game**. All connected screens transition immediately into the live game.
-
----
-
-## 🏛️ Architecture & Rule Engine
-
-```
-                             ┌────────────────────────┐
-                             │   Single Source of     │
-                             │   Truth (Node.js)      │
-                             │  server/rooms.js       │
-                             └───────────┬────────────┘
-                                         │
-                         Pure Intent     │   State Broadcast
-                         (ROLL, BUY)     │   (game_state_updated)
-                                         ▼
-                             ┌────────────────────────┐
-                             │  gameReducer(state,    │
-                             │              intent)   │
-                             │  server/engine/        │
-                             └───────────┬────────────┘
-                                         │
-             ┌───────────────────────────┴───────────────────────────┐
-             ▼                                                       ▼
-┌─────────────────────────┐                             ┌─────────────────────────┐
-│  Host Desktop Browser   │                             │  Mobile Phone Browsers  │
-│  (React 19 + Tailwind)  │                             │  (React 19 + Tailwind)  │
-└─────────────────────────┘                             └─────────────────────────┘
-```
-
-1. **Strict Server-Authoritative Architecture**:
-   - Clients never compute dice rolls, movement, rent, or player balances.
-   - Clients only emit validated user intents (`ROLL_DICE`, `BUY_PROPERTY`, `DECLINE_BUY`, `AUCTION_BID`, `BUILD_HOUSE`, `MORTGAGE`, `PROPOSE_TRADE`, `END_TURN`).
-   - The pure function `gameReducer(state, intent) -> nextState` validates and executes all game rules.
-2. **Resilient Auto-Save & Recovery**:
-   - Every action automatically flushes game state to `server/data/save.json`.
-   - If the host machine restarts or crashes, the game state resumes smoothly without losing player progress.
-3. **Session Persistence & Disconnect Timeout**:
-   - Client tokens persist in browser `localStorage`.
-   - If a mobile phone reloads or disconnects, it reconnects automatically.
-   - If a player disconnects on their turn, a 60-second timer protects the game, auto-skipping their turn if they do not return.
 
 ---
 
@@ -197,66 +170,6 @@ If mobile devices cannot connect to `http://<YOUR_LAN_IP>:3000`:
    - In Windows: Go to **Settings** > **Network & Internet** > **Wi-Fi** > Click your Wi-Fi name > Change **Network Profile Type** to **Private Network**. Windows blocks incoming port connections on "Public" profiles.
 3. **Same Subnet**:
    - Ensure mobile phones are not on cellular data or guest Wi-Fi networks.
-
----
-
-## 📂 Project Directory Structure
-
-```
-Monopoly/
-├── start.bat                       # 1-Click launcher for Windows
-├── docs/
-│   └── images/
-│       ├── desktop-gameplay.png    # 1080p full tabletop board screenshot
-│       ├── laptop-gameplay.png     # 1366x768 laptop view screenshot
-│       └── mobile-gameplay.png     # 390x844 mobile phone screenshot
-├── server/
-│   ├── data/
-│   │   ├── board.json              # 40 tiles, prices, rent tiers, house costs
-│   │   └── cards.json              # Original Kismat & Bazaar Welfare cards
-│   ├── engine/
-│   │   ├── constants.js            # Rules, colors, groups, phases, steps
-│   │   ├── rules.js                # Pure validation for builds, mortgages, rent
-│   │   ├── state.js                # Initial state generator
-│   │   └── reducer.js              # Pure state reducer (single source of truth)
-│   ├── rooms.js                    # Rooms, disconnect timers, AI bot runner
-│   ├── index.js                    # Express + Socket.IO + LAN detector + QR code
-│   └── test/
-│       ├── engine.test.js          # Unit tests: rent, doubles/jail, mortgages
-│       ├── bot-gameplay.test.js    # AI bot actions & integration tests
-│       ├── lobby-integration.test.js # Stage 1 Socket.IO lifecycle
-│       ├── stage2-gameplay.test.js # Movement, buy, rent, Go salary
-│       ├── stage3-features.test.js # Houses, hotels, jail bail, cards
-│       ├── stage4-features.test.js # Auctions, trade builder, bankruptcy
-│       ├── tile-text-overflow.test.js # Text wrapping & WCAG AAA contrast
-│       └── simulation-200-turns.test.js # 200-turn headless invariant stress test
-├── client/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── Board.jsx           # 11x11 Tabletop cardboard grid & dice tray
-│   │   │   ├── Tile.jsx            # 40 perimeter tiles with rotation & badges
-│   │   │   ├── SidePanel.jsx       # Treasury, Munimji advisor, Map, Deeds
-│   │   │   ├── BuyActionCard.jsx   # Non-blocking docked property card
-│   │   │   ├── BankruptcyModal.jsx # Minimizable debt & insolvency manager
-│   │   │   ├── AuctionModal.jsx    # Live property auction bidding ring
-│   │   │   ├── TradeModal.jsx      # Two-column player trade builder
-│   │   │   ├── PropertyDeedModal.jsx # Full Title Deed inspector & upgrade hub
-│   │   │   ├── CardModal.jsx       # Animated Chance/Community cards
-│   │   │   ├── WinnerModal.jsx     # Victory ceremony & final rankings
-│   │   │   ├── Dice.jsx            # 3D tumbling CSS dice animation
-│   │   │   ├── PawnIcon.jsx        # SVG pawn icons (hat, car, dog, etc.)
-│   │   │   └── Lobby.jsx           # Room creation, bot invite, avatar picker
-│   │   ├── hooks/
-│   │   │   └── useGame.js          # Socket.IO client hook & token manager
-│   │   ├── utils/
-│   │   │   └── audio.js            # Procedural HTML5 Web Audio synthesizer
-│   │   └── index.css               # Tailwind CSS & tabletop wood texture
-│   ├── vite.config.js
-│   └── package.json
-├── package.json
-├── .gitignore
-└── README.md
-```
 
 ---
 

@@ -4,6 +4,9 @@ import { fileURLToPath } from 'node:url';
 import { createInitialGameState } from './engine/state.js';
 import { gameReducer, getActivePlayer } from './engine/reducer.js';
 import { GAME_PHASES, PLAYER_COLORS, TURN_STEPS } from './engine/constants.js';
+import { createInitialUnoState, unoReducer } from './engine/uno/reducer.js';
+import { canPlayUnoCard } from './engine/uno/rules.js';
+import { UNO_PHASES, UNO_COLORS } from './engine/uno/constants.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -97,20 +100,26 @@ function getAvailableColor(gameState, requestedColor) {
 /**
  * Create a new room.
  */
-export function createRoom(socket, { name, color, avatar }) {
+export function createRoom(socket, { name, color, avatar, gameType }) {
   const roomCode = generateRoomCode();
   const playerId = `p_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
   const playerToken = `tok_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 
+  const isUno = gameType === 'uno';
   const hostPlayer = {
     id: playerId,
     token: playerToken,
     name: (name || 'Host').trim().substring(0, 16),
     color: color || PLAYER_COLORS[0].id,
-    avatar: avatar || '👳'
+    avatar: avatar || '👳',
+    score: 0,
+    cards: [],
+    calledUno: false
   };
 
-  const gameState = createInitialGameState(roomCode, hostPlayer);
+  const gameState = isUno
+    ? createInitialUnoState(roomCode, hostPlayer)
+    : createInitialGameState(roomCode, hostPlayer);
   const playerSockets = new Map();
   playerSockets.set(playerId, socket.id);
 
@@ -189,8 +198,9 @@ export function joinRoom(socket, { roomCode, name, color, avatar, playerToken })
     return { success: false, error: 'Game is already in progress in this room.' };
   }
 
-  if (room.gameState.players.length >= 6) {
-    return { success: false, error: 'Room is full (maximum 6 players).' };
+  const maxPlayers = room.gameState.gameType === 'uno' ? 10 : 6;
+  if (room.gameState.players.length >= maxPlayers) {
+    return { success: false, error: `Room is full (maximum ${maxPlayers} players).` };
   }
 
   const playerId = `p_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
@@ -199,22 +209,36 @@ export function joinRoom(socket, { roomCode, name, color, avatar, playerToken })
 
   const cleanName = (name || `Player ${room.gameState.players.length + 1}`).trim().substring(0, 16);
 
-  const newPlayer = {
-    id: playerId,
-    token: newToken,
-    name: cleanName,
-    color: assignedColor,
-    avatar: avatar || '👩‍💼',
-    cash: 1500,
-    position: 0,
-    inJail: false,
-    jailTurns: 0,
-    getOutOfJailCards: 0,
-    bankrupt: false,
-    connected: true,
-    isHost: false,
-    isBot: false
-  };
+  const newPlayer = room.gameState.gameType === 'uno'
+    ? {
+        id: playerId,
+        token: newToken,
+        name: cleanName,
+        color: assignedColor,
+        avatar: avatar || '👩‍💼',
+        cards: [],
+        score: 0,
+        calledUno: false,
+        connected: true,
+        isHost: false,
+        isBot: false
+      }
+    : {
+        id: playerId,
+        token: newToken,
+        name: cleanName,
+        color: assignedColor,
+        avatar: avatar || '👩‍💼',
+        cash: 1500,
+        position: 0,
+        inJail: false,
+        jailTurns: 0,
+        getOutOfJailCards: 0,
+        bankrupt: false,
+        connected: true,
+        isHost: false,
+        isBot: false
+      };
 
   room.gameState.players.push(newPlayer);
   room.gameState.playerOrder.push(playerId);
@@ -255,7 +279,10 @@ export function handlePlayerIntent(socket, intent, io) {
   // Attach verified playerId from session
   const intentWithPlayer = { ...intent, playerId: session.playerId };
 
-  const nextState = gameReducer(room.gameState, intentWithPlayer);
+  const isUno = room.gameState.gameType === 'uno';
+  const nextState = isUno
+    ? unoReducer(room.gameState, intentWithPlayer)
+    : gameReducer(room.gameState, intentWithPlayer);
   room.gameState = nextState;
 
   saveRoomState(room);
@@ -263,8 +290,12 @@ export function handlePlayerIntent(socket, intent, io) {
   // Broadcast new state to all clients in the room
   io.to(room.code).emit('game_state_updated', room.gameState);
 
-  // Trigger automated AI Bot actions if next turn or active step belongs to bot
-  runBotTurnsIfNeeded(room, io);
+  // Trigger automated AI Bot actions
+  if (isUno) {
+    runUnoBotTurnsIfNeeded(room, io);
+  } else {
+    runBotTurnsIfNeeded(room, io);
+  }
 
   return { success: true };
 }
@@ -433,34 +464,50 @@ export function addBotPlayer(socket, botData, io) {
     return { success: false, error: 'Only the room host can add AI players.' };
   }
 
-  if (room.gameState.players.length >= 6) {
-    return { success: false, error: 'Room is full (maximum 6 players).' };
+  const maxBots = room.gameState.gameType === 'uno' ? 10 : 6;
+  if (room.gameState.players.length >= maxBots) {
+    return { success: false, error: `Room is full (maximum ${maxBots} players).` };
   }
 
-  const defaultBotNames = ['Priya (AI)', 'Rani (AI)', 'Kabir (AI)', 'Aarav (AI)', 'Meera (AI)', 'Vikram (AI)'];
+  const defaultBotNames = ['Priya (AI)', 'Rani (AI)', 'Kabir (AI)', 'Aarav (AI)', 'Meera (AI)', 'Vikram (AI)', 'Ananya (AI)', 'Rohan (AI)'];
   const usedNames = new Set(room.gameState.players.map(p => p.name));
-  const botName = botData?.name || defaultBotNames.find(n => !usedNames.has(n)) || `Merchant ${room.gameState.players.length + 1} (AI)`;
+  const botName = botData?.name || defaultBotNames.find(n => !usedNames.has(n)) || `Player ${room.gameState.players.length + 1} (AI)`;
   const botAvatar = botData?.avatar || (botName.includes('Priya') ? '👩‍💼' : (botName.includes('Rani') ? '👸' : (botName.includes('Meera') ? '🧕' : '👳')));
 
   const botId = `bot_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
   const assignedColor = getAvailableColor(room.gameState, botData?.color);
 
-  const newBot = {
-    id: botId,
-    token: `tok_bot_${Date.now()}`,
-    name: botName,
-    avatar: botAvatar,
-    color: assignedColor,
-    cash: 1500,
-    position: 0,
-    inJail: false,
-    jailTurns: 0,
-    getOutOfJailCards: 0,
-    bankrupt: false,
-    connected: true,
-    isHost: false,
-    isBot: true
-  };
+  const isUno = room.gameState.gameType === 'uno';
+  const newBot = isUno
+    ? {
+        id: botId,
+        token: `tok_bot_${Date.now()}`,
+        name: botName,
+        avatar: botAvatar,
+        color: assignedColor,
+        cards: [],
+        score: 0,
+        calledUno: false,
+        connected: true,
+        isHost: false,
+        isBot: true
+      }
+    : {
+        id: botId,
+        token: `tok_bot_${Date.now()}`,
+        name: botName,
+        avatar: botAvatar,
+        color: assignedColor,
+        cash: 1500,
+        position: 0,
+        inJail: false,
+        jailTurns: 0,
+        getOutOfJailCards: 0,
+        bankrupt: false,
+        connected: true,
+        isHost: false,
+        isBot: true
+      };
 
   room.gameState.players.push(newBot);
   room.gameState.playerOrder.push(botId);
@@ -583,4 +630,95 @@ function runBotTurnsIfNeeded(room, io) {
   }, 950);
 
   botTimers.set(room.code, timer);
+}
+
+/**
+ * Automated turn runner for AI bots in UNO: plays cards or draws with ~950ms realistic human pacing.
+ */
+export function runUnoBotTurnsIfNeeded(room, io) {
+  if (!room || !room.gameState || room.gameState.phase !== UNO_PHASES.PLAYING) return;
+
+  const timerKey = `uno_${room.code}`;
+  if (botTimers.has(timerKey)) {
+    clearTimeout(botTimers.get(timerKey));
+    botTimers.delete(timerKey);
+  }
+
+  // 1. Check if any opponent has 1 card without calling UNO (chance to catch them)
+  const vulnerableOpponent = room.gameState.players.find(p => p.cards.length === 1 && !p.calledUno && !p.isBot);
+  if (vulnerableOpponent) {
+    const catchTimer = setTimeout(() => {
+      if (room.gameState.phase !== UNO_PHASES.PLAYING) return;
+      const target = room.gameState.players.find(p => p.id === vulnerableOpponent.id);
+      if (target && target.cards.length === 1 && !target.calledUno) {
+        const botCatcher = room.gameState.players.find(p => p.isBot);
+        if (botCatcher) {
+          room.gameState = unoReducer(room.gameState, {
+            type: 'CATCH_UNO',
+            playerId: botCatcher.id,
+            targetPlayerId: target.id
+          });
+          saveRoomState(room);
+          io.to(room.code).emit('game_state_updated', room.gameState);
+        }
+      }
+    }, 1400);
+    botTimers.set(`${timerKey}_catch`, catchTimer);
+  }
+
+  // 2. Active player bot turn
+  const activePlayer = room.gameState.players[room.gameState.turnIndex];
+  if (!activePlayer || !activePlayer.isBot) return;
+
+  const timer = setTimeout(() => {
+    botTimers.delete(timerKey);
+    if (room.gameState.phase !== UNO_PHASES.PLAYING) return;
+
+    const currentActive = room.gameState.players[room.gameState.turnIndex];
+    if (!currentActive || currentActive.id !== activePlayer.id || !currentActive.isBot) return;
+
+    const topCard = room.gameState.discardPile[room.gameState.discardPile.length - 1];
+    const playableCards = currentActive.cards.filter(c => canPlayUnoCard(c, topCard, room.gameState.activeColor));
+
+    if (playableCards.length > 0) {
+      // Pick card: prefer matching number/color, then action, then wild last
+      const nonWilds = playableCards.filter(c => c.color !== 'wild');
+      const chosenCard = nonWilds.length > 0 ? nonWilds[0] : playableCards[0];
+
+      let chosenColor = null;
+      if (chosenCard.color === 'wild' || chosenCard.type === 'wild' || chosenCard.type === 'wild4') {
+        const colorCounts = { red: 0, blue: 0, green: 0, yellow: 0 };
+        for (const c of currentActive.cards) {
+          if (colorCounts[c.color] !== undefined) colorCounts[c.color]++;
+        }
+        chosenColor = Object.entries(colorCounts).sort((a, b) => b[1] - a[1])[0][0] || 'red';
+      }
+
+      const shouldCallUno = currentActive.cards.length === 2;
+
+      room.gameState = unoReducer(room.gameState, {
+        type: 'PLAY_CARD',
+        playerId: currentActive.id,
+        cardId: chosenCard.id,
+        chosenColor,
+        calledUno: shouldCallUno
+      });
+
+      saveRoomState(room);
+      io.to(room.code).emit('game_state_updated', room.gameState);
+      runUnoBotTurnsIfNeeded(room, io);
+    } else {
+      // Draw card
+      room.gameState = unoReducer(room.gameState, {
+        type: 'DRAW_CARD',
+        playerId: currentActive.id
+      });
+
+      saveRoomState(room);
+      io.to(room.code).emit('game_state_updated', room.gameState);
+      runUnoBotTurnsIfNeeded(room, io);
+    }
+  }, 950);
+
+  botTimers.set(timerKey, timer);
 }
