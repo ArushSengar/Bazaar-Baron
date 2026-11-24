@@ -363,7 +363,7 @@ export function gameReducer(rawState, intent, board = boardData) {
   if (!rawState || !intent) return rawState;
   const state = clone(rawState);
 
-  // Automatic 30-Minute Match Timer Expiration Check
+  // Automatic Match Timer Expiration Check
   if (
     state.phase === GAME_PHASES.PLAYING &&
     state.timerExpiresAt &&
@@ -374,10 +374,11 @@ export function gameReducer(rawState, intent, board = boardData) {
     const { winner, standings } = determineTimedMatchWinner(state, board);
     state.winnerId = winner?.playerId || null;
     state.finalStandings = standings;
+    const duration = state.matchDurationMinutes || 30;
     if (winner) {
       addLog(
         state,
-        `⏱️ 30-Minute match time limit reached! 🏆 ${winner.name} won by highest Total Wealth (₹${winner.totalWealth} Net Worth)!`,
+        `⏱️ ${duration}-Minute match time limit reached! 🏆 ${winner.name} won by highest Total Wealth (₹${winner.totalWealth} Net Worth)!`,
         'winner'
       );
     }
@@ -385,6 +386,18 @@ export function gameReducer(rawState, intent, board = boardData) {
   }
 
   switch (intent.type) {
+    case 'SET_MATCH_DURATION': {
+      if (state.phase !== GAME_PHASES.LOBBY) return state;
+      const host = state.players.find(p => p.isHost);
+      if (intent.playerId && host && intent.playerId !== host.id) {
+        return state; // Only host can configure duration
+      }
+      const mins = Math.max(1, Math.min(180, Number(intent.matchDurationMinutes) || 30));
+      state.matchDurationMinutes = mins;
+      addLog(state, `⏱️ Host set match timer limit to ${mins} minutes.`, 'info');
+      return state;
+    }
+
     case 'TIMER_EXPIRED': {
       if (state.phase !== GAME_PHASES.PLAYING) return state;
       state.phase = GAME_PHASES.GAME_OVER;
@@ -392,10 +405,11 @@ export function gameReducer(rawState, intent, board = boardData) {
       const { winner, standings } = determineTimedMatchWinner(state, board);
       state.winnerId = winner?.playerId || null;
       state.finalStandings = standings;
+      const duration = state.matchDurationMinutes || 30;
       if (winner) {
         addLog(
           state,
-          `⏱️ 30-Minute match time limit reached! 🏆 ${winner.name} won by highest Total Wealth (₹${winner.totalWealth} Net Worth)!`,
+          `⏱️ ${duration}-Minute match time limit reached! 🏆 ${winner.name} won by highest Total Wealth (₹${winner.totalWealth} Net Worth)!`,
           'winner'
         );
       }
@@ -427,7 +441,7 @@ export function gameReducer(rawState, intent, board = boardData) {
       state.gameEndReason = null;
       state.finalStandings = null;
 
-      addLog(state, `🎲 The bazaar is open! Starting player: ${state.players[0].name}. (30-Minute Match Timer Started)`, 'action');
+      addLog(state, `🎲 The bazaar is open! Starting player: ${state.players[0].name}. (${matchDurationMinutes}-Minute Match Timer Started)`, 'action');
       return state;
     }
 

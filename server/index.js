@@ -143,7 +143,8 @@ io.on('connection', (socket) => {
   // Start Game (Host only)
   socket.on('start_game', (data, callback) => {
     const cb = typeof data === 'function' ? data : typeof callback === 'function' ? callback : null;
-    const result = handlePlayerIntent(socket, { type: 'START_GAME' }, io);
+    const payload = typeof data === 'object' && data !== null ? data : {};
+    const result = handlePlayerIntent(socket, { type: 'START_GAME', ...payload }, io);
     if (cb) cb(result);
   });
 

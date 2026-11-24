@@ -115,4 +115,26 @@ describe('30-Minute Match Timer & Wealth Victory Suite', () => {
     assert.strictEqual(nextState.gameEndReason, 'TIME_LIMIT');
     assert.strictEqual(nextState.winnerId, 'p1');
   });
+
+  test('SET_MATCH_DURATION allows host to configure 10, 15, 20, 25, 30 min timer options', () => {
+    const host = { id: 'p1', name: 'Host', isHost: true, cash: 1500 };
+    const guest = { id: 'p2', name: 'Guest', isHost: false, cash: 1500 };
+    let state = createInitialGameState('ROOM', host);
+    state.players.push(guest);
+    state.playerOrder.push('p2');
+
+    // Host sets duration to 15 mins
+    state = gameReducer(state, { type: 'SET_MATCH_DURATION', playerId: 'p1', matchDurationMinutes: 15 });
+    assert.strictEqual(state.matchDurationMinutes, 15);
+
+    // Non-host tries to change duration -> rejected, stays 15
+    state = gameReducer(state, { type: 'SET_MATCH_DURATION', playerId: 'p2', matchDurationMinutes: 10 });
+    assert.strictEqual(state.matchDurationMinutes, 15);
+
+    // Host starts game with 15 mins
+    const now = 100000;
+    state = gameReducer(state, { type: 'START_GAME', playerId: 'p1', now });
+    assert.strictEqual(state.matchDurationMinutes, 15);
+    assert.strictEqual(state.timerExpiresAt, now + 15 * 60 * 1000);
+  });
 });

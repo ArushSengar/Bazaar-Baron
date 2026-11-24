@@ -417,7 +417,7 @@ export function Tile({
 }
 
 /**
- * Renders small green houses (1-4) or a red hotel (5) on the color band.
+ * Renders small 3D green havelis (1-4) or a 3D red grand hotel (5) on the color band.
  */
 function HouseIcons({ houses = 0, vertical = false }) {
   if (houses <= 0) return null;
@@ -425,10 +425,11 @@ function HouseIcons({ houses = 0, vertical = false }) {
   if (houses === 5) {
     return (
       <div
-        className="w-3.5 h-3.5 rounded-[2px] bg-red-600 border border-neutral-900 shadow flex items-center justify-center text-[8px] text-white font-black"
-        title="Hotel"
+        className="w-3.5 h-3.5 rounded-[2px] bg-gradient-to-b from-red-500 to-red-800 border border-neutral-900 shadow-md flex items-center justify-center text-[8px] text-white font-black ring-1 ring-red-400/60"
+        title="Grand Hotel (Haveli)"
+        style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.4)' }}
       >
-        H
+        🏰
       </div>
     );
   }
@@ -438,8 +439,9 @@ function HouseIcons({ houses = 0, vertical = false }) {
       {Array.from({ length: houses }).map((_, i) => (
         <div
           key={i}
-          className="w-2.5 h-2.5 rounded-[1px] bg-emerald-700 border border-neutral-900 shadow-sm"
-          title={`House ${i + 1}`}
+          className="w-2.5 h-2.5 rounded-[1px] bg-gradient-to-b from-emerald-500 to-emerald-800 border border-neutral-900 shadow-sm ring-1 ring-emerald-400/50"
+          style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.4), inset 0 0.5px 0 rgba(255,255,255,0.4)' }}
+          title={`Haveli ${i + 1}`}
         />
       ))}
     </div>

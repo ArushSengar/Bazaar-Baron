@@ -158,7 +158,7 @@ function getAvailableColor(gameState, requestedColor, gameDef) {
 /**
  * Create a new room.
  */
-export function createRoom(socket, { name, color, avatar, gameType }) {
+export function createRoom(socket, { name, color, avatar, gameType, matchDurationMinutes }) {
   const roomCode = generateRoomCode();
   const playerId = `p_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
   const playerToken = `tok_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
@@ -178,6 +178,9 @@ export function createRoom(socket, { name, color, avatar, gameType }) {
 
   const gameState = gameDef.createInitialState(roomCode, hostPlayer);
   gameState.gameType = gameDef.id;
+  if (matchDurationMinutes) {
+    gameState.matchDurationMinutes = Math.max(1, Math.min(180, Number(matchDurationMinutes) || 30));
+  }
 
   const playerSockets = new Map();
   playerSockets.set(playerId, socket.id);

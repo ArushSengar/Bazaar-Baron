@@ -77,12 +77,12 @@ export function useGame() {
   }, []);
 
   // Create Room
-  const createRoom = useCallback(({ name, color, avatar, gameType }) => {
+  const createRoom = useCallback(({ name, color, avatar, gameType, matchDurationMinutes }) => {
     if (!socket) return;
     setLoading(true);
     setError('');
 
-    socket.emit('create_room', { name, color, avatar, gameType }, (res) => {
+    socket.emit('create_room', { name, color, avatar, gameType, matchDurationMinutes }, (res) => {
       setLoading(false);
       if (res?.success) {
         setRoomCode(res.roomCode);
@@ -165,10 +165,11 @@ export function useGame() {
   }, [socket]);
 
   // Start Game (Host)
-  const startGame = useCallback(() => {
+  const startGame = useCallback((options) => {
     if (!socket) return;
     setError('');
-    socket.emit('start_game', (res) => {
+    const payload = typeof options === 'object' && options !== null ? options : {};
+    socket.emit('start_game', payload, (res) => {
       if (!res?.success && res?.error) {
         setError(res.error);
       }

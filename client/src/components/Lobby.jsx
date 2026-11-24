@@ -13,7 +13,8 @@ import {
   Plus,
   Sparkles,
   HelpCircle,
-  BookOpen
+  BookOpen,
+  Clock
 } from 'lucide-react';
 import { MERCHANT_AVATARS, PLAYER_COLORS, PLAYER_PAWNS } from '../data/constants';
 import { PawnIcon } from './PawnIcon';
@@ -40,6 +41,7 @@ export function Lobby({
   addBot,
   kickPlayer,
   startGame,
+  sendIntent,
   leaveRoom,
   error,
   setError,
@@ -49,6 +51,7 @@ export function Lobby({
 }) {
   const [mode, setMode] = useState('create'); // 'create' | 'join'
   const [selectedGameType, setSelectedGameType] = useState('monopoly');
+  const [selectedDuration, setSelectedDuration] = useState(30); // 10, 15, 20, 25, 30 mins
   const [name, setName] = useState('');
   const [inputCode, setInputCode] = useState('');
   const [selectedColor, setSelectedColor] = useState('red');
@@ -75,7 +78,8 @@ export function Lobby({
       name: name.trim(),
       color: selectedColor,
       avatar: selectedAvatar,
-      gameType: selectedGameType
+      gameType: selectedGameType,
+      matchDurationMinutes: selectedDuration
     });
   };
 
@@ -293,6 +297,65 @@ export function Lobby({
           </div>
         </div>
 
+        {/* 3D Match Duration Setting in Waiting Room (for Monopoly / Bazaar Baron) */}
+        {gameDef.id === 'monopoly' && (
+          <div className="bg-neutral-900/90 border border-neutral-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-amber-400" />
+                <span className="text-xs font-bold text-neutral-200 uppercase tracking-wider">
+                  Match Duration (Anti-Stalemate Timer)
+                </span>
+              </div>
+              <span className="text-xs font-black text-amber-300 bg-amber-500/20 px-2.5 py-1 rounded-full border border-amber-500/40 font-number">
+                ⏱️ {gameState.matchDurationMinutes || 30} Minutes
+              </span>
+            </div>
+
+            <p className="text-[11px] text-neutral-400">
+              When the match timer runs out, the player with the highest Total Wealth (Cash + Properties + Havelis) wins the game!
+            </p>
+
+            {isHost ? (
+              <div className="space-y-1.5">
+                <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
+                  {[10, 15, 20, 25, 30].map((mins) => {
+                    const isSelected = (gameState.matchDurationMinutes || 30) === mins;
+                    return (
+                      <button
+                        key={mins}
+                        type="button"
+                        onClick={() => {
+                          sendIntent?.({ type: 'SET_MATCH_DURATION', matchDurationMinutes: mins });
+                        }}
+                        className={`py-2 px-1 rounded-xl text-xs font-extrabold font-number transition-all cursor-pointer border flex flex-col items-center justify-center gap-0.5 ${
+                          isSelected
+                            ? 'bg-amber-500 text-neutral-950 border-amber-300 shadow-md font-black scale-105 ring-2 ring-amber-400/50'
+                            : 'bg-neutral-950 border-neutral-800 text-neutral-300 hover:border-neutral-700 hover:text-white'
+                        }`}
+                      >
+                        <span>{mins}m</span>
+                        <span className="text-[9px] font-sans font-bold opacity-80">
+                          {mins === 10 ? 'Blitz' : mins === 15 ? 'Fast' : mins === 20 ? 'Standard' : mins === 25 ? 'Extended' : 'Classic'}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="text-[10px] text-neutral-500 flex justify-between">
+                  <span>⚡ Quick matches: 10m / 15m</span>
+                  <span>🏰 Classic: 30m</span>
+                </div>
+              </div>
+            ) : (
+              <div className="text-xs text-neutral-400 bg-neutral-950/60 p-2.5 rounded-xl border border-neutral-800/80 flex items-center gap-2">
+                <span className="text-amber-400">👑</span>
+                <span>Host chooses the match duration ({gameState.matchDurationMinutes || 30} mins currently selected).</span>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Start Game Action Card */}
         <div className="bg-neutral-900/90 border border-neutral-800 rounded-2xl p-5 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-center sm:text-left">
@@ -317,7 +380,7 @@ export function Lobby({
 
             {isHost && (
               <button
-                onClick={startGame}
+                onClick={() => startGame({ matchDurationMinutes: gameState?.matchDurationMinutes || selectedDuration })}
                 disabled={!canStart}
                 className="flex-1 sm:flex-none px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 disabled:opacity-40 disabled:cursor-not-allowed text-neutral-950 font-black text-sm font-display tracking-wide shadow-lg shadow-amber-500/20 active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
               >
@@ -469,6 +532,47 @@ export function Lobby({
                 );
               })}
             </div>
+          </div>
+        )}
+
+        {/* 3D Match Duration Selection (Only for Monopoly / Bazaar Baron in Create Mode) */}
+        {mode === 'create' && selectedGameType === 'monopoly' && (
+          <div className="bg-neutral-950/60 border border-neutral-800 p-3 sm:p-3.5 rounded-xl space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-bold text-neutral-300 uppercase tracking-wider flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-amber-400" />
+                <span>Match Timer Duration</span>
+              </label>
+              <span className="text-[11px] font-black font-number text-amber-300 bg-amber-500/20 px-2 py-0.5 rounded-full border border-amber-500/30">
+                ⏱️ {selectedDuration} Minutes
+              </span>
+            </div>
+
+            <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
+              {[10, 15, 20, 25, 30].map((mins) => {
+                const isSelected = selectedDuration === mins;
+                return (
+                  <button
+                    key={mins}
+                    type="button"
+                    onClick={() => setSelectedDuration(mins)}
+                    className={`py-2 px-1 rounded-xl text-xs font-extrabold font-number transition-all cursor-pointer border flex flex-col items-center justify-center gap-0.5 ${
+                      isSelected
+                        ? 'bg-amber-500 text-neutral-950 border-amber-300 shadow-md font-black scale-105 ring-2 ring-amber-400/50'
+                        : 'bg-neutral-900 border-neutral-800 text-neutral-300 hover:border-neutral-700 hover:text-white'
+                    }`}
+                  >
+                    <span>{mins}m</span>
+                    <span className="text-[9px] font-sans font-bold opacity-80">
+                      {mins === 10 ? 'Blitz' : mins === 15 ? 'Fast' : mins === 20 ? 'Standard' : mins === 25 ? 'Extended' : 'Classic'}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            <p className="text-[10px] text-neutral-400 leading-tight">
+              Match concludes automatically after {selectedDuration} mins. Highest Total Wealth (Cash + Properties + Havelis) wins!
+            </p>
           </div>
         )}
 

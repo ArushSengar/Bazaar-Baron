@@ -68,6 +68,7 @@ export function App() {
             addBot={addBot}
             kickPlayer={kickPlayer}
             startGame={startGame}
+            sendIntent={sendIntent}
             leaveRoom={leaveRoom}
             error={error}
             setError={setError}
