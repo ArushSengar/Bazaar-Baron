@@ -1,19 +1,21 @@
-# 🎮 Bazaar Arcade — LAN Multiplayer Game Hub (Monopoly + UNO)
+# 🎮 Bazaar Arcade — LAN Multiplayer Game Hub (4 Games: Monopoly + UNO + Ludo + Snakes)
 
 [![Node.js](https://img.shields.io/badge/Node.js-20+-68a063.svg?style=flat-square&logo=node.js)](https://nodejs.org/)
 [![React](https://img.shields.io/badge/React-19-61dafb.svg?style=flat-square&logo=react)](https://react.dev/)
 [![Socket.IO](https://img.shields.io/badge/Socket.IO-4.8-010101.svg?style=flat-square&logo=socket.io)](https://socket.io/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4-38bdf8.svg?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
-[![Tests](https://img.shields.io/badge/Tests-70%20Passed-brightgreen.svg?style=flat-square)](https://nodejs.org/api/test.html)
+[![Tests](https://img.shields.io/badge/Tests-261%20Passed-brightgreen.svg?style=flat-square)](https://nodejs.org/api/test.html)
 [![Linux Support](https://img.shields.io/badge/Linux-Tested%20%26%20Supported-FCC624.svg?style=flat-square&logo=linux&logoColor=black)](https://www.linux.org/)
 [![Offline First](https://img.shields.io/badge/Network-100%25%20Offline%20LAN-blue.svg?style=flat-square)]()
 [![License](https://img.shields.io/badge/License-MIT-amber.svg?style=flat-square)]()
 
 **Bazaar Arcade** is an offline multiplayer LAN tabletop game platform engineered for 2–10 players across local Wi-Fi or mobile hotspots. One host machine runs a unified Node.js server (`port 3000`); all friends and family connect instantly from any mobile phone, tablet, or PC browser without needing internet, accounts, or app store downloads.
 
-Select and play classic tabletop games from a unified interactive lobby:
-1. 🃏 **Bazaar UNO**: Full-featured official 108-card UNO with Skip, Reverse, +2, +4, Wild color picker, 3D card table, and real-time "Call UNO!" callout mechanics.
-2. 🕌 **Bazaar Baron**: Monopoly-style property trading game set across iconic Indian cities with authentic quad-fold cardboard aesthetic, Munimji AI advisor, and non-blocking modals.
+Select and play 4 classic tabletop games from a unified interactive lobby:
+1. 🕌 **Bazaar Baron**: Monopoly-style property trading game set across iconic Indian cities with authentic quad-fold cardboard aesthetic, Munimji AI advisor, and non-blocking modals.
+2. 🃏 **Bazaar UNO**: Full-featured official 108-card UNO with Skip, Reverse, +2, +4, Wild color picker, 3D card table, and real-time "Call UNO!" callout mechanics.
+3. 🎲 **Bazaar Ludo**: Authentic 15×15 cross-and-circle token race with safe star sanctuaries, track captures, bonus rolls, home stretch isolation, and tactical AI bots.
+4. 🐍 **Snakes & Ladders**: 100-tile climb-and-slide race with soaring emerald ladders, venomous snakes, extra roll on 6, and exact tile-100 victory rules.
 
 ---
 
@@ -220,6 +222,53 @@ chmod +x start.sh
 
 ---
 
+## 🎲 Game 3: Bazaar Ludo Features
+
+- **Authentic 15×15 Cross-and-Circle Board**:
+  - Four classic colored bases (Red, Green, Yellow, Blue) with 4 tokens each.
+  - 52-tile outer track with color-coded starting cells and colored home columns.
+- **Safe Star Sanctuaries**:
+  - Designated star sanctuary tiles grant complete capture immunity. Multiple tokens from different players can safely coexist.
+- **Capture & Bonus Roll Mechanics**:
+  - Landing on an opponent token on any non-safe track tile captures the token, sends it back to base, and awards an instant bonus roll.
+  - Rolling a 6 allows releasing a token from base and grants an additional roll (up to 2 bonus rolls; three consecutive 6s forfeits the turn).
+- **Home Stretch Isolation & Exact Arrival**:
+  - Tokens enter their player-colored home column where opponent tokens cannot follow.
+  - Exact dice roll required to land on the center Goal triangle. First player to guide all 4 tokens home wins!
+- **AI Bot Tactical Heuristics**:
+  - Intelligent bot decisions prioritizing base exit on 6, opponent captures, goal arrivals, and advancing furthest tokens with realistic pacing.
+
+---
+
+## 🐍 Game 4: Snakes & Ladders Features
+
+- **100-Tile Tabletop Race**:
+  - Serpentine numbered grid (1 to 100) with animated pawn movements and glowing active-turn highlights.
+  - Visual SVG emerald ladders and venomous serpents connecting origin and destination tiles.
+- **Authentic Tabletop Rules**:
+  - Landing on a ladder foot automatically climbs to the ladder top.
+  - Landing on a snake head triggers an animated slide down to the snake tail.
+  - Rolling a 6 awards an extra roll (three consecutive 6s forfeits the third roll).
+  - Exact tile-100 win condition: overshooting tile 100 holds the pawn in place ("stay" rule).
+- **Automated AI Bots & Procedural Audio**:
+  - Supports 2–6 players or AI bots with ladder chime sound cues and snake hiss audio effects.
+
+---
+
+## 🔊 Procedural Web Audio, Glowing Visual FX & Beginner Guides
+
+- **Procedural Web Audio Synthesizer (`utils/audio.js`)**:
+  - 100% synthesized sound effects generated entirely with the browser's native `AudioContext` — zero external MP3s or network requests!
+  - Sound effects for dice rolls, token hops, card plays, reverse direction swooshes, ladder ascents, snake hiss slides, error buzzes, and victory fanfares.
+  - Global `AudioControls.jsx` widget with volume slider (0–100%) and one-click mute toggle.
+- **Glowing Visual FX & Responsive Design**:
+  - Glowing ambient turn rings and pulsating indicators for active players.
+  - Card flight animations, 3D dice rolling, and celebration confetti canvas (`ConfettiCanvas.jsx`) on match victory.
+- **Interactive Beginner Guides (`HowToPlayModal.jsx`)**:
+  - Press the **'?'** key anytime or click the rule guide button in the lobby or side panel to open a step-by-step visual tutorial for any game.
+
+---
+
 ## 🛡️ Firewall & LAN Troubleshooting (Linux & Windows)
 
 If mobile devices on your Wi-Fi cannot connect to `http://<YOUR_LAN_IP>:3000`:
@@ -245,12 +294,16 @@ sudo iptables -A INPUT -p tcp --dport 3000 -j ACCEPT
 
 ---
 
-## 🧪 Automated Test Suite (70 Tests Passing)
+## 🧪 Automated Test Suite (261 Tests Passing)
 
-Bazaar Arcade includes an exhaustive pure unit, engine, and integration test suite using Node.js's native test runner (`node --test`). Tests verify rent calculations, doubles/jail mechanics, bank supply limits, auctions, trading, UNO 108-card deck rules, AI bots, and headless 200-turn random simulations:
+Bazaar Arcade includes an exhaustive pure unit, engine, integration, and opaque-box E2E test suite using Node.js's native test runner (`node --test`). Tests verify rent calculations, doubles/jail mechanics, bank supply limits, auctions, trading, UNO 108-card deck rules, Ludo token captures, Snakes & Ladders climbs/slides, audio clamping, adversarial edge cases, and headless 200-turn random simulations:
 
 ```bash
+# Run 77 Engine & Registry Unit Tests
 npm test
+
+# Run 184 Opaque-Box E2E & Adversarial Hardening Tests across 5 Tiers
+node --test server/test/e2e/runner.test.js
 ```
 
 ```
@@ -258,19 +311,20 @@ npm test
 ✔ AI Bot Turn Execution: Pure reducer handles bot actions identically to human actions
 ✔ AI Bot Auction & Jail Behavior: Bot bids proportionally and pays jail fines
 ✔ Bazaar Baron Pure Engine Tests (Rent, Doubles, Jail, Even Building, Mortgages, Bankruptcy)
-✔ UNO Deck: Standard 108 cards with correct distribution
-✔ UNO Rules: canPlayUnoCard validation
-✔ UNO Reducer: START_GAME deals 7 cards to each player and sets active card
-✔ UNO Reducer: Playing cards and action cards (Skip, Reverse, Draw 2, Wild)
-✔ UNO Reducer: Calling UNO and Catching missed UNO
-✔ UNO Integration: Room creation, bot addition, and game start
+✔ Game Registry: Dynamic routing across all 4 games and player capacities
+✔ Bazaar Ludo Pure Engine Tests (Safe stars, captures, bonus rolls, home stretch isolation, AI bot)
+✔ Snakes & Ladders Pure Engine Tests (Ladders, snakes, extra roll on 6, exact 100 win condition)
+✔ UNO Deck & Rules: Standard 108 cards, canPlay validation, Skip, Reverse, Draw 2, Wilds, Call UNO
 ✔ Headless Simulation: 200 random turns with 4 simulated players adheres to all invariant rules
-✔ Tile Text & Layout: All 40 tiles have valid names and wrap without overflow
-✔ Color Contrast: All board tiles exceed WCAG AAA standards
+✔ E2E Tier 1 (Feature Coverage): 55 / 55 tests pass
+✔ E2E Tier 2 (Boundary & Corner Cases): 55 / 55 tests pass
+✔ E2E Tier 3 (Pairwise Cross-Feature Combinations): 11 / 11 tests pass
+✔ E2E Tier 4 (Comprehensive Application Scenarios): 6 / 6 full match playflows pass
+✔ E2E Tier 5 (Adversarial Coverage Hardening): 57 / 57 adversarial stress tests pass
 
-ℹ tests 70
-ℹ suites 16
-ℹ pass 70
+ℹ tests 261
+ℹ suites 52
+ℹ pass 261
 ℹ fail 0
 ```
 
