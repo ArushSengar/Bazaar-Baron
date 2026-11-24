@@ -13,7 +13,7 @@ export function UnoCard({
   if (isBack) {
     return (
       <div
-        className={`relative rounded-xl border-2 border-white/80 shadow-lg bg-[#1B1B1B] flex items-center justify-center select-none overflow-hidden ${
+        className={`relative rounded-xl border-2 border-white/80 shadow-lg bg-[#1B1B1B] flex items-center justify-center select-none overflow-hidden transition-transform duration-200 ${
           isSmall ? 'w-10 h-14' : 'w-16 h-24 sm:w-20 sm:h-28 md:w-24 md:h-36'
         } ${className}`}
       >
@@ -81,14 +81,14 @@ export function UnoCard({
       type="button"
       onClick={isPlayable ? onClick : undefined}
       disabled={!isPlayable}
-      className={`relative rounded-xl border-2 sm:border-[3px] border-white shadow-xl transition-all duration-200 select-none overflow-hidden flex flex-col justify-between p-1 sm:p-1.5 ${
+      className={`relative rounded-xl border-2 sm:border-[3px] border-white shadow-xl transition-all duration-300 select-none overflow-hidden flex flex-col justify-between p-1 sm:p-1.5 ${
         isSmall
           ? 'w-11 h-16 text-[10px]'
           : 'w-16 h-24 sm:w-20 sm:h-28 md:w-24 md:h-36'
       } ${
         isPlayable
-          ? 'cursor-pointer hover:-translate-y-3 hover:scale-105 hover:shadow-2xl hover:z-20 ring-2 ring-white/60 active:scale-95'
-          : 'opacity-65 cursor-not-allowed saturate-75'
+          ? 'cursor-pointer hover:-translate-y-4 sm:hover:-translate-y-6 hover:scale-108 hover:shadow-2xl hover:z-30 ring-2 ring-white/90 active:scale-95 active:translate-y-0 card-playable-glow'
+          : 'opacity-55 saturate-50 cursor-not-allowed'
       } ${className}`}
       style={{
         backgroundColor: isWild ? '#111111' : colorHex
@@ -119,10 +119,12 @@ export function UnoCard({
         {renderCornerIndex()}
       </div>
 
-      {/* Playable Indicator Glow */}
+      {/* Playable Indicator Glow Border */}
       {isPlayable && (
-        <div className="absolute inset-0 rounded-xl border-2 border-amber-300/80 pointer-events-none animate-pulse-subtle" />
+        <div className="absolute inset-0 rounded-xl border-2 border-amber-300/90 pointer-events-none animate-pulse-subtle shadow-[inset_0_0_10px_rgba(251,191,36,0.4)]" />
       )}
     </button>
   );
 }
+
+export default UnoCard;

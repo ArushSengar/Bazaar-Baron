@@ -1,5 +1,255 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   ANIMATION THEME & KEYFRAMES (Milestone 1 - Feature 4)
+   ========================================================================== */
+
+@theme {
+  --animate-fade-in: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-scale-up: scaleUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-pulse-subtle: pulseSubtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-bounce-subtle: bounceSubtle 1.8s infinite;
+  --animate-pulse-glow: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseSubtle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.88;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes bounceSubtle {
+  0%, 100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(-5px);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px -2px rgba(245, 158, 11, 0.4), 0 0 6px -1px rgba(245, 158, 11, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 28px 4px rgba(245, 158, 11, 0.75), 0 0 12px 2px rgba(245, 158, 11, 0.5);
+  }
+}
+
+/* Explicit Animation Utility Classes */
+.animate-fade-in {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-bounce-subtle {
+  animation: bounceSubtle 1.8s infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   GLOWING VISUAL STYLING (Milestone 1 - Feature 5)
+   ========================================================================== */
+
+/* Tabletop Wood Background Texture (referenced in App.jsx) */
+.tabletop-wood {
+  background-color: #180f08;
+  background-image: 
+    radial-gradient(circle at 50% 40%, rgba(245, 158, 11, 0.04) 0%, rgba(0, 0, 0, 0.7) 100%),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.18) 0px, rgba(0, 0, 0, 0.18) 2px, transparent 2px, transparent 120px),
+    linear-gradient(180deg, #140b06 0%, #22130a 50%, #120703 100%);
+}
+
+/* Active Turn Perimeter Glow for Board Games */
+.board-turn-glow {
+  position: relative;
+  box-shadow: 
+    0 0 25px 2px rgba(245, 158, 11, 0.4),
+    0 0 50px 8px rgba(245, 158, 11, 0.2),
+    0 25px 60px -15px rgba(0, 0, 0, 0.85),
+    0 0 0 2px rgba(245, 158, 11, 0.65) !important;
+  animation: boardTurnPulse 2.4s ease-in-out infinite;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+@keyframes boardTurnPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px 2px rgba(245, 158, 11, 0.35),
+      0 0 40px 6px rgba(245, 158, 11, 0.15),
+      0 25px 60px -15px rgba(0, 0, 0, 0.85),
+      0 0 0 2px rgba(245, 158, 11, 0.5);
+  }
+  50% {
+    box-shadow: 
+      0 0 35px 6px rgba(245, 158, 11, 0.6),
+      0 0 70px 14px rgba(245, 158, 11, 0.3),
+      0 25px 60px -15px rgba(0, 0, 0, 0.85),
+      0 0 0 2px rgba(245, 158, 11, 0.9);
+  }
+}
+
+/* UNO Table Glow Base */
+.uno-table-glow {
+  transition: box-shadow 0.5s ease, border-color 0.5s ease;
+}
+
+/* UNO Color Rim Lighting */
+.uno-table-glow-red {
+  border-color: rgba(234, 50, 35, 0.8) !important;
+  box-shadow: 
+    0 0 30px rgba(234, 50, 35, 0.4),
+    0 0 65px rgba(234, 50, 35, 0.2),
+    inset 0 0 25px rgba(234, 50, 35, 0.25) !important;
+  animation: unoRimPulseRed 2.5s ease-in-out infinite;
+}
+
+.uno-table-glow-blue {
+  border-color: rgba(0, 102, 204, 0.8) !important;
+  box-shadow: 
+    0 0 30px rgba(0, 102, 204, 0.4),
+    0 0 65px rgba(0, 102, 204, 0.2),
+    inset 0 0 25px rgba(0, 102, 204, 0.25) !important;
+  animation: unoRimPulseBlue 2.5s ease-in-out infinite;
+}
+
+.uno-table-glow-green {
+  border-color: rgba(45, 168, 67, 0.8) !important;
+  box-shadow: 
+    0 0 30px rgba(45, 168, 67, 0.4),
+    0 0 65px rgba(45, 168, 67, 0.2),
+    inset 0 0 25px rgba(45, 168, 67, 0.25) !important;
+  animation: unoRimPulseGreen 2.5s ease-in-out infinite;
+}
+
+.uno-table-glow-yellow {
+  border-color: rgba(255, 200, 0, 0.8) !important;
+  box-shadow: 
+    0 0 30px rgba(255, 200, 0, 0.4),
+    0 0 65px rgba(255, 200, 0, 0.2),
+    inset 0 0 25px rgba(255, 200, 0, 0.25) !important;
+  animation: unoRimPulseYellow 2.5s ease-in-out infinite;
+}
+
+@keyframes unoRimPulseRed {
+  0%, 100% {
+    box-shadow: 0 0 24px rgba(234, 50, 35, 0.3), 0 0 50px rgba(234, 50, 35, 0.15), inset 0 0 20px rgba(234, 50, 35, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 42px rgba(234, 50, 35, 0.55), 0 0 85px rgba(234, 50, 35, 0.3), inset 0 0 30px rgba(234, 50, 35, 0.35);
+  }
+}
+
+@keyframes unoRimPulseBlue {
+  0%, 100% {
+    box-shadow: 0 0 24px rgba(0, 102, 204, 0.3), 0 0 50px rgba(0, 102, 204, 0.15), inset 0 0 20px rgba(0, 102, 204, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 42px rgba(0, 102, 204, 0.55), 0 0 85px rgba(0, 102, 204, 0.3), inset 0 0 30px rgba(0, 102, 204, 0.35);
+  }
+}
+
+@keyframes unoRimPulseGreen {
+  0%, 100% {
+    box-shadow: 0 0 24px rgba(45, 168, 67, 0.3), 0 0 50px rgba(45, 168, 67, 0.15), inset 0 0 20px rgba(45, 168, 67, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 42px rgba(45, 168, 67, 0.55), 0 0 85px rgba(45, 168, 67, 0.3), inset 0 0 30px rgba(45, 168, 67, 0.35);
+  }
+}
+
+@keyframes unoRimPulseYellow {
+  0%, 100% {
+    box-shadow: 0 0 24px rgba(255, 200, 0, 0.3), 0 0 50px rgba(255, 200, 0, 0.15), inset 0 0 20px rgba(255, 200, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 42px rgba(255, 200, 0, 0.55), 0 0 85px rgba(255, 200, 0, 0.3), inset 0 0 30px rgba(255, 200, 0, 0.35);
+  }
+}
+
+/* Active Player Turn Glow Indicator */
+.player-turn-glow {
+  border-color: rgba(245, 158, 11, 0.85) !important;
+  box-shadow: 
+    0 0 16px rgba(245, 158, 11, 0.45),
+    0 0 32px rgba(245, 158, 11, 0.2),
+    inset 0 0 12px rgba(245, 158, 11, 0.15) !important;
+  animation: playerTurnPulse 2s ease-in-out infinite;
+}
+
+@keyframes playerTurnPulse {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.35), 0 0 24px rgba(245, 158, 11, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(245, 158, 11, 0.65), 0 0 42px rgba(245, 158, 11, 0.3);
+  }
+}
+
+/* Playable Card Radiant Glow */
+.card-playable-glow {
+  box-shadow: 
+    0 6px 18px rgba(0, 0, 0, 0.4),
+    0 0 14px 2px rgba(251, 191, 36, 0.5);
+  animation: cardPlayablePulse 2.2s ease-in-out infinite;
+}
+
+.card-playable-glow:hover {
+  box-shadow: 
+    0 16px 30px -4px rgba(0, 0, 0, 0.6),
+    0 0 24px 6px rgba(251, 191, 36, 0.85);
+}
+
+@keyframes cardPlayablePulse {
+  0%, 100% {
+    box-shadow: 
+      0 6px 18px rgba(0, 0, 0, 0.4),
+      0 0 12px 1px rgba(251, 191, 36, 0.4);
+  }
+  50% {
+    box-shadow: 
+      0 8px 22px rgba(0, 0, 0, 0.45),
+      0 0 20px 4px rgba(251, 191, 36, 0.8);
+  }
+}
+
 @layer base {
   body {
     background-color: #180f08;
