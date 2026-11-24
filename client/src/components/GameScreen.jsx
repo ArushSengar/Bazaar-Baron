@@ -183,7 +183,9 @@ export function GameScreen({
   };
 
   const handleBankrupt = () => {
+    if (sounds.playErrorSound) sounds.playErrorSound();
     sendIntent({ type: 'DECLARE_BANKRUPTCY' });
+    sendIntent({ type: 'BANKRUPT' });
   };
 
   // Property Deed selection validation

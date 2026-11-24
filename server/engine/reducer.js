@@ -646,7 +646,7 @@ export function gameReducer(rawState, intent, board = boardData) {
 
     case 'RESOLVE_DEBT': {
       const player = state.players.find(p => p.id === intent.playerId);
-      if (!player || !state.debt || state.step !== TURN_STEPS.BANKRUPTCY_CHECK) return state;
+      if (!player || !state.debt) return state;
 
       if (player.cash < state.debt.amount) {
         return state; // Still insufficient cash
@@ -664,6 +664,7 @@ export function gameReducer(rawState, intent, board = boardData) {
       return state;
     }
 
+    case 'DECLARE_BANKRUPTCY':
     case 'BANKRUPT': {
       const player = state.players.find(p => p.id === intent.playerId);
       if (!player || player.bankrupt) return state;
@@ -744,6 +745,7 @@ export function gameReducer(rawState, intent, board = boardData) {
       return state;
     }
 
+    case 'PROPOSE_TRADE':
     case 'TRADE_OFFER': {
       // Validate trade
       const sender = state.players.find(p => p.id === intent.playerId);
@@ -765,6 +767,7 @@ export function gameReducer(rawState, intent, board = boardData) {
       return state;
     }
 
+    case 'ACCEPT_TRADE':
     case 'TRADE_ACCEPT': {
       if (!state.activeTrade) return state;
       const trade = state.activeTrade;
@@ -805,6 +808,7 @@ export function gameReducer(rawState, intent, board = boardData) {
       return state;
     }
 
+    case 'REJECT_TRADE':
     case 'TRADE_REJECT': {
       if (!state.activeTrade) return state;
       if (intent.playerId === state.activeTrade.targetPlayerId || intent.playerId === state.activeTrade.senderId) {
