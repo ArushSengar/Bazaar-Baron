@@ -15,9 +15,11 @@ import {
   Sparkles,
   ArrowRight,
   ShieldAlert,
-  Bot
+  Bot,
+  HelpCircle
 } from 'lucide-react';
 import { sounds } from '../../utils/audio';
+import { AudioControls } from '../AudioControls';
 
 export function UnoScreen({
   gameState,
@@ -25,7 +27,8 @@ export function UnoScreen({
   isHost,
   leaveRoom,
   connected,
-  sendIntent
+  sendIntent,
+  onOpenGuide
 }) {
   const [selectedWildCard, setSelectedWildCard] = useState(null);
   const [isMuted, setIsMuted] = useState(false);
@@ -158,13 +161,18 @@ export function UnoScreen({
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Universal Audio Controls */}
+          <AudioControls compact={true} />
+
+          {/* Rules / How to Play */}
           <button
-            onClick={handleToggleSound}
-            className="p-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-300 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer border border-neutral-800"
-            title={isMuted ? 'Unmute sounds' : 'Mute sounds'}
+            onClick={() => onOpenGuide?.('uno')}
+            className="px-2.5 py-1.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-amber-300 text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer border border-neutral-800"
+            title="How to Play Bazaar UNO (or press ?)"
           >
-            {isMuted ? <VolumeX className="w-4 h-4 text-neutral-400" /> : <Volume2 className="w-4 h-4 text-amber-400" />}
+            <HelpCircle className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Rules</span>
           </button>
 
           <button
@@ -244,7 +252,7 @@ export function UnoScreen({
 
       {/* 3. Center Table: Draw Pile, Discard Pile & Active Color Ring */}
       <div className="flex-1 flex flex-col items-center justify-center my-auto py-2">
-        <div className="relative w-full max-w-lg aspect-[16/9] sm:aspect-[2/1] rounded-3xl bg-[#13281e] border-4 border-[#244b38] shadow-2xl p-4 flex items-center justify-around overflow-hidden">
+        <div className={`relative w-full max-w-lg aspect-[16/9] sm:aspect-[2/1] rounded-3xl bg-[#13281e] border-4 border-[#244b38] shadow-2xl p-4 flex items-center justify-around overflow-hidden uno-table-glow uno-table-glow-${activeColor}`}>
           {/* Center Table Texture Watermark */}
           <div className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-10">
             <span className="font-display font-black text-6xl sm:text-8xl tracking-widest text-white">

@@ -27,9 +27,11 @@ import {
   Volume2,
   VolumeX,
   Sparkles,
-  Layers
+  Layers,
+  HelpCircle
 } from 'lucide-react';
 import { sounds } from '../utils/audio';
+import { AudioControls } from './AudioControls';
 
 export function GameScreen({
   gameState,
@@ -37,7 +39,8 @@ export function GameScreen({
   isHost,
   leaveRoom,
   connected,
-  sendIntent
+  sendIntent,
+  onOpenGuide
 }) {
   const [selectedTile, setSelectedTile] = useState(null);
   const [isRolling, setIsRolling] = useState(false);
@@ -242,13 +245,17 @@ export function GameScreen({
         </div>
 
         <div className="flex items-center gap-1.5 sm:gap-2">
-          {/* Sound Mute Toggle */}
+          {/* Universal Audio Controls */}
+          <AudioControls compact={true} />
+
+          {/* Rules / How to Play */}
           <button
-            onClick={handleToggleSound}
-            className="p-1.5 sm:px-2 sm:py-1.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-300 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer border border-neutral-700/80"
-            title={isMuted ? 'Unmute sounds' : 'Mute sounds'}
+            onClick={() => onOpenGuide?.('monopoly')}
+            className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-amber-300 border border-neutral-700/80 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+            title="How to Play Bazaar Baron (or press ?)"
           >
-            {isMuted ? <VolumeX className="w-4 h-4 text-neutral-400" /> : <Volume2 className="w-4 h-4 text-amber-400" />}
+            <HelpCircle className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Rules</span>
           </button>
 
           {/* Trade Proposal Trigger */}
@@ -273,7 +280,7 @@ export function GameScreen({
       {/* Main Game Stage: 11x11 Board on Left, Side Panel on Right */}
       <div className="flex-1 min-h-0 flex flex-col lg:flex-row items-center lg:items-center justify-center gap-3 lg:gap-5 xl:gap-8 pb-20 lg:pb-0 w-full">
         {/* Interactive 11x11 Grid Board */}
-        <div className="w-full flex-1 flex justify-center">
+        <div className={`w-full flex-1 flex justify-center rounded-3xl p-2 transition-all duration-500 ${isMyTurn ? 'board-turn-glow' : ''}`}>
           <Board
             gameState={gameState}
             player={player}
