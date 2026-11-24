@@ -507,21 +507,29 @@ export function Lobby({
           <label className="block text-xs font-bold text-neutral-300 uppercase tracking-wider mb-1.5">
             Choose Avatar
           </label>
-          <div className="grid grid-cols-6 gap-2">
-            {MERCHANT_AVATARS.map((av) => (
-              <button
-                key={av}
-                type="button"
-                onClick={() => setSelectedAvatar(av)}
-                className={`w-full aspect-square rounded-xl text-xl flex items-center justify-center transition-all cursor-pointer border ${
-                  selectedAvatar === av
-                    ? 'bg-amber-500/20 border-amber-400 ring-2 ring-amber-400/50 scale-105'
-                    : 'bg-neutral-950 border-neutral-800 hover:border-neutral-700'
-                }`}
-              >
-                {av}
-              </button>
-            ))}
+          <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
+            {MERCHANT_AVATARS.map((av) => {
+              const emojiChar = typeof av === 'object' ? av.emoji : av;
+              const avatarKey = typeof av === 'object' ? (av.id || av.name || emojiChar) : av;
+              const avatarTitle = typeof av === 'object' ? `${av.name} (${av.title})` : '';
+              const isSelected = selectedAvatar === emojiChar;
+
+              return (
+                <button
+                  key={avatarKey}
+                  type="button"
+                  onClick={() => setSelectedAvatar(emojiChar)}
+                  title={avatarTitle}
+                  className={`w-full aspect-square rounded-xl text-xl flex items-center justify-center transition-all cursor-pointer border ${
+                    isSelected
+                      ? 'bg-amber-500/20 border-amber-400 ring-2 ring-amber-400/50 scale-105 shadow-md'
+                      : 'bg-neutral-950 border-neutral-800 hover:border-neutral-700'
+                  }`}
+                >
+                  {emojiChar}
+                </button>
+              );
+            })}
           </div>
         </div>
 
