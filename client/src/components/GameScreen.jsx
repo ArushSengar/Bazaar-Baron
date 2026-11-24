@@ -376,7 +376,7 @@ export function GameScreen({
       {/* Main Game Stage: 11x11 Board on Left, Side Panel on Right */}
       <div className="flex-1 min-h-0 flex flex-col lg:flex-row items-center lg:items-center justify-center gap-3 lg:gap-5 xl:gap-8 pb-20 lg:pb-0 w-full overflow-y-auto lg:overflow-visible">
         {/* Interactive 11x11 Grid Board */}
-        <div className={`w-full flex-1 flex justify-center rounded-3xl p-2 transition-all duration-500 ${
+        <div className={`w-full lg:flex-1 flex flex-col items-center justify-center rounded-3xl p-2 transition-all duration-500 ${
           mobileTab === 'board' ? 'flex' : 'hidden lg:flex'
         } ${isMyTurn ? 'board-turn-glow' : ''}`}>
           <Board

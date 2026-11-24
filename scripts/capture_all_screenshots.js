@@ -87,11 +87,42 @@ function createCdpClient(ws) {
     }
   });
 
-  async function send(method, params = {}) {
+  ws.addEventListener('close', () => {
+    for (const [id, entry] of pending.entries()) {
+      entry.reject(new Error(`CDP WebSocket closed before response for "${entry.method}"`));
+      pending.delete(id);
+    }
+  });
+
+  async function send(method, params = {}, timeoutMs = 20000) {
     const id = nextId++;
     return new Promise((resolve, reject) => {
-      pending.set(id, { resolve, reject });
-      ws.send(JSON.stringify({ id, method, params }));
+      const timer = setTimeout(() => {
+        if (pending.has(id)) {
+          pending.delete(id);
+          reject(new Error(`CDP command "${method}" timed out after ${timeoutMs}ms`));
+        }
+      }, timeoutMs);
+
+      pending.set(id, {
+        method,
+        resolve: (val) => {
+          clearTimeout(timer);
+          resolve(val);
+        },
+        reject: (err) => {
+          clearTimeout(timer);
+          reject(err);
+        }
+      });
+
+      try {
+        ws.send(JSON.stringify({ id, method, params }));
+      } catch (err) {
+        clearTimeout(timer);
+        pending.delete(id);
+        reject(err);
+      }
     });
   }
 
@@ -419,6 +450,17 @@ async function run() {
     // 4. Bazaar Baron Tabletop Board Mobile (390x844)
     await cdp.setViewport(390, 844, true);
     await sleep(1500);
+    const mobileBoardDims = await cdp.evaluate(`(() => {
+      const board = document.querySelector('[data-testid="tabletop-board"]');
+      if (!board) return null;
+      return { width: board.offsetWidth, height: board.offsetHeight };
+    })()`);
+    if (!mobileBoardDims || Math.abs(mobileBoardDims.width - mobileBoardDims.height) > 2) {
+      throw new Error(
+        `Mobile Baron board aspect ratio distortion detected: ${JSON.stringify(mobileBoardDims)}`
+      );
+    }
+    console.log(`[Verify] Mobile Baron board layout is 1:1 square (${mobileBoardDims.width}x${mobileBoardDims.height})`);
     await cdp.capture('baron-board-mobile.png');
 
     // 7. Bazaar Baron Chance/Fund Card Modal (Desktop 1920x1080)

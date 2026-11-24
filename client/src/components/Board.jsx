@@ -112,11 +112,11 @@ export function Board({
     >
       {/* 11x11 Grid Board with 1.6x Corners and Quad-fold Creases */}
       <div
-        className="w-full h-full relative rounded-xl border border-[#1B1B1B] bg-[#1B1B1B] overflow-hidden [container-type:inline-size]"
+        className="w-full aspect-square relative rounded-xl border border-[#1B1B1B] bg-[#1B1B1B] overflow-hidden [container-type:inline-size]"
         style={{
           display: 'grid',
-          gridTemplateColumns: '1.6fr repeat(9, 1fr) 1.6fr',
-          gridTemplateRows: '1.6fr repeat(9, 1fr) 1.6fr',
+          gridTemplateColumns: 'minmax(0, 1.6fr) repeat(9, minmax(0, 1fr)) minmax(0, 1.6fr)',
+          gridTemplateRows: 'minmax(0, 1.6fr) repeat(9, minmax(0, 1fr)) minmax(0, 1.6fr)',
           gap: '1px'
         }}
       >
@@ -166,7 +166,7 @@ export function Board({
         {/* Center Board Stage (Rows 2 to 10, Cols 2 to 10) */}
         <div
           style={{ gridRow: '2 / 11', gridColumn: '2 / 11' }}
-          className="relative bg-[#F3EBD8] flex flex-col items-center justify-between p-3 sm:p-5 overflow-hidden select-none"
+          className="relative bg-[#F3EBD8] flex flex-col items-center justify-between p-1.5 sm:p-5 overflow-hidden select-none"
         >
           {/* Subtle Vintage Parchment & Lattice Texture */}
           <div className="absolute inset-0 opacity-[0.04] bg-[radial-gradient(#8B5A2B_1.5px,transparent_1.5px)] [background-size:20px_20px] pointer-events-none" />
@@ -176,7 +176,7 @@ export function Board({
           <button
             type="button"
             onClick={handleTogglePerspective}
-            className="absolute top-2 right-2 z-20 px-2 py-1 rounded-lg bg-[#FAF7F0]/90 hover:bg-white border border-[#8B5A2B]/40 text-[#554637] hover:text-[#1B1B1B] text-[10px] font-bold font-display flex items-center gap-1 shadow-sm transition-all cursor-pointer active:scale-95"
+            className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 z-20 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-lg bg-[#FAF7F0]/90 hover:bg-white border border-[#8B5A2B]/40 text-[#554637] hover:text-[#1B1B1B] text-[10px] font-bold font-display flex items-center gap-1 shadow-sm transition-all cursor-pointer active:scale-95"
             title={active3D ? "Switch to 2D Top-Down View" : "Switch to 3D Isometric View"}
             data-testid="board-perspective-toggle"
           >
@@ -186,36 +186,36 @@ export function Board({
 
           {/* Top Center: Logo, Tagline & Vintage Filigree */}
           <div className="text-center z-10 pt-0.5 sm:pt-1">
-            <div className="flex items-center justify-center gap-2 text-[#8B5A2B] mb-0.5">
-              <span className="w-6 h-[1px] bg-[#8B5A2B]/40" />
-              <Sparkles className="w-3 h-3" />
-              <span className="text-[10px] sm:text-[11px] font-bold font-mono tracking-widest uppercase">
+            <div className="flex items-center justify-center gap-1 sm:gap-2 text-[#8B5A2B] mb-0.5">
+              <span className="w-3 sm:w-6 h-[1px] bg-[#8B5A2B]/40" />
+              <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+              <span className="text-[7px] sm:text-[11px] font-bold font-mono tracking-wider sm:tracking-widest uppercase whitespace-nowrap">
                 THE INDIAN TRADING GAME
               </span>
-              <Sparkles className="w-3 h-3" />
-              <span className="w-6 h-[1px] bg-[#8B5A2B]/40" />
+              <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+              <span className="w-3 sm:w-6 h-[1px] bg-[#8B5A2B]/40" />
             </div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black font-display text-[#1B1B1B] tracking-tight drop-shadow-sm uppercase">
+            <h1 className="text-base sm:text-3xl md:text-4xl font-black font-display text-[#1B1B1B] tracking-tight drop-shadow-sm uppercase leading-none">
               BAZAAR BARON
             </h1>
           </div>
 
           {/* Center Stage: Card Decks, Dice Tray & Flipped Card Overlay */}
-          <div className="flex items-center justify-center gap-3 sm:gap-6 my-auto z-10 w-full max-w-lg">
+          <div className="flex items-center justify-center gap-2 sm:gap-6 my-auto z-10 w-full max-w-lg px-1 sm:px-0">
             {/* KISMAT (Chance) Stack */}
             <div className="relative group cursor-pointer">
-              <div className="w-16 sm:w-20 h-24 sm:h-28 rounded-xl bg-gradient-to-br from-amber-600 via-amber-700 to-amber-900 border-2 border-amber-400 p-2 text-white shadow-xl flex flex-col items-center justify-between transform transition hover:-translate-y-1">
+              <div className="w-11 sm:w-20 h-16 sm:h-28 rounded-lg sm:rounded-xl bg-gradient-to-br from-amber-600 via-amber-700 to-amber-900 border-2 border-amber-400 p-1 sm:p-2 text-white shadow-xl flex flex-col items-center justify-between transform transition hover:-translate-y-1">
                 {/* 3D Stack Layering Effects */}
-                <div className="absolute -top-1 -right-1 w-full h-full rounded-xl bg-amber-800 -z-10 border border-amber-950/40" />
-                <div className="absolute -top-2 -right-2 w-full h-full rounded-xl bg-amber-900 -z-20 border border-amber-950/40" />
+                <div className="absolute -top-1 -right-1 w-full h-full rounded-lg sm:rounded-xl bg-amber-800 -z-10 border border-amber-950/40" />
+                <div className="absolute -top-2 -right-2 w-full h-full rounded-lg sm:rounded-xl bg-amber-900 -z-20 border border-amber-950/40" />
 
-                <div className="text-[8px] sm:text-[9px] font-black uppercase tracking-wider text-amber-200">
+                <div className="text-[6.5px] sm:text-[9px] font-black uppercase tracking-wider text-amber-200">
                   KISMAT
                 </div>
-                <div className="w-8 h-8 rounded-full bg-amber-500/30 border border-amber-300 flex items-center justify-center">
-                  <HelpCircle className="w-5 h-5 text-amber-100" />
+                <div className="w-5 h-5 sm:w-8 sm:h-8 rounded-full bg-amber-500/30 border border-amber-300 flex items-center justify-center">
+                  <HelpCircle className="w-3 h-3 sm:w-5 sm:h-5 text-amber-100" />
                 </div>
-                <div className="text-[8px] font-mono font-semibold text-amber-200/90">
+                <div className="text-[6px] sm:text-[8px] font-mono font-semibold text-amber-200/90">
                   CHANCE
                 </div>
               </div>
@@ -237,7 +237,7 @@ export function Board({
             </div>
 
             {/* 3D Dice Tray Area */}
-            <div className="flex flex-col items-center p-2.5 sm:p-4 rounded-2xl bg-[#E8DCB8] border-2 border-[#8B5A2B]/40 shadow-inner">
+            <div className="flex flex-col items-center p-1.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#E8DCB8] border-2 border-[#8B5A2B]/40 shadow-inner">
               <DiceDisplay
                 dice={gameState?.dice || [1, 1]}
                 isRolling={isRolling}
@@ -245,11 +245,11 @@ export function Board({
               />
 
               {activePlayer && (
-                <div className="text-center mt-2 pt-1.5 border-t border-[#8B5A2B]/20">
-                  <div className="text-[10px] text-neutral-600 uppercase font-bold tracking-wider">Active Turn</div>
-                  <div className="text-xs sm:text-sm font-black font-display text-neutral-900 flex items-center justify-center gap-1.5 mt-0.5">
-                    <span className="text-base">{activePlayer.avatar || '👳'}</span>
-                    <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
+                <div className="text-center mt-1 sm:mt-2 pt-1 sm:pt-1.5 border-t border-[#8B5A2B]/20">
+                  <div className="text-[8px] sm:text-[10px] text-neutral-600 uppercase font-bold tracking-wider">Active Turn</div>
+                  <div className="text-[10px] sm:text-sm font-black font-display text-neutral-900 flex items-center justify-center gap-1 sm:gap-1.5 mt-0.5">
+                    <span className="text-xs sm:text-base">{activePlayer.avatar || '👳'}</span>
+                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-amber-600 animate-pulse" />
                     <span>{activePlayer.name}</span>
                   </div>
                 </div>
@@ -258,18 +258,18 @@ export function Board({
 
             {/* BAZAAR FUND (Community) Stack */}
             <div className="relative group cursor-pointer">
-              <div className="w-16 sm:w-20 h-24 sm:h-28 rounded-xl bg-gradient-to-br from-emerald-600 via-emerald-700 to-emerald-900 border-2 border-emerald-400 p-2 text-white shadow-xl flex flex-col items-center justify-between transform transition hover:-translate-y-1">
+              <div className="w-11 sm:w-20 h-16 sm:h-28 rounded-lg sm:rounded-xl bg-gradient-to-br from-emerald-600 via-emerald-700 to-emerald-900 border-2 border-emerald-400 p-1 sm:p-2 text-white shadow-xl flex flex-col items-center justify-between transform transition hover:-translate-y-1">
                 {/* 3D Stack Layering Effects */}
-                <div className="absolute -top-1 -right-1 w-full h-full rounded-xl bg-emerald-800 -z-10 border border-emerald-950/40" />
-                <div className="absolute -top-2 -right-2 w-full h-full rounded-xl bg-emerald-900 -z-20 border border-emerald-950/40" />
+                <div className="absolute -top-1 -right-1 w-full h-full rounded-lg sm:rounded-xl bg-emerald-800 -z-10 border border-emerald-950/40" />
+                <div className="absolute -top-2 -right-2 w-full h-full rounded-lg sm:rounded-xl bg-emerald-900 -z-20 border border-emerald-950/40" />
 
-                <div className="text-[8px] sm:text-[9px] font-black uppercase tracking-wider text-emerald-200">
+                <div className="text-[6px] sm:text-[9px] font-black uppercase tracking-wider text-emerald-200 leading-tight text-center">
                   BAZAAR FUND
                 </div>
-                <div className="w-8 h-8 rounded-full bg-emerald-500/30 border border-emerald-300 flex items-center justify-center">
-                  <Gift className="w-5 h-5 text-emerald-100" />
+                <div className="w-5 h-5 sm:w-8 sm:h-8 rounded-full bg-emerald-500/30 border border-emerald-300 flex items-center justify-center">
+                  <Gift className="w-3 h-3 sm:w-5 sm:h-5 text-emerald-100" />
                 </div>
-                <div className="text-[8px] font-mono font-semibold text-emerald-200/90">
+                <div className="text-[5.5px] sm:text-[8px] font-mono font-semibold text-emerald-200/90">
                   COMMUNITY
                 </div>
               </div>
@@ -293,14 +293,14 @@ export function Board({
 
           {/* Bottom Center: Live Feed of Last 4 Events (fading older lines) */}
           <div className="w-full max-w-lg z-10 pb-0.5">
-            <div className="bg-[#EFE5CE] border border-[#8B5A2B]/30 rounded-xl p-2 sm:p-2.5 shadow-sm space-y-1">
-              <div className="flex items-center justify-between text-xs font-bold text-[#8B5A2B] uppercase tracking-wider px-1">
-                <span className="flex items-center gap-1.5"><ScrollText className="w-3.5 h-3.5" /> Live Chronicles</span>
-                <span className="text-[10px] font-mono text-neutral-600">Latest drama</span>
+            <div className="bg-[#EFE5CE] border border-[#8B5A2B]/30 rounded-lg sm:rounded-xl p-1 sm:p-2.5 shadow-sm space-y-0.5 sm:space-y-1">
+              <div className="flex items-center justify-between text-[9px] sm:text-xs font-bold text-[#8B5A2B] uppercase tracking-wider px-1">
+                <span className="flex items-center gap-1 sm:gap-1.5"><ScrollText className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> Live Chronicles</span>
+                <span className="text-[8px] sm:text-[10px] font-mono text-neutral-600">Latest drama</span>
               </div>
-              <div className="space-y-1 text-xs sm:text-sm">
+              <div className="space-y-0.5 sm:space-y-1 text-[9px] sm:text-sm">
                 {recentLogs.length === 0 && (
-                  <div className="text-neutral-500 italic px-1 text-xs">Game commenced. Awaiting first turn.</div>
+                  <div className="text-neutral-500 italic px-1 text-[9px] sm:text-xs">Game commenced. Awaiting first turn.</div>
                 )}
                 {recentLogs.map((log, idx) => {
                   const opacityClass =
@@ -315,7 +315,9 @@ export function Board({
                   return (
                     <div
                       key={log.id || idx}
-                      className={`px-2 py-1 rounded-lg text-left truncate transition-opacity flex items-center gap-1.5 ${opacityClass}`}
+                      className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md sm:rounded-lg text-left truncate transition-opacity items-center gap-1.5 ${
+                        idx >= 2 ? 'hidden sm:flex' : 'flex'
+                      } ${opacityClass}`}
                       title={log.text}
                     >
                       <span className="truncate">{log.text}</span>

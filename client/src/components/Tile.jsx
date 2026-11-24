@@ -133,19 +133,30 @@ export function Tile({
         }`}
       >
         {/* Real Monopoly L-Shape Layout */}
-        <div className="w-full h-full flex flex-col justify-between">
-          <div className="flex justify-end p-0.5 sm:p-1">
-            <div className="w-3/4 h-12 sm:h-14 lg:h-16 bg-[#e67e22]/20 border-b-2 border-l-2 border-[#1B1B1B] p-0.5 sm:p-1 flex flex-col items-center justify-center rounded-bl-lg bg-orange-100">
-              <span className="text-[9px] sm:text-[10px] lg:text-xs font-black font-display text-orange-950 uppercase tracking-wider">
+        <div className="w-full h-full flex flex-col justify-between overflow-hidden">
+          <div className="flex justify-end p-0.5 sm:p-1 flex-1 min-h-0">
+            <div className="w-3/4 h-full max-h-[90%] sm:max-h-none sm:h-14 lg:h-16 bg-[#e67e22]/20 border-b-2 border-l-2 border-[#1B1B1B] p-0.5 sm:p-1 flex flex-col items-center justify-center rounded-bl-lg bg-orange-100">
+              <span
+                className="font-black font-display text-orange-950 uppercase tracking-tight sm:tracking-wider leading-none whitespace-nowrap"
+                style={{ fontSize: 'clamp(6.5px, 1.5cqi, 12px)' }}
+              >
                 IN JAIL
               </span>
-              <div className="flex items-center gap-0.5 text-xs text-orange-900 mt-0.5">
+              <div className="flex items-center gap-0.5 text-[8px] sm:text-xs text-orange-900 mt-0.5 leading-none">
                 <span>⛓️</span>
-                <span className="text-[8px] sm:text-[9px] font-bold font-mono">CELL</span>
+                <span
+                  className="font-bold font-mono leading-none"
+                  style={{ fontSize: 'clamp(5.5px, 1.15cqi, 9px)' }}
+                >
+                  CELL
+                </span>
               </div>
             </div>
           </div>
-          <div className="p-0.5 sm:p-1 flex items-center justify-between text-[9px] sm:text-[10px] lg:text-[11px] font-extrabold text-neutral-800 uppercase tracking-wider">
+          <div
+            className="px-0.5 pb-0.5 sm:p-1 flex items-center justify-center sm:justify-between gap-1 font-display font-extrabold text-neutral-800 uppercase tracking-tight sm:tracking-wider leading-none shrink-0 w-full whitespace-nowrap"
+            style={{ fontSize: 'clamp(5.5px, 1.15cqi, 11px)' }}
+          >
             <span>JUST</span>
             <span>VISITING</span>
           </div>
@@ -169,16 +180,25 @@ export function Tile({
           isLandedOn ? 'ring-4 ring-amber-500 z-20' : ''
         }`}
       >
-        <div className="text-[8px] sm:text-[9px] lg:text-[10px] font-bold tracking-wider text-neutral-600 uppercase leading-tight">
+        <div
+          className="font-bold tracking-tight sm:tracking-wider text-neutral-600 uppercase leading-none max-w-full whitespace-nowrap"
+          style={{ fontSize: 'clamp(5px, 1.0cqi, 10px)' }}
+        >
           Rest & Refresh
         </div>
-        <div className="flex flex-col items-center my-auto">
-          <Coffee className="w-4 h-4 sm:w-5 sm:h-5 text-amber-800 mb-0.5" />
-          <div className="text-xs sm:text-sm lg:text-base font-black font-display text-amber-950 tracking-tight leading-none whitespace-nowrap">
+        <div className="flex flex-col items-center my-auto max-w-full">
+          <Coffee className="w-3 h-3 sm:w-5 sm:h-5 text-amber-800 mb-0.5 shrink-0" />
+          <div
+            className="font-black font-display text-amber-950 tracking-tight leading-none whitespace-nowrap max-w-full"
+            style={{ fontSize: 'clamp(7.5px, 1.9cqi, 16px)' }}
+          >
             CHAI BREAK
           </div>
         </div>
-        <div className="text-[8px] sm:text-[9px] font-mono text-neutral-600">
+        <div
+          className="font-mono text-neutral-600 leading-none max-w-full whitespace-nowrap"
+          style={{ fontSize: 'clamp(5px, 0.95cqi, 9px)' }}
+        >
           Free Parking
         </div>
         <TokenOverlay players={playersOnTile} />
@@ -200,17 +220,23 @@ export function Tile({
           isLandedOn ? 'ring-4 ring-amber-500 z-20' : ''
         }`}
       >
-        <div className="text-[8px] sm:text-[9px] lg:text-[10px] font-bold tracking-wider text-red-700 uppercase leading-tight">
+        <div
+          className="font-bold tracking-tight sm:tracking-wider text-red-700 uppercase leading-none max-w-full whitespace-nowrap"
+          style={{ fontSize: 'clamp(5px, 1.0cqi, 10px)' }}
+        >
           Challan / Arrest
         </div>
-        <div className="flex flex-col items-center my-auto">
-          <ShieldAlert className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 mb-0.5 animate-pulse" />
-          <div className="text-xs sm:text-sm lg:text-base font-black font-display text-red-900 tracking-tight leading-none whitespace-nowrap">
+        <div className="flex flex-col items-center my-auto max-w-full">
+          <ShieldAlert className="w-3 h-3 sm:w-5 sm:h-5 text-red-600 mb-0.5 animate-pulse shrink-0" />
+          <div
+            className="font-black font-display text-red-900 tracking-tight leading-none whitespace-nowrap max-w-full"
+            style={{ fontSize: 'clamp(7.5px, 1.9cqi, 16px)' }}
+          >
             GO TO JAIL
           </div>
         </div>
-        <div className="flex items-center text-red-700 text-xs font-bold">
-          <ArrowDownLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[3]" />
+        <div className="flex items-center text-red-700 text-xs font-bold shrink-0">
+          <ArrowDownLeft className="w-3 h-3 sm:w-4 sm:h-4 stroke-[3]" />
         </div>
         <TokenOverlay players={playersOnTile} />
       </div>
