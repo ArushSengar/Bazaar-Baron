@@ -9,20 +9,28 @@ export default defineConfig({
     tailwindcss()
   ],
   build: {
-    rollupOptions: {
+    rolldownOptions: {
       output: {
-        manualChunks(id) {
-          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
-            return 'vendor-react';
-          }
-          if (id.includes('node_modules/lucide-react/')) {
-            return 'vendor-icons';
-          }
-          if (id.includes('node_modules/socket.io-client/')) {
-            return 'vendor-socket';
-          }
-        }
-      }
+        codeSplitting: {
+          groups: [
+            {
+              name: 'vendor-react',
+              priority: 30,
+              test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
+            },
+            {
+              name: 'vendor-icons',
+              priority: 20,
+              test: /[\\/]node_modules[\\/]lucide-react[\\/]/,
+            },
+            {
+              name: 'vendor-socket',
+              priority: 10,
+              test: /[\\/]node_modules[\\/](socket\.io-client|socket\.io-parser|engine\.io-client|engine\.io-parser|@socket\.io)[\\/]/,
+            },
+          ],
+        },
+      },
     },
     chunkSizeWarningLimit: 600
   },
